@@ -1,6 +1,5 @@
 import React from 'react';
 import { MdCurrencyYen, MdOutlineShoppingCart } from "react-icons/md";
-import { HiUserGroup } from "react-icons/hi2";
 import { RiShoppingCartFill } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
@@ -34,19 +33,6 @@ const AdminDashboard = () => {
                     <div className='w-[40px] h-[47px] rounded-full bg-[#7E0080] flex justify-center
                     items-center text-xl'>
                         <MdOutlineShoppingCart className='text-[white] shadow-lg'/>
-                    </div>
-                </div>
-
-                {/* // Sellers */}
-                <div className='flex justify-between items-center p-5 bg-[#E9FEEA] rounded-md gap-3'>
-                    <div className='flex flex-col justify-start items-start text-[#5C5A5A]'>
-                        <h2 className='font-bold text-3xl'>50</h2>
-                        <span className='text-md font-medium'>Sellers</span>
-                    </div>
-
-                    <div className='w-[40px] h-[47px] rounded-full bg-[#038000] flex justify-center
-                    items-center text-xl'>
-                        <HiUserGroup  className='text-[white] shadow-lg'/>
                     </div>
                 </div>
 
