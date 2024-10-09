@@ -33,7 +33,6 @@ const Orders = () => {
                                 <div className='py-3 w-[18%] font-bold'>Payment Status</div>
                                 <div className='py-3 w-[18%] font-bold'>Order Status</div>
                                 <div className='py-3 w-[18%] font-bold'>Action </div>
-                                <div className='py-3 w-[8%] font-bold'><LuArrowDownSquare /></div> 
                             </div> 
                         </div>
 
@@ -46,24 +45,43 @@ const Orders = () => {
                                 <div className='py-3 w-[18%] font-medium'>
                                     <Link>View</Link>
                                 </div>
-                                <div onClick={(e) => setShow(!show)} className='py-3 w-[8%] font-medium'><LuArrowDownSquare /></div> 
                             </div>
+                        </div>
 
-                            <div className={show ? 'block border-b border-slate-700 bg-[#8288ed]' : 'hidden'}>
-                                <div className=' flex justify-start items-start border-b border-slate-700'>
-                                    <div className='py-3 w-[25%] font-medium whitespace-nowrap pl-3'>#56</div>
-                                    <div className='py-3 w-[13%] font-medium'>$634</div>
-                                    <div className='py-3 w-[18%] font-medium'>Pending</div>
-                                    <div className='py-3 w-[18%] font-medium'>Pending</div>
+                        <div className='text-[#d0d2d6] '>
+                            <div className=' flex justify-between items-start border-b border-slate-700'>
+                                <div className='py-3 w-[25%] font-medium whitespace-nowrap'>#34343</div>
+                                <div className='py-3 w-[13%] font-medium'>$654</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>
+                                    <Link>View</Link>
                                 </div>
+                            </div>
+                        </div>
 
-                                <div className=' flex justify-start items-start border-b border-slate-700'>
-                                    <div className='py-3 w-[25%] font-medium whitespace-nowrap pl-3'>#56</div>
-                                    <div className='py-3 w-[13%] font-medium'>$634</div>
-                                    <div className='py-3 w-[18%] font-medium'>Pending</div>
-                                    <div className='py-3 w-[18%] font-medium'>Pending</div>
+                        <div className='text-[#d0d2d6] '>
+                            <div className=' flex justify-between items-start border-b border-slate-700'>
+                                <div className='py-3 w-[25%] font-medium whitespace-nowrap'>#34343</div>
+                                <div className='py-3 w-[13%] font-medium'>$654</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>
+                                    <Link>View</Link>
                                 </div>
-                            </div> 
+                            </div>
+                        </div>
+
+                        <div className='text-[#d0d2d6] '>
+                            <div className=' flex justify-between items-start border-b border-slate-700'>
+                                <div className='py-3 w-[25%] font-medium whitespace-nowrap'>#34343</div>
+                                <div className='py-3 w-[13%] font-medium'>$654</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>Pending</div>
+                                <div className='py-3 w-[18%] font-medium'>
+                                    <Link>View</Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { getNav } from './../navigation/index';
 import { TbLogout2 } from "react-icons/tb";
+import { getNav } from './../navigation/index';
 
 const Sidebar = ({showSidebar, setShowSidebar}) => {
 
@@ -11,7 +11,6 @@ const Sidebar = ({showSidebar, setShowSidebar}) => {
         const navs = getNav('admin')
         setAllNav(navs)
     }, [])
-    // console.log(allNav)
 
     return (
         <div>
