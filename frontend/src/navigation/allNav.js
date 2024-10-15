@@ -26,17 +26,17 @@ export const allNav = [
     path: "/admin/category",
   },
   {
-    id: 5,
+    id: 4,
     title: "Payment Request",
     icon: <MdPayment />,
     role: "admin",
     path: "/admin/payment-request",
   },
   {
-    id: 8,
+    id: 5,
     title: "Live Chat",
     icon: <IoIosChatbubbles />,
     role: "admin",
-    path: "/admin/seller-chat",
+    path: "/admin/chat",
   },
 ];
