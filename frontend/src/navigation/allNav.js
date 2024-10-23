@@ -1,7 +1,8 @@
 import { AiOutlineDashboard, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSolidCategory } from "react-icons/bi";
-import { MdPayment } from "react-icons/md";
 import { IoIosChatbubbles } from "react-icons/io";
+import { FaProductHunt } from "react-icons/fa";
+import { MdAddShoppingCart } from "react-icons/md";
 
 export const allNav = [
   {
@@ -31,5 +32,19 @@ export const allNav = [
     icon: <IoIosChatbubbles />,
     role: "admin",
     path: "/admin/chat",
+  },
+  {
+    id: 5,
+    title: "All Products",
+    icon: <FaProductHunt />,
+    role: "admin",
+    path: "/admin/all-products",
+  },
+  {
+    id: 6,
+    title: "Add Product",
+    icon: <MdAddShoppingCart />,
+    role: "admin",
+    path: "/admin/add-product",
   },
 ];
