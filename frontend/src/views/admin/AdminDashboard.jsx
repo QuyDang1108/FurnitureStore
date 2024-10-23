@@ -56,8 +56,8 @@ const AdminDashboard = () => {
 
                     {/* // Header */}
                     <div className='flex justify-between items-center'>
-                        <h2 className='font-semibold text-lg text-[#D0D2D6] pb-3'>Recent seller messages</h2>
-                        <Link className='font-semibold text-sm text-[#D0D2D6] pb-3'>View all</Link>
+                        <h2 className='font-semibold text-lg text-[#D0D2D6] pb-3'>Recent messages</h2>
+                        <Link to="/admin/chat" className='font-semibold text-sm text-[#D0D2D6] pb-3'>View all</Link>
                     </div>
 
                     {/* // Unseen messages */}
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
                 {/* // Header  */}
                 <div className='flex justify-between items-center'>
                     <h2 className='font-semibold text-lg text-[#d0d2d6] pb-3 '>Recent Orders</h2>
-                    <Link className='font-semibold text-sm text-[#d0d2d6]'>View All</Link>
+                    <Link to="/admin/orders" className='font-semibold text-sm text-[#d0d2d6]'>View All</Link>
                 </div>
 
                 {/* // Table  */}
