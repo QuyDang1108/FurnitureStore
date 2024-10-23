@@ -27,13 +27,6 @@ export const allNav = [
   },
   {
     id: 4,
-    title: "Payment Request",
-    icon: <MdPayment />,
-    role: "admin",
-    path: "/admin/payment-request",
-  },
-  {
-    id: 5,
     title: "Live Chat",
     icon: <IoIosChatbubbles />,
     role: "admin",
