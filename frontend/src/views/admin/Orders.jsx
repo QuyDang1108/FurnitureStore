@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { LuArrowDownSquare } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import Pagination from '../Pagination';
+import Search from '../components/Search';
 
 const Orders = () => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -14,14 +14,11 @@ const Orders = () => {
             <div className='w-full p-4 bg-[#6a5fdf] rounded-md'>
 
                 {/* // Searchbar  */}
-                <div className='flex justify-between items-center'>
-                    <select onChange={(e) => setParPage(parseInt(e.target.value))} className='px-4 py-2 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]'>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option> 
-                    </select>
-                    <input className='px-4 py-2 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]' type="text" placeholder='Search' />
-                </div>
+                <Search 
+                    searchvalue={searchvalue}
+                    setSearchvalue={setSearchvalue}
+                    setParPage={setParPage}
+                />
 
                 {/* // Orders table  */}
                 <div className='relative mt-5 overflow-x-auto'>
