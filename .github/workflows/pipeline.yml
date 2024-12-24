@@ -132,9 +132,9 @@ jobs:
       - name: Pushing Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: furniture-store
+          image: dangquy1108/furniture-store
           tags: latest
-          registry: dangquy1108
+          registry: docker.io
           dockerfile: ./backend/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
