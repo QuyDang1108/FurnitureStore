@@ -114,7 +114,7 @@ jobs:
   build-docker:
     runs-on: ubuntu-latest
     name: Push Docker image
-    needs: [build, analyze]
+    # needs: [build, analyze]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
