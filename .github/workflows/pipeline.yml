@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Run maven checkstyle
         run: mvn checkstyle:checkstyle
-        working-directory: ./backend
+        working-directory: backend
 
   compile:
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Compile project
         run: mvn clean compile
-        working-directory: ./backend
+        working-directory: backend
 
   unit-tests:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
     steps:
       - name: Running unit tests
         run: mvn test jacoco:report
-        working-directory: ./backend
+        working-directory: backend
 
   build:
     runs-on: ubuntu-latest
@@ -55,7 +55,7 @@ jobs:
     steps:
       - name: Build project
         run: mvn package
-        working-directory: ./backend
+        working-directory: backend
 
   analyze:
     runs-on: ubuntu-latest
@@ -78,7 +78,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=QuyDang1108_FurnitureStore
-        working-directory: ./backend
+        working-directory: backend
 
   build-docker:
     runs-on: ubuntu-latest
@@ -90,6 +90,6 @@ jobs:
           image: dangquy1108/furniture-store
           tags: latest
           registry: docker.io
-          dockerfile: ./backend/Dockerfile
+          dockerfile: backend/Dockerfile
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
