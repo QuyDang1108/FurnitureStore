@@ -50,6 +50,6 @@ public class AuthController {
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Deploy successfully!");
+        return ResponseEntity.ok("Deploy successfully hehe!");
     }
 }
