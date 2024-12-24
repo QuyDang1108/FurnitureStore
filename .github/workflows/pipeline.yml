@@ -132,7 +132,7 @@ jobs:
       - name: Pushing Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          image: dangquy1108/furniture-store
+          image: furniture-store
           tags: latest
           registry: docker.io
           dockerfile: backend/Dockerfile
