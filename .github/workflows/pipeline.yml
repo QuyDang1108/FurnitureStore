@@ -131,8 +131,8 @@ jobs:
         working-directory: ./backend
       - name: Pushing Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
-        working-directory: ./backend
         with:
+          working-directory: ./backend
           image: furniture-store
           tags: latest
           registry: docker.io
