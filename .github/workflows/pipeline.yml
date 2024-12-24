@@ -129,10 +129,12 @@ jobs:
       - name: Build project
         run: mvn package
         working-directory: ./backend
+      - name: List backend files
+        run: ls -l ./backend
       - name: Pushing Docker image
         uses: mr-smithers-excellent/docker-build-push@v5
         with:
-          working-directory: ../backend
+          working-directory: ./backend
           image: furniture-store
           tags: latest
           registry: docker.io
