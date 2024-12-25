@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { user_register, messageClear } from "../../store/Reducers/authReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PropagateLoader } from "react-spinners";
+import { toast } from "react-hot-toast";
 
 const Register = () => {
   const dispatch = useDispatch();
