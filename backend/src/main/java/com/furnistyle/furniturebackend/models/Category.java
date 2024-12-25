@@ -1,4 +1,4 @@
-package com.furnistyle.furniturebackend.model;
+package com.furnistyle.furniturebackend.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,13 +16,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "materials")
-public class Material {
+@Table(name = "categories")
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "material_id")
+    @Column(name = "category_id")
     private Long id;
 
-    @Column(name = "material_name", nullable = false, length = 100)
-    private String materialName;
+    @Column(name = "category_name", nullable = false, length = 100)
+    private String categoryName;
 }
