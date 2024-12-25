@@ -98,7 +98,7 @@ const Login = () => {
               )}
             </button>
 
-            <p className="mt-10 text-center text-sm text-white">
+            <p className="mt-4 text-center text-sm text-white">
               Don't have account?
               <a
                 href="/register"
@@ -110,7 +110,7 @@ const Login = () => {
               </a>
             </p>
 
-            <p className="mt-10 text-center text-sm text-white">
+            <p className="mt-4 text-center text-sm text-white">
               Forgot your password?
               <a
                 href="/forgot-password"
