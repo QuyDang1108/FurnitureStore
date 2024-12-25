@@ -75,51 +75,51 @@ export const authReducer = createSlice({
       state.successMessage = "";
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(admin_login.pending, (state, { payload }) => {
+  extraReducers: {
+    [admin_login.pending]: (state, _) => {
       state.loader = true;
-    });
-    builder.addCase(admin_login.rejected, (state, { payload }) => {
+    },
+    [admin_login.fulfilled]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
-    });
-    builder.addCase(admin_login.fulfilled, (state, { payload }) => {
+      state.userInfo = payload;
+    },
+    [admin_login.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.successMessage = payload.message;
-    });
-    builder.addCase(user_login.pending, (state, { payload }) => {
+      state.errorMessage = payload;
+    },
+    [user_login.pending]: (state, _) => {
       state.loader = true;
-    });
-    builder.addCase(user_login.rejected, (state, { payload }) => {
+    },
+    [user_login.fulfilled]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
-    });
-    builder.addCase(user_login.fulfilled, (state, { payload }) => {
+      state.userInfo = payload;
+    },
+    [user_login.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.successMessage = payload.message;
-    });
-    builder.addCase(user_register.pending, (state, { payload }) => {
+      state.errorMessage = payload;
+    },
+    [user_register.pending]: (state, _) => {
       state.loader = true;
-    });
-    builder.addCase(user_register.rejected, (state, { payload }) => {
+    },
+    [user_register.fulfilled]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
-    });
-    builder.addCase(user_register.fulfilled, (state, { payload }) => {
+      state.successMessage = payload;
+    },
+    [user_register.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.successMessage = payload.message;
-    });
-    builder.addCase(user_forgot_password.pending, (state, { payload }) => {
+      state.errorMessage = payload;
+    },
+    [user_forgot_password.pending]: (state, _) => {
       state.loader = true;
-    });
-    builder.addCase(user_forgot_password.rejected, (state, { payload }) => {
+    },
+    [user_forgot_password.fulfilled]: (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.error;
-    });
-    builder.addCase(user_forgot_password.fulfilled, (state, { payload }) => {
+      state.successMessage = payload;
+    },
+    [user_forgot_password.rejected]: (state, { payload }) => {
       state.loader = false;
-      state.successMessage = payload.message;
-    });
+      state.errorMessage = payload;
+    },
   },
 });
 
