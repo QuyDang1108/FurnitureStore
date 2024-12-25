@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { user_forgot_password } from "../../store/Reducers/authReducer";
+import {
+  user_forgot_password,
+  messageClear,
+} from "../../store/Reducers/authReducer";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import { PulseLoader } from "react-spinners";
 
 const ForgotPassword = () => {
   const [state, setState] = useState("");
