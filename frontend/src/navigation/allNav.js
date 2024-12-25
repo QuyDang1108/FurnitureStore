@@ -2,7 +2,7 @@ import { AiOutlineDashboard, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSolidCategory } from "react-icons/bi";
 import { MdPayment } from "react-icons/md";
 import { IoIosChatbubbles } from "react-icons/io";
-import { FaHome, FaHistory, FaUser } from 'react-icons/fa';
+import { FaHome, FaHistory, FaUser } from "react-icons/fa";
 
 export const allNav = [
   {
@@ -32,13 +32,6 @@ export const allNav = [
     icon: <MdPayment />,
     role: "admin",
     path: "/admin/payment-request",
-  },
-  {
-    id: 8,
-    title: "Live Chat",
-    icon: <IoIosChatbubbles />,
-    role: "admin",
-    path: "/admin/seller-chat",
   },
   {
     id: 9,
