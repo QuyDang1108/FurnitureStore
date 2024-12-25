@@ -8,7 +8,6 @@ const HomePage = lazy(() => import("./../../views/admin/HomePage"));
 const AddProduct = lazy(() => import("./../../views/admin/AddProduct"));
 const CustomerList = lazy(() => import("./../../views/admin/CustomerList"));
 
-
 export const adminRoute = [
   {
     path: "/admin/dashboard",
@@ -28,16 +27,6 @@ export const adminRoute = [
   {
     path: "/admin/payment-request",
     element: <PaymentRequest />,
-    role: "admin",
-  },
-  {
-    path: "/admin/chat",
-    element: <Chat />,
-    role: "admin",
-  },
-  {
-    path: "/admin/homepage",
-    element: <HomePage />,
     role: "admin",
   },
   {
