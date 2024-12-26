@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaImage } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   add_product,
