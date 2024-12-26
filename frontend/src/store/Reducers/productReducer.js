@@ -81,69 +81,47 @@ export const productSlice = createSlice({
       state.errorMessage = "";
     },
   },
-  extraReducers: {
-    [get_products.pending]: (state) => {
-      state.loader = true;
-    },
-    [get_products.fulfilled]: (state, { payload }) => {
-      state.loader = false;
-      state.products = payload;
-    },
-    [get_products.rejected]: (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload.message;
-    },
-    [get_product.pending]: (state) => {
-      state.loader = true;
-    },
-    [get_product.fulfilled]: (state, { payload }) => {
-      state.loader = false;
-      state.product = payload;
-    },
-    [get_product.rejected]: (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload.message;
-    },
-    [add_product.pending]: (state) => {
-      state.loader = true;
-    },
-    [add_product.fulfilled]: (state, { payload }) => {
-      state.loader = false;
-      state.success = true;
-      state.products.push(payload);
-    },
-    [add_product.rejected]: (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload.message;
-    },
-    [update_product.pending]: (state) => {
-      state.loader = true;
-    },
-    [update_product.fulfilled]: (state, { payload }) => {
-      state.loader = false;
-      state.success = true;
-      state.products = state.products.map((product) =>
-        product._id === payload._id ? payload : product
-      );
-    },
-    [update_product.rejected]: (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload.message;
-    },
-    [delete_product.pending]: (state) => {
-      state.loader = true;
-    },
-    [delete_product.fulfilled]: (state, { payload }) => {
-      state.loader = false;
-      state.success = true;
-      state.products = state.products.filter(
-        (product) => product._id !== payload._id
-      );
-    },
-    [delete_product.rejected]: (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload.message;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_products.fulfilled, (state, action) => {
+        state.products = action.payload;
+      })
+      .addCase(get_product.fulfilled, (state, action) => {
+        state.product = action.payload;
+      })
+      .addCase(add_product.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(add_product.fulfilled, (state) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(add_product.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(update_product.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(update_product.fulfilled, (state) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(update_product.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(delete_product.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(delete_product.fulfilled, (state) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(delete_product.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      });
   },
 });
 

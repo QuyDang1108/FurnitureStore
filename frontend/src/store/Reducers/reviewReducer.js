@@ -80,37 +80,31 @@ const reviewsSlice = createSlice({
       state.errorMessage = "";
     },
   },
-  extraReducers: {
-    [get_reviews.fulfilled]: (state, action) => {
-      state.reviews = action.payload;
-    },
-    [get_reviews.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [get_review.fulfilled]: (state, action) => {
-      state.review = action.payload;
-    },
-    [get_review.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [add_review.fulfilled]: (state, action) => {
-      state.success = true;
-    },
-    [add_review.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [update_review.fulfilled]: (state, action) => {
-      state.success = true;
-    },
-    [update_review.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [delete_review.fulfilled]: (state, action) => {
-      state.success = true;
-    },
-    [delete_review.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_reviews.fulfilled, (state, action) => {
+        state.reviews = action.payload.reviews;
+      })
+      .addCase(get_review.fulfilled, (state, action) => {
+        state.review = action.payload.review;
+      })
+      .addCase(add_review.fulfilled, (state, action) => {
+        state.success = true;
+      })
+      .addCase(update_review.fulfilled, (state, action) => {
+        state.success = true;
+      })
+      .addCase(delete_review.fulfilled, (state, action) => {
+        state.success = true;
+      })
+      .addMatcher(
+        (action) => {
+          return action.type.includes("/rejected");
+        },
+        (state, action) => {
+          state.errorMessage = action.error.message;
+        }
+      );
   },
 });
 

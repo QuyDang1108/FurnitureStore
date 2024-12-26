@@ -68,54 +68,52 @@ const cartSlice = createSlice({
       state.errorMessage = "";
     },
   },
-  extraReducers: {
-    [get_cart.pending]: (state) => {
-      state.loader = true;
-    },
-    [get_cart.fulfilled]: (state, action) => {
-      state.loader = false;
-      state.cart = action.payload;
-    },
-    [get_cart.rejected]: (state, action) => {
-      state.loader = false;
-      state.errorMessage = action.payload.message;
-    },
-    [add_to_cart.pending]: (state) => {
-      state.loader = true;
-    },
-    [add_to_cart.fulfilled]: (state, action) => {
-      state.loader = false;
-      state.success = true;
-      state.cart = action.payload;
-    },
-    [add_to_cart.rejected]: (state, action) => {
-      state.loader = false;
-      state.errorMessage = action.payload.message;
-    },
-    [update_cart.pending]: (state) => {
-      state.loader = true;
-    },
-    [update_cart.fulfilled]: (state, action) => {
-      state.loader = false;
-      state.success = true;
-      state.cart = action.payload;
-    },
-    [update_cart.rejected]: (state, action) => {
-      state.loader = false;
-      state.errorMessage = action.payload.message;
-    },
-    [delete_from_cart.pending]: (state) => {
-      state.loader = true;
-    },
-    [delete_from_cart.fulfilled]: (state, action) => {
-      state.loader = false;
-      state.success = true;
-      state.cart = action.payload;
-    },
-    [delete_from_cart.rejected]: (state, action) => {
-      state.loader = false;
-      state.errorMessage = action.payload.message;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_cart.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_cart.fulfilled, (state, action) => {
+        state.loader = false;
+        state.cart = action.payload;
+      })
+      .addCase(get_cart.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(add_to_cart.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(add_to_cart.fulfilled, (state, action) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(add_to_cart.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(update_cart.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(update_cart.fulfilled, (state, action) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(update_cart.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(delete_from_cart.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(delete_from_cart.fulfilled, (state, action) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(delete_from_cart.rejected, (state, action) => {
+        state.loader = false;
+        state.errorMessage = action.payload.message;
+      });
   },
 });
 

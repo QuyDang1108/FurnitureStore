@@ -8,7 +8,7 @@ export const get_orders = createAsyncThunk(
       const { data } = await api.get("/orders");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_order = createAsyncThunk(
       const { data } = await api.get(`/orders/${id}`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -34,7 +34,7 @@ export const add_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -48,7 +48,7 @@ export const update_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -62,7 +62,7 @@ export const delete_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -82,65 +82,66 @@ const orderSlice = createSlice({
       state.errorMessage = "";
     },
   },
-  extraReducers: {
-    [get_orders.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(get_orders.pending, (state) => {
       state.loader = true;
-    },
-    [get_orders.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(get_orders.fulfilled, (state, { payload }) => {
       state.orders = payload;
       state.loader = false;
-    },
-    [get_orders.rejected]: (state, { payload }) => {
-      state.errorMessage = payload ? payload.message : "Failed to get orders";
+    });
+    builder.addCase(get_orders.rejected, (state, { payload }) => {
+      state.errorMessage = payload;
       state.loader = false;
-    },
-    [get_order.pending]: (state) => {
+    });
+
+    builder.addCase(get_order.pending, (state) => {
       state.loader = true;
-    },
-    [get_order.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(get_order.fulfilled, (state, { payload }) => {
       state.order = payload;
       state.loader = false;
-    },
-    [get_order.rejected]: (state, { payload }) => {
-      state.errorMessage = payload ? payload.message : "Failed to get order";
+    });
+    builder.addCase(get_order.rejected, (state, { payload }) => {
+      state.errorMessage = payload;
       state.loader = false;
-    },
-    [add_order.pending]: (state) => {
+    });
+
+    builder.addCase(add_order.pending, (state) => {
       state.loader = true;
-    },
-    [add_order.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(add_order.fulfilled, (state) => {
       state.success = true;
-      state.successMessage = payload.message;
       state.loader = false;
-    },
-    [add_order.rejected]: (state, { payload }) => {
-      state.errorMessage = payload ? payload.message : "Failed to add order";
+    });
+    builder.addCase(add_order.rejected, (state, { payload }) => {
+      state.errorMessage = payload;
       state.loader = false;
-    },
-    [update_order.pending]: (state) => {
+    });
+
+    builder.addCase(update_order.pending, (state) => {
       state.loader = true;
-    },
-    [update_order.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(update_order.fulfilled, (state) => {
       state.success = true;
-      state.successMessage = payload.message;
       state.loader = false;
-    },
-    [update_order.rejected]: (state, { payload }) => {
-      state.errorMessage = payload ? payload.message : "Failed to update order";
+    });
+    builder.addCase(update_order.rejected, (state, { payload }) => {
+      state.errorMessage = payload;
       state.loader = false;
-    },
-    [delete_order.pending]: (state) => {
+    });
+
+    builder.addCase(delete_order.pending, (state) => {
       state.loader = true;
-    },
-    [delete_order.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(delete_order.fulfilled, (state) => {
       state.success = true;
-      state.successMessage = payload.message;
       state.loader = false;
-    },
-    [delete_order.rejected]: (state, { payload }) => {
-      state.errorMessage = payload ? payload.message : "Failed to delete order";
+    });
+    builder.addCase(delete_order.rejected, (state, { payload }) => {
+      state.errorMessage = payload;
       state.loader = false;
-    },
+    });
   },
 });
 
