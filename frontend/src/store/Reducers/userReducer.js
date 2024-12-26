@@ -8,7 +8,7 @@ export const get_users = createAsyncThunk(
       const { data } = await api.get("/users");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_user = createAsyncThunk(
       const { data } = await api.get(`/users/${id}`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -34,7 +34,7 @@ export const update_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -48,7 +48,7 @@ export const delete_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -67,31 +67,34 @@ const usersSlice = createSlice({
       state.errorMessage = "";
     },
   },
-  extraReducers: {
-    [get_users.fulfilled]: (state, action) => {
-      state.users = action.payload;
-    },
-    [get_users.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [get_user.fulfilled]: (state, action) => {
-      state.user = action.payload;
-    },
-    [get_user.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [update_user.fulfilled]: (state, action) => {
-      state.success = true;
-    },
-    [update_user.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
-    [delete_user.fulfilled]: (state, action) => {
-      state.success = true;
-    },
-    [delete_user.rejected]: (state, action) => {
-      state.errorMessage = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(get_users.fulfilled, (state, { payload }) => {
+        state.users = payload;
+        state.success = true;
+      })
+      .addCase(get_users.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+      })
+      .addCase(get_user.fulfilled, (state, { payload }) => {
+        state.user = payload;
+        state.success = true;
+      })
+      .addCase(get_user.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+      })
+      .addCase(update_user.fulfilled, (state, { payload }) => {
+        state.success = true;
+      })
+      .addCase(update_user.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+      })
+      .addCase(delete_user.fulfilled, (state, { payload }) => {
+        state.success = true;
+      })
+      .addCase(delete_user.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+      });
   },
 });
 

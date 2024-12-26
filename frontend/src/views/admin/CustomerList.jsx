@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from "react";
-import { use } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get_users } from "../../store/Reducers/userReducer";
 import toast from "react-hot-toast";
+import Pagination from "../Pagination";
 
 const CustomerList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
 
   const dispatch = useDispatch();
-  const { users, success, errorMessage } = use((state) => state.users);
+  const { users, success, errorMessage } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(get_users());
   }, [dispatch]);
 
   useEffect(() => {
+    if (success) {
+      toast.success("Customer list fetched successfully");
+    }
     if (errorMessage) {
       toast.error(errorMessage);
     }
@@ -53,16 +56,16 @@ const CustomerList = () => {
                   <tbody>
                     {users.map((customer) => (
                       <tr key={customer.id}>
-                        <td className="py-2 px-4 border-b border-gray-200">
+                        <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.name}
                         </td>
-                        <td className="py-2 px-4 border-b border-gray-200">
+                        <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.email}
                         </td>
-                        <td className="py-2 px-4 border-b border-gray-200">
+                        <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.address}
                         </td>
-                        <td className="py-2 px-4 border-b border-gray-200">
+                        <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.status}
                         </td>
                       </tr>
