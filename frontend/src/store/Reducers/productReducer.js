@@ -72,6 +72,7 @@ export const productSlice = createSlice({
   initialState: {
     products: [],
     product: {},
+    totalProducts: 0,
     success: false,
     errorMessage: "",
     loader: false,
@@ -120,6 +121,9 @@ export const productSlice = createSlice({
       })
       .addCase(delete_product.rejected, (state, action) => {
         state.loader = false;
+        state.errorMessage = action.payload.message;
+      })
+      .addCase(get_products.rejected, (state, action) => {
         state.errorMessage = action.payload.message;
       });
   },
