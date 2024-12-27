@@ -12,8 +12,8 @@ export const admin_login = createAsyncThunk(
       // console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      // console.log(error.response.data);
-      return rejectWithValue(error.response.data);
+      console.log(error);
+      return rejectWithValue(error);
     }
   }
 );
@@ -28,7 +28,7 @@ export const user_login = createAsyncThunk(
       localStorage.setItem("accessToken", data.token);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
@@ -42,7 +42,7 @@ export const user_register = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );
@@ -56,7 +56,7 @@ export const user_forgot_password = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   }
 );

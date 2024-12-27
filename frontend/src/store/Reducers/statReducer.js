@@ -8,7 +8,7 @@ export const get_total_sales = createAsyncThunk(
       const { data } = await api.get("/totalSales");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_total_orders = createAsyncThunk(
       const { data } = await api.get("/orders/total");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -32,7 +32,7 @@ export const get_total_users = createAsyncThunk(
       const { data } = await api.get("/totalUsers");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -44,7 +44,7 @@ export const get_total_products = createAsyncThunk(
       const { data } = await api.get("/totalProducts");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -76,7 +76,7 @@ const statSlice = createSlice({
     });
     builder.addCase(get_total_sales.rejected, (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload;
     });
 
     builder.addCase(get_total_orders.pending, (state) => {
@@ -89,7 +89,7 @@ const statSlice = createSlice({
     });
     builder.addCase(get_total_orders.rejected, (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload;
     });
 
     builder.addCase(get_total_users.pending, (state) => {
@@ -102,7 +102,7 @@ const statSlice = createSlice({
     });
     builder.addCase(get_total_users.rejected, (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload;
     });
 
     builder.addCase(get_total_products.pending, (state) => {
@@ -115,7 +115,7 @@ const statSlice = createSlice({
     });
     builder.addCase(get_total_products.rejected, (state, { payload }) => {
       state.loader = false;
-      state.errorMessage = payload.message;
+      state.errorMessage = payload;
     });
   },
 });
