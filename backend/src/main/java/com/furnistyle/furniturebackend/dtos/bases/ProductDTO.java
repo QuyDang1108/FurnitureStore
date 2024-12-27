@@ -1,14 +1,14 @@
-package com.furnistyle.furniturebackend.dtos.requests;
+package com.furnistyle.furniturebackend.dtos.bases;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
 
-@Data
-public class ProductRequest {
+public class ProductDTO {
+    Long id;
+
     @NotBlank(message = "Tên sản phẩm không được để trống!")
     @Size(min = 1, max = 200, message = "Độ dài tên sản phẩm phải từ 1 đến 200 ký tự!")
     private String name;
