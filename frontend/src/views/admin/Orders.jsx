@@ -6,16 +6,27 @@ import Pagination from "../Pagination";
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [totalOrders, setTotalOrders] = useState(0);
+  const perPage = 10;
 
   const dispatch = useDispatch();
-  const { orders, success, errorMessage } = useSelector(
+  const { orders, success, errorMessage, total } = useSelector(
     (state) => state.orders
   );
 
   useEffect(() => {
-    dispatch(get_orders());
-  }, [dispatch]);
+    dispatch(get_orders(currentPage, perPage));
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    if (orders.length === 0) {
+      toast.error("No orders found");
+    }
+  }, [orders]);
+
+  useEffect(() => {
+    setTotalOrders(total);
+  }, [total]);
 
   useEffect(() => {
     if (success) {
@@ -25,6 +36,10 @@ const Orders = () => {
       toast.error(errorMessage);
     }
   }, [success, errorMessage]);
+
+  const handlePageClicked = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -79,7 +94,7 @@ const Orders = () => {
                   <Pagination
                     pageNumber={currentPage}
                     setPageNumber={setCurrentPage}
-                    totalItem={orders.length}
+                    totalItem={totalOrders}
                     perPage={perPage}
                     showItem={3}
                   />

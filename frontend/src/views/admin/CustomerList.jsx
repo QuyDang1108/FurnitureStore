@@ -16,9 +16,6 @@ const CustomerList = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (success) {
-      toast.success("Customer list fetched successfully");
-    }
     if (errorMessage) {
       toast.error(errorMessage);
     }
