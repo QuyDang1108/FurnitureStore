@@ -12,6 +12,11 @@ const Pagination = ({
   showItem,
 }) => {
   let totalPage = Math.ceil(totalItem / perPage);
+
+  if (totalPage === 0) {
+    return null;
+  }
+
   let startPage = pageNumber;
   let dif = totalPage - pageNumber;
   if (dif <= showItem) {
@@ -22,6 +27,7 @@ const Pagination = ({
   if (startPage <= 0) {
     startPage = 1;
   }
+
   const createBtn = () => {
     const btns = [];
     for (let i = startPage; i < endPage; i++) {
