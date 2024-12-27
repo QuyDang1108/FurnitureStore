@@ -106,5 +106,41 @@
       "totalAmount": 600000,
       "status": "Completed"
     }
-  ]
+  ],
+  "recentOrders": [
+    {
+      "id": 1,
+      "customerName": "Nguyễn Văn A",
+      "totalAmount": 500000,
+      "status": "Completed"
+    },
+    {
+      "id": 2,
+      "customerName": "Trần Thị B",
+      "totalAmount": 250000,
+      "status": "Pending"
+    },
+    {
+      "id": 3,
+      "customerName": "Lê Văn C",
+      "totalAmount": 300000,
+      "status": "Cancelled"
+    },
+    {
+      "id": 4,
+      "customerName": "Phạm Thị D",
+      "totalAmount": 450000,
+      "status": "Completed"
+    },
+    {
+      "id": 5,
+      "customerName": "Đặng Văn E",
+      "totalAmount": 100000,
+      "status": "Pending"
+    }
+  ],
+  "totalSales": 33000000,
+  "totalProducts": 1000,
+  "totalUsers": 100,
+  "totalOrders": 1000
 }
