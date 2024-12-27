@@ -1,10 +1,81 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MdCurrencyYen, MdOutlineShoppingCart } from "react-icons/md";
 import { RiShoppingCartFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import {
+  get_total_orders,
+  get_total_products,
+  get_total_sales,
+  get_total_users,
+} from "../../store/Reducers/statReducer";
+import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
 const AdminDashboard = () => {
+  const [unit, setUnit] = useState("VND");
+  const [sales, setSales] = useState(0);
+  const [orders, setOrders] = useState(0);
+  const [products, setProducts] = useState(0);
+  const [users, setUsers] = useState(0);
+  const [recentOrd, setRecentOrd] = useState([]);
+
+  const {
+    totalSales,
+    totalUsers,
+    totalProducts,
+    totalOrders,
+    success,
+    errorMessage,
+  } = useSelector((state) => state.stat);
+
+  const { recentOrders } = useSelector((state) => state.orders);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(get_total_users());
+    dispatch(get_total_sales());
+    dispatch(get_total_products());
+    dispatch(get_total_orders());
+    dispatch(get_recent_orders());
+  }, []);
+
+  useEffect(() => {
+    if (totalSales > 1000000000) {
+      setUnit("B");
+      setSales(totalSales / 1000000000);
+    } else if (totalSales > 1000000) {
+      setUnit("M");
+      setSales(totalSales / 1000000);
+    } else if (totalSales > 1000) {
+      setUnit("K");
+      setSales(totalSales / 1000);
+    }
+  }, [totalSales]);
+
+  useEffect(() => {
+    setProducts(totalProducts);
+  }, [totalProducts]);
+
+  useEffect(() => {
+    setOrders(totalOrders);
+  }, [totalOrders]);
+
+  useEffect(() => {
+    setUsers(totalUsers);
+  }, [totalUsers]);
+
+  useEffect(() => {
+    setRecentOrd(recentOrders);
+  }, [recentOrders]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+  }, [success, errorMessage]);
+
   return (
     // Main dashboard
     <div className="px-2 md:px-7 py-5">
@@ -13,7 +84,10 @@ const AdminDashboard = () => {
         {/* // Total sales */}
         <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">$3434</h2>
+            <h2 className="font-bold text-3xl">
+              {sales}
+              {unit}
+            </h2>
             <span className="text-md font-medium">Total sales</span>
           </div>
 
@@ -28,7 +102,7 @@ const AdminDashboard = () => {
         {/* //Products */}
         <div className="flex justify-between items-center p-5 bg-[#FDE2FF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">20</h2>
+            <h2 className="font-bold text-3xl">{products}</h2>
             <span className="text-md font-medium">Products</span>
           </div>
 
@@ -43,7 +117,7 @@ const AdminDashboard = () => {
         {/* // Orders */}
         <div className="flex justify-between items-center p-5 bg-[#ECEBFF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">$3434</h2>
+            <h2 className="font-bold text-3xl">{orders}</h2>
             <span className="text-md font-medium">Orders</span>
           </div>
 
@@ -58,8 +132,8 @@ const AdminDashboard = () => {
         {/* // Customers */}
         <div className="flex justify-between items-center p-5 bg-[#E6F9FF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">20</h2>
-            <span className="text-md font-medium">Customers</span>
+            <h2 className="font-bold text-3xl">{users}</h2>
+            <span className="text-md font-medium">Users</span>
           </div>
 
           <div
@@ -72,15 +146,15 @@ const AdminDashboard = () => {
       </div>
 
       {/* // Orders table */}
-      <div className="w-full p-4 bg-[#6a5fdf] rounded-md mt-6">
+      <div className="w-full p-4 bg-white rounded-md mt-6">
         {/* // Header  */}
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-lg text-[#d0d2d6] pb-3 ">
+        <div className="flex justify-between items-center pr-4">
+          <h2 className="font-semibold text-lg text-black pb-3">
             Recent Orders
           </h2>
           <Link
             to={"/admin/orders"}
-            className="font-semibold text-sm text-[#d0d2d6]"
+            className="font-semibold text-sm text-black"
           >
             View All
           </Link>
@@ -88,8 +162,8 @@ const AdminDashboard = () => {
 
         {/* // Table  */}
         <div className="relative overflow-x-auto">
-          <table className="w-full text-sm text-left text-[#d0d2d6]">
-            <thead className="text-sm text-[#d0d2d6] uppercase border-b border-slate-700">
+          <table className="w-full text-sm text-center text-black">
+            <thead className="text-sm text-black uppercase border-b border-gray-300">
               <tr>
                 <th scope="col" className="py-3 px-4">
                   Order Id
@@ -108,10 +182,10 @@ const AdminDashboard = () => {
             </thead>
 
             <tbody>
-              {[1, 2, 3, 4, 5].map((d, i) => (
+              {recentOrd.map((order, i) => (
                 <tr key={i}>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    #34344
+                    order.id
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     $454
@@ -123,7 +197,7 @@ const AdminDashboard = () => {
                     Pending
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <Link>View</Link>
+                    <Link className="text-blue-500">View</Link>
                   </td>
                 </tr>
               ))}

@@ -5,6 +5,7 @@ import ordersReducer from "./Reducers/orderReducer";
 import usersReducer from "./Reducers/userReducer";
 import reviewsReducer from "./Reducers/reviewReducer";
 import categoriesReducer from "./Reducers/categoryReducer";
+import statReducer from "./Reducers/statReducer";
 
 const rootReducer = {
   auth: authReducer,
@@ -14,6 +15,7 @@ const rootReducer = {
   users: usersReducer,
   reviews: reviewsReducer,
   categories: categoriesReducer,
+  stat: statReducer,
 };
 
 export default rootReducer;
