@@ -26,13 +26,6 @@ export const allNav = [
     path: "/admin/category",
   },
   {
-    id: 5,
-    title: "Payment Request",
-    icon: <MdPayment />,
-    role: "admin",
-    path: "/admin/payment-request",
-  },
-  {
     id: 6,
     title: "User List",
     icon: <FaUser />,
@@ -54,13 +47,6 @@ export const allNav = [
     path: "/customer/cart",
   },
   {
-    id: 11,
-    title: "Payment History",
-    icon: <FaHistory />,
-    role: "customer",
-    path: "/customer/payment-history",
-  },
-  {
     id: 12,
     title: "Account",
     icon: <FaUser />,
@@ -73,5 +59,12 @@ export const allNav = [
     icon: <FaProductHunt />,
     role: "admin",
     path: "/admin/add-product",
+  },
+  {
+    id: 14,
+    title: "Product List",
+    icon: <FaProductHunt />,
+    role: "admin",
+    path: "/admin/product-list",
   },
 ];
