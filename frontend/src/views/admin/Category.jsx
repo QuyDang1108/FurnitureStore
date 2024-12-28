@@ -1,15 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { LuArrowDownSquare } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Pagination from "../Pagination";
 import { FaEdit, FaTrash, FaImage } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
+import {
+  clearMessage,
+  get_categories,
+} from "../../store/Reducers/categoryReducer";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
 
 const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchvalue, setSearchvalue] = useState("");
-  const [perPage, setPerPage] = useState(5);
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const perPage = 5;
+
+  const { categories, loader, errorMessage, success, total } = useSelector(
+    (state) => state.categories
+  );
+
+  useEffect(() => {
+    dispatch(get_categories({ currentPage, perPage }));
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    if (success) {
+      toast.success("Category list fetched successfully");
+    }
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+    clearMessage();
+  }, [success, errorMessage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -47,20 +72,20 @@ const Category = () => {
                 </thead>
 
                 <tbody>
-                  {[1, 2, 3, 4, 5].map((d, i) => (
+                  {categories.map((d, i) => (
                     <tr key={i}>
                       <td className="py-1.5 px-4 font-medium whitespace-nowrap">
-                        {d}
+                        {i + 1}
                       </td>
-                      <td className="py-1.5 px-4 font-medium whitespace-nowrap">
+                      <td className="py-1.5 px-4 font-medium whitespace-nowrap flex justify-center items-center">
                         <img
                           className="w-[50px] h-[50px] rounded-md"
-                          src={`http://localhost:3000/images/category/${d}.jpg`}
+                          src={d.image}
                           alt="Category"
                         />
                       </td>
                       <td className="py-1.5 px-4 font-medium whitespace-nowrap">
-                        Sports
+                        {d.name}
                       </td>
                       <td className="py-1.5 px-4 font-medium whitespace-nowrap">
                         <div className="flex justify-center items-center gap-4">
@@ -82,7 +107,7 @@ const Category = () => {
                 <Pagination
                   pageNumber={currentPage}
                   setPageNumber={setCurrentPage}
-                  totalItem={50}
+                  totalItem={total}
                   perPage={perPage}
                   showItem={3}
                 />
