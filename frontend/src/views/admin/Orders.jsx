@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get_orders } from "../../store/Reducers/orderReducer"; // Ensure this action is defined in your orderReducer
+import { clearMessage, get_orders } from "../../store/Reducers/orderReducer";
 import toast from "react-hot-toast";
 import Pagination from "../Pagination";
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalOrders, setTotalOrders] = useState(0);
   const perPage = 10;
 
   const dispatch = useDispatch();
@@ -15,18 +14,8 @@ const Orders = () => {
   );
 
   useEffect(() => {
-    dispatch(get_orders(currentPage, perPage));
+    dispatch(get_orders({ currentPage, perPage }));
   }, [dispatch, currentPage]);
-
-  useEffect(() => {
-    if (orders.length === 0) {
-      toast.error("No orders found");
-    }
-  }, [orders]);
-
-  useEffect(() => {
-    setTotalOrders(total);
-  }, [total]);
 
   useEffect(() => {
     if (success) {
@@ -35,11 +24,9 @@ const Orders = () => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
-  }, [success, errorMessage]);
 
-  const handlePageClicked = (page) => {
-    setCurrentPage(page);
-  };
+    clearMessage();
+  }, [success, errorMessage]);
 
   return (
     <div className="px-2 lg:px-7 pt-5">
@@ -94,7 +81,7 @@ const Orders = () => {
                   <Pagination
                     pageNumber={currentPage}
                     setPageNumber={setCurrentPage}
-                    totalItem={totalOrders}
+                    totalItem={total}
                     perPage={perPage}
                     showItem={3}
                   />
