@@ -1,62 +1,65 @@
 {
-  "users": [
-    {
-      "id": 1,
-      "name": "Nguyễn Văn A",
-      "email": "van.a@gmail.com",
-      "address": "Hà Nội, Việt Nam",
-      "status": "Active"
-    },
-    {
-      "id": 2,
-      "name": "Trần Thị B",
-      "email": "thi.b@gmail.com",
-      "address": "Đà Nẵng, Việt Nam",
-      "status": "Inactive"
-    },
-    {
-      "id": 3,
-      "name": "Lê Văn C",
-      "email": "van.c@gmail.com",
-      "address": "TP. Hồ Chí Minh, Việt Nam",
-      "status": "Active"
-    },
-    {
-      "id": 4,
-      "name": "Phạm Thị D",
-      "email": "thi.d@gmail.com",
-      "address": "Cần Thơ, Việt Nam",
-      "status": "Active"
-    },
-    {
-      "id": 5,
-      "name": "Đặng Văn E",
-      "email": "van.e@gmail.com",
-      "address": "Hải Phòng, Việt Nam",
-      "status": "Inactive"
-    },
-    {
-      "id": 6,
-      "name": "Ngô Thị F",
-      "email": "thi.f@gmail.com",
-      "address": "Nha Trang, Việt Nam",
-      "status": "Active"
-    },
-    {
-      "id": 7,
-      "name": "Hoàng Văn G",
-      "email": "van.g@gmail.com",
-      "address": "Quảng Ninh, Việt Nam",
-      "status": "Inactive"
-    },
-    {
-      "id": 8,
-      "name": "Vũ Thị H",
-      "email": "thi.h@gmail.com",
-      "address": "Huế, Việt Nam",
-      "status": "Active"
-    }
-  ],
+  "users": {
+    "users": [
+      {
+        "id": 1,
+        "name": "Nguyễn Văn A",
+        "email": "van.a@gmail.com",
+        "address": "Hà Nội, Việt Nam",
+        "status": "Active"
+      },
+      {
+        "id": 2,
+        "name": "Trần Thị B",
+        "email": "thi.b@gmail.com",
+        "address": "Đà Nẵng, Việt Nam",
+        "status": "Inactive"
+      },
+      {
+        "id": 3,
+        "name": "Lê Văn C",
+        "email": "van.c@gmail.com",
+        "address": "TP. Hồ Chí Minh, Việt Nam",
+        "status": "Active"
+      },
+      {
+        "id": 4,
+        "name": "Phạm Thị D",
+        "email": "thi.d@gmail.com",
+        "address": "Cần Thơ, Việt Nam",
+        "status": "Active"
+      },
+      {
+        "id": 5,
+        "name": "Đặng Văn E",
+        "email": "van.e@gmail.com",
+        "address": "Hải Phòng, Việt Nam",
+        "status": "Inactive"
+      },
+      {
+        "id": 6,
+        "name": "Ngô Thị F",
+        "email": "thi.f@gmail.com",
+        "address": "Nha Trang, Việt Nam",
+        "status": "Active"
+      },
+      {
+        "id": 7,
+        "name": "Hoàng Văn G",
+        "email": "van.g@gmail.com",
+        "address": "Quảng Ninh, Việt Nam",
+        "status": "Inactive"
+      },
+      {
+        "id": 8,
+        "name": "Vũ Thị H",
+        "email": "thi.h@gmail.com",
+        "address": "Huế, Việt Nam",
+        "status": "Active"
+      }
+    ],
+    "total": 8
+  },
   "orders": {
     "orders": [
       {
@@ -247,6 +250,56 @@
       "image": "https://placehold.co/600x400"
     }
   ],
+  "products": {
+    "products": [
+      {
+        "id": 1,
+        "name": "Sushi Roll",
+        "price": 12.99,
+        "category": "Food",
+        "material": "Rice, Salmon, Seaweed",
+        "origin": "Japan",
+        "size": "Medium"
+      },
+      {
+        "id": 2,
+        "name": "Nigiri Sushi",
+        "price": 15.99,
+        "category": "Food",
+        "material": "Rice, Shrimp",
+        "origin": "Japan",
+        "size": "Small"
+      },
+      {
+        "id": 3,
+        "name": "Sashimi Deluxe",
+        "price": 25.99,
+        "category": "Food",
+        "material": "Tuna, Salmon, Octopus",
+        "origin": "Japan",
+        "size": "Large"
+      },
+      {
+        "id": 4,
+        "name": "Miso Soup",
+        "price": 5.99,
+        "category": "Drink",
+        "material": "Miso, Tofu, Seaweed",
+        "origin": "Japan",
+        "size": "Small"
+      },
+      {
+        "id": 5,
+        "name": "Green Tea",
+        "price": 2.99,
+        "category": "Drink",
+        "material": "Green Tea Leaves",
+        "origin": "Japan",
+        "size": "Medium"
+      }
+    ],
+    "total": 5
+  },
   "totalSales": 33000000,
   "totalProducts": 1000,
   "totalUsers": 100,
