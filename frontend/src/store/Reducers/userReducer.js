@@ -3,9 +3,12 @@ import api from "../../api/api";
 
 export const get_users = createAsyncThunk(
   "users/get_users",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (pageData, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/users");
+      const { data } = await api.get(
+        // `/users?page=${pageData.page}&limit=${pageData.perPage}`
+        `/users`
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -58,8 +61,10 @@ const usersSlice = createSlice({
   initialState: {
     users: [],
     user: {},
+    total: 0,
     success: false,
     errorMessage: "",
+    loader: false,
   },
   reducers: {
     clearMessage: (state) => {
@@ -69,31 +74,50 @@ const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(get_users.pending, (state) => {
+        state.loader = true;
+      })
       .addCase(get_users.fulfilled, (state, { payload }) => {
-        state.users = payload;
-        state.success = true;
+        state.users = payload.users;
+        state.total = payload.total;
+        state.loader = false;
       })
       .addCase(get_users.rejected, (state, { payload }) => {
         state.errorMessage = payload;
+        state.loader = false;
+      })
+      .addCase(get_user.pending, (state) => {
+        state.loader = true;
       })
       .addCase(get_user.fulfilled, (state, { payload }) => {
         state.user = payload;
-        state.success = true;
+        state.loader = false;
       })
       .addCase(get_user.rejected, (state, { payload }) => {
         state.errorMessage = payload;
+        state.loader = false;
       })
-      .addCase(update_user.fulfilled, (state, { payload }) => {
+      .addCase(update_user.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(update_user.fulfilled, (state) => {
         state.success = true;
+        state.loader = false;
       })
       .addCase(update_user.rejected, (state, { payload }) => {
         state.errorMessage = payload;
+        state.loader = false;
       })
-      .addCase(delete_user.fulfilled, (state, { payload }) => {
+      .addCase(delete_user.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(delete_user.fulfilled, (state) => {
         state.success = true;
+        state.loader = false;
       })
       .addCase(delete_user.rejected, (state, { payload }) => {
         state.errorMessage = payload;
+        state.loader = false;
       });
   },
 });
