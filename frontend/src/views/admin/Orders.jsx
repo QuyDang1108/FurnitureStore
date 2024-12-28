@@ -59,7 +59,13 @@ const Orders = () => {
                   </thead>
                   <tbody>
                     {orders.map((order) => (
-                      <tr key={order.id}>
+                      <tr
+                        key={order.id}
+                        onClick={() =>
+                          (window.location.href = `/admin/orders/${order.id}`)
+                        }
+                        className="hover:bg-gray-100 cursor-pointer"
+                      >
                         <td className="py-2 px-4 border-b border-gray-200 text-center">
                           {order.id}
                         </td>
