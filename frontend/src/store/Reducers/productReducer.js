@@ -8,7 +8,7 @@ export const get_products = createAsyncThunk(
       const { data } = await api.get("/products");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_product = createAsyncThunk(
       const { data } = await api.get(`/products/${id}`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -34,7 +34,7 @@ export const add_product = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -48,7 +48,7 @@ export const update_product = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -62,7 +62,7 @@ export const delete_product = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -72,7 +72,7 @@ export const productSlice = createSlice({
   initialState: {
     products: [],
     product: {},
-    totalProducts: 0,
+    total: 0,
     success: false,
     errorMessage: "",
     loader: false,
@@ -80,51 +80,68 @@ export const productSlice = createSlice({
   reducers: {
     clearMessage: (state) => {
       state.errorMessage = "";
+      state.success = false;
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(get_products.fulfilled, (state, action) => {
-        state.products = action.payload;
+      .addCase(get_products.pending, (state) => {
+        state.loader = true;
       })
-      .addCase(get_product.fulfilled, (state, action) => {
-        state.product = action.payload;
+      .addCase(get_products.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.products = payload.products;
+        state.total = payload.total;
+        state.success = true;
+      })
+      .addCase(get_products.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
+      })
+      .addCase(get_product.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_product.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.product = payload;
+        state.success = true;
+      })
+      .addCase(get_product.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
       })
       .addCase(add_product.pending, (state) => {
         state.loader = true;
       })
-      .addCase(add_product.fulfilled, (state) => {
+      .addCase(add_product.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
       })
-      .addCase(add_product.rejected, (state, action) => {
+      .addCase(add_product.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = payload.message;
       })
       .addCase(update_product.pending, (state) => {
         state.loader = true;
       })
-      .addCase(update_product.fulfilled, (state) => {
+      .addCase(update_product.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
       })
-      .addCase(update_product.rejected, (state, action) => {
+      .addCase(update_product.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = payload.message;
       })
       .addCase(delete_product.pending, (state) => {
         state.loader = true;
       })
-      .addCase(delete_product.fulfilled, (state) => {
+      .addCase(delete_product.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
       })
-      .addCase(delete_product.rejected, (state, action) => {
+      .addCase(delete_product.rejected, (state, { payload }) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
-      })
-      .addCase(get_products.rejected, (state, action) => {
-        state.errorMessage = action.payload.message;
+        state.errorMessage = payload.message;
       });
   },
 });

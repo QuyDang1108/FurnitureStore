@@ -28,7 +28,7 @@ const Products = () => {
       toast.error(errorMessage);
     }
 
-    clearMessage();
+    dispatch(clearMessage());
   }, [success, errorMessage]);
 
   return (
@@ -46,6 +46,7 @@ const Products = () => {
                 <table className="min-w-full bg-white">
                   <thead>
                     <tr>
+                      <th className="py-2 px-4 border-b border-gray-200">ID</th>
                       <th className="py-2 px-4 border-b border-gray-200">
                         Name
                       </th>
@@ -69,6 +70,9 @@ const Products = () => {
                   <tbody>
                     {products.map((product) => (
                       <tr key={product.id}>
+                        <td className="py-2 px-4 border-b border-gray-200 text-center">
+                          {product.id}
+                        </td>
                         <td className="py-2 px-4 border-b border-gray-200 text-center">
                           {product.name}
                         </td>
