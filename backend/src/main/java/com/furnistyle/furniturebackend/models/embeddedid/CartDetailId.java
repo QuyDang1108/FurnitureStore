@@ -26,6 +26,11 @@ public class CartDetailId implements Serializable {
         return ownerId.equals(that.ownerId) && productId.equals(that.productId);
     }
 
+    public CartDetailId(Long ownerId, Long productId) {
+        this.ownerId = ownerId;
+        this.productId = productId;
+    }
+
     @Override
     public int hashCode() {
         return 31 * ownerId.hashCode() + productId.hashCode();

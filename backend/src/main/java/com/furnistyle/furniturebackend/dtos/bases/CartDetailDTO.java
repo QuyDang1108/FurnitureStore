@@ -9,7 +9,7 @@ import lombok.Data;
 public class CartDetailDTO {
     @NotNull(message = "ID chủ giỏ hàng không được để trống!")
     @JsonProperty("owner_id")
-    private Long customerId;
+    private Long ownerId;
 
     @NotNull(message = "ID sản phẩm không được để trống!")
     @JsonProperty("product_id")

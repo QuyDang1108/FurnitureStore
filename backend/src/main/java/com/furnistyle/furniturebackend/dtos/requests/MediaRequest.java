@@ -11,11 +11,11 @@ import lombok.Data;
 
 @Data
 public class MediaRequest {
-    @NotNull(message = "Product's id is required")
+    @NotNull(message = "ID sản phẩm không được để trống!")
     @JsonProperty("product_id")
     private Long productId;
 
-    @NotBlank(message = "Image's link is required")
+    @NotBlank(message = "Link ảnh không được để trống!")
     @JsonProperty("image_link")
     private String imageLink;
 }
