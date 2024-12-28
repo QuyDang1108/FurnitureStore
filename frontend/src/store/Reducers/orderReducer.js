@@ -1,13 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
+// Đổi tên các trường trong object trả về từ API theo API từ backend
 
 export const get_orders = createAsyncThunk(
   "orders/get_orders",
-  async (page, limit, { fulfillWithValue, rejectWithValue }) => {
+  async (pageData, { fulfillWithValue, rejectWithValue }) => {
+    console.log(pageData);
     try {
       const { data } = await api.get(
-        "/orders?page=" + page + "&limit=" + limit
+        // `/orders?page=${pageData.currentPage}&limit=${pageData.perPage}`
+        `/orders`
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -88,7 +92,6 @@ const orderSlice = createSlice({
     total: 0,
     order: {},
     recentOrders: [],
-    totalSales: 0,
     success: false,
     errorMessage: "",
     loader: false,
@@ -164,8 +167,7 @@ const orderSlice = createSlice({
         state.loader = true;
       })
       .addCase(get_recent_orders.fulfilled, (state, { payload }) => {
-        state.recentOrders = payload.orders;
-        state.totalSales = payload.totalSales;
+        state.recentOrders = payload;
         state.loader = false;
       })
       .addCase(get_recent_orders.rejected, (state, { payload }) => {
