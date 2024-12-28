@@ -6,6 +6,7 @@ import usersReducer from "./Reducers/userReducer";
 import reviewsReducer from "./Reducers/reviewReducer";
 import categoriesReducer from "./Reducers/categoryReducer";
 import statReducer from "./Reducers/statReducer";
+import materi from "./Reducers/materialReducer";
 
 const rootReducer = {
   auth: authReducer,
@@ -16,6 +17,7 @@ const rootReducer = {
   reviews: reviewsReducer,
   categories: categoriesReducer,
   stat: statReducer,
+  materials: materi,
 };
 
 export default rootReducer;
