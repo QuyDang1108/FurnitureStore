@@ -13,24 +13,24 @@ const Pagination = ({
 }) => {
   let totalPage = Math.ceil(totalItem / perPage);
 
-  if (totalPage === 0) {
+  if (totalPage === 0 || totalPage === 1) {
     return null;
   }
 
-  let startPage = pageNumber;
-  let dif = totalPage - pageNumber;
-  if (dif <= showItem) {
-    startPage = totalPage - showItem;
-  }
-  let endPage = startPage < 0 ? showItem : showItem + startPage;
+  let startPage = pageNumber - Math.floor(showItem / 2);
+  startPage = startPage < 1 ? 1 : startPage;
 
-  if (startPage <= 0) {
-    startPage = 1;
+  let endPage = startPage + showItem;
+  endPage = endPage > totalPage ? totalPage : endPage;
+
+  if (endPage === totalPage) {
+    startPage = endPage - showItem;
+    startPage = startPage < 1 ? 1 : startPage;
   }
 
   const createBtn = () => {
     const btns = [];
-    for (let i = startPage; i < endPage; i++) {
+    for (let i = startPage; i <= endPage; i++) {
       btns.push(
         <li
           onClick={() => setPageNumber(i)}
