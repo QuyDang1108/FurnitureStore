@@ -57,56 +57,107 @@
       "status": "Active"
     }
   ],
-  "orders": [
-    {
-      "id": 1,
-      "customerName": "Nguyễn Văn A",
-      "totalAmount": 500000,
-      "status": "Completed"
-    },
-    {
-      "id": 2,
-      "customerName": "Trần Thị B",
-      "totalAmount": 250000,
-      "status": "Pending"
-    },
-    {
-      "id": 3,
-      "customerName": "Lê Văn C",
-      "totalAmount": 300000,
-      "status": "Cancelled"
-    },
-    {
-      "id": 4,
-      "customerName": "Phạm Thị D",
-      "totalAmount": 450000,
-      "status": "Completed"
-    },
-    {
-      "id": 5,
-      "customerName": "Đặng Văn E",
-      "totalAmount": 100000,
-      "status": "Pending"
-    },
-    {
-      "id": 6,
-      "customerName": "Ngô Thị F",
-      "totalAmount": 700000,
-      "status": "Completed"
-    },
-    {
-      "id": 7,
-      "customerName": "Hoàng Văn G",
-      "totalAmount": 550000,
-      "status": "Pending"
-    },
-    {
-      "id": 8,
-      "customerName": "Vũ Thị H",
-      "totalAmount": 600000,
-      "status": "Completed"
-    }
-  ],
+  "orders": {
+    "orders": [
+      {
+        "id": 1,
+        "customerName": "Nguyễn Văn A",
+        "totalAmount": 500000,
+        "status": "Completed"
+      },
+      {
+        "id": 2,
+        "customerName": "Trần Thị B",
+        "totalAmount": 250000,
+        "status": "Pending"
+      },
+      {
+        "id": 3,
+        "customerName": "Lê Văn C",
+        "totalAmount": 300000,
+        "status": "Cancelled"
+      },
+      {
+        "id": 4,
+        "customerName": "Phạm Thị D",
+        "totalAmount": 450000,
+        "status": "Completed"
+      },
+      {
+        "id": 5,
+        "customerName": "Đặng Văn E",
+        "totalAmount": 100000,
+        "status": "Pending"
+      },
+      {
+        "id": 6,
+        "customerName": "Ngô Thị F",
+        "totalAmount": 700000,
+        "status": "Completed"
+      },
+      {
+        "id": 7,
+        "customerName": "Hoàng Văn G",
+        "totalAmount": 550000,
+        "status": "Pending"
+      },
+      {
+        "id": 8,
+        "customerName": "Vũ Thị H",
+        "totalAmount": 600000,
+        "status": "Completed"
+      },
+      {
+        "id": 9,
+        "customerName": "Nguyễn Văn A",
+        "totalAmount": 500000,
+        "status": "Completed"
+      },
+      {
+        "id": 10,
+        "customerName": "Trần Thị B",
+        "totalAmount": 250000,
+        "status": "Pending"
+      },
+      {
+        "id": 11,
+        "customerName": "Lê Văn C",
+        "totalAmount": 300000,
+        "status": "Cancelled"
+      },
+      {
+        "id": 12,
+        "customerName": "Phạm Thị D",
+        "totalAmount": 450000,
+        "status": "Completed"
+      },
+      {
+        "id": 13,
+        "customerName": "Đặng Văn E",
+        "totalAmount": 100000,
+        "status": "Pending"
+      },
+      {
+        "id": 14,
+        "customerName": "Ngô Thị F",
+        "totalAmount": 700000,
+        "status": "Completed"
+      },
+      {
+        "id": 15,
+        "customerName": "Hoàng Văn G",
+        "totalAmount": 550000,
+        "status": "Pending"
+      },
+      {
+        "id": 16,
+        "customerName": "Vũ Thị H",
+        "totalAmount": 600000,
+        "status": "Completed"
+      }
+    ],
+    "total": 16
+  },
   "recentOrders": [
     {
       "id": 1,
@@ -137,6 +188,63 @@
       "customerName": "Đặng Văn E",
       "totalAmount": 100000,
       "status": "Pending"
+    }
+  ],
+  "categories": {
+    "data": [
+      {
+        "id": 1,
+        "name": "Electronics",
+        "image": "https://placehold.co/600x400"
+      },
+      {
+        "id": 2,
+        "name": "Clothes",
+        "image": "https://placehold.co/600x400"
+      },
+      {
+        "id": 3,
+        "name": "Shoes",
+        "image": "https://placehold.co/600x400"
+      },
+      {
+        "id": 4,
+        "name": "Watches",
+        "image": "https://placehold.co/600x400"
+      },
+      {
+        "id": 5,
+        "name": "Furniture",
+        "image": "https://placehold.co/600x400"
+      },
+      {
+        "id": 6,
+        "name": "Books",
+        "image": "https://placehold.co/600x400"
+      }
+    ],
+    "total": 6
+  },
+  "materials": [
+    {
+      "id": 1,
+      "name": "Wood",
+      "image": "https://placehold.co/600x400"
+    },
+    {
+      "id": 2,
+      "name": "Metal",
+      "image": "https://placehold.co/600x400"
+    },
+    {
+      "id": 3,
+      "name": "Plastic",
+      "image": "https://placehold.co/600x400"
+    },
+    {
+      "id": 4,
+      "name": "Glass",
+      "image": "https://placehold.co/600x400"
     }
   ],
   "totalSales": 33000000,
