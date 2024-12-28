@@ -1,14 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import api from "../../api/api";
 
+// Đổi tên các trường trong object trả về từ API theo API từ backend
 export const get_categories = createAsyncThunk(
   "category/get_categories",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (pageData, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/category");
+      const { data } = await api.get(
+        // `/category?page=${pageData.currentPage}&limit=${pageData.perPage}`
+        `/categories`
+      );
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -22,7 +26,7 @@ export const add_category = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -36,7 +40,7 @@ export const delete_category = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -50,7 +54,7 @@ export const update_category = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -59,9 +63,11 @@ export const categorySlice = createSlice({
   name: "category",
   initialState: {
     categories: [],
+    category: {},
     success: false,
     errorMessage: "",
     loader: false,
+    total: 0,
   },
   reducers: {
     clearMessage: (state) => {
@@ -76,7 +82,9 @@ export const categorySlice = createSlice({
       })
       .addCase(get_categories.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.categories = payload;
+        state.categories = payload.data;
+        state.total = payload.total;
+        state.success = true;
       })
       .addCase(get_categories.rejected, (state, { payload }) => {
         state.loader = false;
@@ -88,7 +96,7 @@ export const categorySlice = createSlice({
       .addCase(add_category.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
-        state.categories.push(payload);
+        state.successMessage = payload.message;
       })
       .addCase(add_category.rejected, (state, { payload }) => {
         state.loader = false;
@@ -100,9 +108,7 @@ export const categorySlice = createSlice({
       .addCase(delete_category.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
-        state.categories = state.categories.filter(
-          (category) => category.id !== payload
-        );
+        state.successMessage = payload.message;
       })
       .addCase(delete_category.rejected, (state, { payload }) => {
         state.loader = false;
@@ -114,9 +120,7 @@ export const categorySlice = createSlice({
       .addCase(update_category.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.success = true;
-        state.categories = state.categories.map((category) =>
-          category.id === payload.id ? payload : category
-        );
+        state.successMessage = payload.message;
       })
       .addCase(update_category.rejected, (state, { payload }) => {
         state.loader = false;
