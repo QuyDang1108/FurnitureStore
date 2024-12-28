@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
+  clearMessage,
   get_total_orders,
   get_total_products,
   get_total_sales,
@@ -74,6 +75,7 @@ const AdminDashboard = () => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
+    dispatch(clearMessage());
   }, [success, errorMessage]);
 
   return (
