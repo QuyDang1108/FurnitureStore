@@ -17,7 +17,7 @@ export const get_total_orders = createAsyncThunk(
   "stat/get_total_orders",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/orders/total");
+      const { data } = await api.get("/totalOrders");
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
