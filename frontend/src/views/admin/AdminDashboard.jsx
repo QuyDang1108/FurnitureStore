@@ -169,13 +169,13 @@ const AdminDashboard = () => {
                   Order Id
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Price
+                  Customer Name
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Payment Status
+                  Total
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Order Status
+                  Status
                 </th>
                 <th scope="col" className="py-3 px-4"></th>
               </tr>
@@ -185,16 +185,16 @@ const AdminDashboard = () => {
               {recentOrd.map((order, i) => (
                 <tr key={i}>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    order.id
+                    {order.id}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    $454
+                    {order.customerName}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    Pending
+                    {order.totalAmount}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    Pending
+                    {order.status}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     <Link className="text-blue-500">View</Link>
