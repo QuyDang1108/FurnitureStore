@@ -27,11 +27,6 @@ public class OrderDetailId implements Serializable {
         return orderId.equals(that.orderId) && productId.equals(that.productId);
     }
 
-    public OrderDetailId(Long orderId, Long productId) {
-        this.orderId = orderId;
-        this.productId = productId;
-    }
-
     @Override
     public int hashCode() {
         return 31 * orderId.hashCode() + productId.hashCode();
