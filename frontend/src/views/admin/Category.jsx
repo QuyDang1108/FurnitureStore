@@ -27,13 +27,10 @@ const Category = () => {
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-    if (success) {
-      toast.success("Category list fetched successfully");
-    }
     if (errorMessage) {
       toast.error(errorMessage);
     }
-    clearMessage();
+    dispatch(clearMessage());
   }, [success, errorMessage]);
 
   return (
