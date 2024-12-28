@@ -14,14 +14,14 @@ const UserList = () => {
   );
 
   useEffect(() => {
-    dispatch(get_users());
+    dispatch(get_users({ page: currentPage, perPage }));
   }, [dispatch, currentPage]);
 
   useEffect(() => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
-    clearMessage();
+    dispatch(clearMessage());
   }, [success, errorMessage]);
 
   return (
@@ -39,6 +39,7 @@ const UserList = () => {
                 <table className="min-w-full bg-white">
                   <thead>
                     <tr>
+                      <th className="py-2 px-4 border-b border-gray-200">No</th>
                       <th className="py-2 px-4 border-b border-gray-200">
                         Name
                       </th>
@@ -54,8 +55,17 @@ const UserList = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {users.map((customer) => (
-                      <tr key={customer.id}>
+                    {users.map((customer, i) => (
+                      <tr
+                        key={customer.id}
+                        onClick={() =>
+                          (window.location.href = `/admin/users/${customer.id}`)
+                        }
+                        className="cursor-pointer hover:bg-gray-100"
+                      >
+                        <td className="py-2 px-4 border-b border-gray- text-center">
+                          {i + 1}
+                        </td>
                         <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.name}
                         </td>
