@@ -67,15 +67,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
-        }
-        return userMapper.toDTO(user);
-    }
-
-    @Override
     public UserDTO getUserById(Long id) {
         return userMapper.toDTO(userRepository.findById(id)
             .orElseThrow(() -> new NotFoundException(Constants.Message.NOT_FOUND_USER)));
