@@ -60,7 +60,7 @@ public class AuthServiceImpl implements AuthService {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         } catch (Exception e) {
-            throw new BadRequestException(Constants.Message.INCORRECT_USERNAME_OR_PASSWORD);
+            throw new BadRequestException(Constants.Message.INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
         }
         var user = repository.findByUsername(request.getUsername());
         if (user == null) {

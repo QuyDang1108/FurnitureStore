@@ -34,21 +34,21 @@ public class UserServiceImpl implements UserService {
     public boolean changePassword(String username, String oldPassword, String newPassword) {
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            throw new NotFoundException(Constants.Message.INCORRECT_USERNAME_OR_PASSWORD);
+            throw new NotFoundException(Constants.Message.INCORRECT_USERNAME_OR_PASSWORD_MESSAGE);
         }
 
         if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new ValidationException(Constants.Message.INCORRECT_OLD_PASSWORD);
+            throw new ValidationException(Constants.Message.INCORRECT_OLD_PASSWORD_MESSAGE);
         }
 
         if (Objects.equals(oldPassword, newPassword)) {
-            throw new BadRequestException(Constants.Message.DUPLICATE_OLD_NEW_PASSWORD);
+            throw new BadRequestException(Constants.Message.DUPLICATE_OLD_NEW_PASSWORD_MESSAGE);
         }
         user.setPassword(passwordEncoder.encode(newPassword));
         try {
             userRepository.save(user);
         } catch (Exception e) {
-            throw new DataAccessException(Constants.Message.CAN_NOT_CHANGE_PASSWORD);
+            throw new DataAccessException(Constants.Message.CAN_NOT_CHANGE_PASSWORD_MESSAGE);
         }
 
         return true;
