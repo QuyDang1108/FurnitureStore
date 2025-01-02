@@ -80,8 +80,8 @@ public class SuperAdminServiceImpl implements SuperAdminService {
 
     private List<OrderDTO> filterOrdersByDate(LocalDate startDate, LocalDate endDate) {
         return orderMapper.toDTOs(orderRepository.findByStatus(EOrderStatus.DELIVERED)).stream().filter(
-            order -> !order.getCreatedDate().isBefore(startDate.atStartOfDay()) &&
-                !order.getCreatedDate().isAfter(endDate.atStartOfDay())).toList();
+            order -> !order.getCreatedDate().isBefore(startDate.atStartOfDay())
+                && !order.getCreatedDate().isAfter(endDate.atStartOfDay())).toList();
     }
 
     private double calculateRevenueByCategory(List<OrderDTO> orderDTOS, Long categoryId) {
