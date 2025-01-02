@@ -23,7 +23,7 @@ export const get_order = createAsyncThunk(
   "orders/get_order",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/orders/${id}`);
+      const { data } = await api.get(`/order${id}`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);

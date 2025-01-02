@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-// import { LuArrowDownSquare } from "react-icons/lu";
-import { Link } from "react-router-dom";
-import Pagination from "../Pagination";
+import { Link, useNavigate } from "react-router-dom";
 import { FaEdit, FaTrash, FaImage } from "react-icons/fa";
 import { IoMdCloseCircle } from "react-icons/io";
 import {
@@ -10,12 +8,14 @@ import {
 } from "../../store/Reducers/categoryReducer";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { Pagination } from "antd";
 
 const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchvalue, setSearchvalue] = useState("");
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const perPage = 5;
 
   const { categories, loader, errorMessage, success, total } = useSelector(
@@ -62,15 +62,16 @@ const Category = () => {
                     <th scope="col" className="py-3 px-4">
                       Name
                     </th>
-                    <th scope="col" className="py-3 px-4">
-                      Action
-                    </th>
                   </tr>
                 </thead>
 
                 <tbody>
                   {categories.map((d, i) => (
-                    <tr key={i}>
+                    <tr
+                      key={i}
+                      onClick={() => navigate(`/admin/category/${d.id}`)}
+                      className="cursor-pointer hover:bg-gray-100"
+                    >
                       <td className="py-1.5 px-4 font-medium whitespace-nowrap">
                         {i + 1}
                       </td>
@@ -84,17 +85,6 @@ const Category = () => {
                       <td className="py-1.5 px-4 font-medium whitespace-nowrap">
                         {d.name}
                       </td>
-                      <td className="py-1.5 px-4 font-medium whitespace-nowrap">
-                        <div className="flex justify-center items-center gap-4">
-                          <Link className="p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50">
-                            <FaEdit />
-                          </Link>
-
-                          <Link className="p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50">
-                            <FaTrash />
-                          </Link>
-                        </div>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -102,11 +92,11 @@ const Category = () => {
 
               <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                 <Pagination
-                  pageNumber={currentPage}
-                  setPageNumber={setCurrentPage}
-                  totalItem={total}
-                  perPage={perPage}
-                  showItem={3}
+                  defaultPageSize={perPage}
+                  defaultCurrent={1}
+                  current={currentPage}
+                  total={total}
+                  onChange={(page) => setCurrentPage(page)}
                 />
               </div>
             </div>

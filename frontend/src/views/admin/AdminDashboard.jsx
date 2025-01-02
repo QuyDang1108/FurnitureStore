@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MdCurrencyYen, MdOutlineShoppingCart } from "react-icons/md";
 import { RiShoppingCartFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
@@ -34,6 +34,8 @@ const AdminDashboard = () => {
   const { recentOrders } = useSelector((state) => state.orders);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(get_total_users());
     dispatch(get_total_sales());
@@ -179,13 +181,16 @@ const AdminDashboard = () => {
                 <th scope="col" className="py-3 px-4">
                   Status
                 </th>
-                <th scope="col" className="py-3 px-4"></th>
               </tr>
             </thead>
 
             <tbody>
               {recentOrd.map((order, i) => (
-                <tr key={i}>
+                <tr
+                  key={i}
+                  onClick={() => navigate(`/admin/orders/${order.id}`)}
+                  className="cursor-pointer hover:bg-gray-100"
+                >
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     {order.id}
                   </td>
@@ -197,9 +202,6 @@ const AdminDashboard = () => {
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     {order.status}
-                  </td>
-                  <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    <Link className="text-blue-500">View</Link>
                   </td>
                 </tr>
               ))}

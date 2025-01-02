@@ -2,57 +2,57 @@
   "users": {
     "users": [
       {
-        "id": 1,
-        "name": "Nguyễn Văn A",
+        "userId": 1,
+        "fullName": "Nguyễn Văn A",
         "email": "van.a@gmail.com",
         "address": "Hà Nội, Việt Nam",
         "status": "Active"
       },
       {
-        "id": 2,
-        "name": "Trần Thị B",
+        "userId": 2,
+        "fullName": "Trần Thị B",
         "email": "thi.b@gmail.com",
         "address": "Đà Nẵng, Việt Nam",
         "status": "Inactive"
       },
       {
-        "id": 3,
-        "name": "Lê Văn C",
+        "userId": 3,
+        "fullName": "Lê Văn C",
         "email": "van.c@gmail.com",
         "address": "TP. Hồ Chí Minh, Việt Nam",
         "status": "Active"
       },
       {
-        "id": 4,
-        "name": "Phạm Thị D",
+        "userId": 4,
+        "fullName": "Phạm Thị D",
         "email": "thi.d@gmail.com",
         "address": "Cần Thơ, Việt Nam",
         "status": "Active"
       },
       {
-        "id": 5,
-        "name": "Đặng Văn E",
+        "userId": 5,
+        "fullName": "Đặng Văn E",
         "email": "van.e@gmail.com",
         "address": "Hải Phòng, Việt Nam",
         "status": "Inactive"
       },
       {
-        "id": 6,
-        "name": "Ngô Thị F",
+        "userId": 6,
+        "fullName": "Ngô Thị F",
         "email": "thi.f@gmail.com",
         "address": "Nha Trang, Việt Nam",
         "status": "Active"
       },
       {
-        "id": 7,
-        "name": "Hoàng Văn G",
+        "userId": 7,
+        "fullName": "Hoàng Văn G",
         "email": "van.g@gmail.com",
         "address": "Quảng Ninh, Việt Nam",
         "status": "Inactive"
       },
       {
-        "id": 8,
-        "name": "Vũ Thị H",
+        "userId": 8,
+        "fullName": "Vũ Thị H",
         "email": "thi.h@gmail.com",
         "address": "Huế, Việt Nam",
         "status": "Active"
@@ -63,97 +63,97 @@
   "orders": {
     "orders": [
       {
-        "id": 1,
+        "orderId": 1,
         "customerName": "Nguyễn Văn A",
         "totalAmount": 500000,
         "status": "Completed"
       },
       {
-        "id": 2,
+        "orderId": 2,
         "customerName": "Trần Thị B",
         "totalAmount": 250000,
         "status": "Pending"
       },
       {
-        "id": 3,
+        "orderId": 3,
         "customerName": "Lê Văn C",
         "totalAmount": 300000,
         "status": "Cancelled"
       },
       {
-        "id": 4,
+        "orderId": 4,
         "customerName": "Phạm Thị D",
         "totalAmount": 450000,
         "status": "Completed"
       },
       {
-        "id": 5,
+        "orderId": 5,
         "customerName": "Đặng Văn E",
         "totalAmount": 100000,
         "status": "Pending"
       },
       {
-        "id": 6,
+        "orderId": 6,
         "customerName": "Ngô Thị F",
         "totalAmount": 700000,
         "status": "Completed"
       },
       {
-        "id": 7,
+        "orderId": 7,
         "customerName": "Hoàng Văn G",
         "totalAmount": 550000,
         "status": "Pending"
       },
       {
-        "id": 8,
+        "orderId": 8,
         "customerName": "Vũ Thị H",
         "totalAmount": 600000,
         "status": "Completed"
       },
       {
-        "id": 9,
+        "orderId": 9,
         "customerName": "Nguyễn Văn A",
         "totalAmount": 500000,
         "status": "Completed"
       },
       {
-        "id": 10,
+        "orderId": 10,
         "customerName": "Trần Thị B",
         "totalAmount": 250000,
         "status": "Pending"
       },
       {
-        "id": 11,
+        "orderId": 11,
         "customerName": "Lê Văn C",
         "totalAmount": 300000,
         "status": "Cancelled"
       },
       {
-        "id": 12,
+        "orderId": 12,
         "customerName": "Phạm Thị D",
         "totalAmount": 450000,
         "status": "Completed"
       },
       {
-        "id": 13,
+        "orderId": 13,
         "customerName": "Đặng Văn E",
         "totalAmount": 100000,
         "status": "Pending"
       },
       {
-        "id": 14,
+        "orderId": 14,
         "customerName": "Ngô Thị F",
         "totalAmount": 700000,
         "status": "Completed"
       },
       {
-        "id": 15,
+        "orderId": 15,
         "customerName": "Hoàng Văn G",
         "totalAmount": 550000,
         "status": "Pending"
       },
       {
-        "id": 16,
+        "orderId": 16,
         "customerName": "Vũ Thị H",
         "totalAmount": 600000,
         "status": "Completed"
@@ -303,5 +303,90 @@
   "totalSales": 33000000,
   "totalProducts": 1000,
   "totalUsers": 100,
-  "totalOrders": 1000
+  "totalOrders": 1000,
+  "user1": {
+    "userId": 1,
+    "fullName": "Nguyễn Văn A",
+    "email": "van.a@gmail.com",
+    "address": "Hà Nội, Việt Nam",
+    "phone": "0987654321",
+    "status": "Active",
+    "dateOfBirth": "1990-01-01",
+    "gender": "Nam"
+  },
+  "category1": {
+    "id": 1,
+    "name": "Electronics",
+    "image": "https://placehold.co/600x400"
+  },
+  "order1": {
+    "orderId": 1,
+    "customerId": 1,
+    "totalAmount": 500000,
+    "status": "Completed",
+    "createdDate": "2021-01-01",
+    "address": "TP. Hồ Chí Minh, Việt Nam",
+    "products": [
+      {
+        "productId": 1,
+        "amount": 2,
+        "price": 200000
+      }
+    ]
+  },
+  "revenueStats": {
+    "totalUsers": 100,
+    "totalOrders": 1000,
+    "totalSales": 33000000,
+    "totalProducts": 1000,
+    "chartData": {
+      "labels": [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+      ],
+      "data": [100, 600, 300, 100, 500, 300, 700, 200, 500, 1000, 1100, 1200]
+    },
+    "tableData": [
+      {
+        "period": "2024-01-01",
+        "totalRevenue": 5000,
+        "orders": 50,
+        "growth": "10%"
+      },
+      {
+        "period": "2024-01-02",
+        "totalRevenue": 6000,
+        "orders": 60,
+        "growth": "20%"
+      },
+      {
+        "period": "2024-01-03",
+        "totalRevenue": 4000,
+        "orders": 40,
+        "growth": "-5%"
+      },
+      {
+        "period": "2024-01-04",
+        "totalRevenue": 7000,
+        "orders": 70,
+        "growth": "15%"
+      },
+      {
+        "period": "2024-01-05",
+        "totalRevenue": 8000,
+        "orders": 80,
+        "growth": "25%"
+      }
+    ]
+  }
 }

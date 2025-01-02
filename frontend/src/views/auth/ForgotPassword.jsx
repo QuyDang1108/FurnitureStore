@@ -51,7 +51,7 @@ const ForgotPassword = () => {
   }, [successMessage, errorMessage]);
 
   return (
-    <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 mx-auto p-8 bg-[#ffffff] rounded-2xl shadow-xl">
+    <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 mx-auto p-8 bg-[#ffffff] rounded-2xl shadow-xl my-12">
       {/* Header */}
       <div className="flex flex-row items-center gap-3 pb-4">
         <button

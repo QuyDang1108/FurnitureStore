@@ -20,7 +20,7 @@ export const get_user = createAsyncThunk(
   "users/get_user",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/users/${id}`);
+      const { data } = await api.get(`/user${id}`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);

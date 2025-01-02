@@ -15,20 +15,24 @@ const Register = () => {
   );
 
   const [state, setState] = useState({
-    name: "",
+    fullName: "",
     username: "",
     password: "",
     email: "",
     address: "",
     phone: "",
+    dateOfBirth: "",
+    gender: "",
   });
 
   const [errors, setErrors] = useState({
     emailError: "",
     passwordError: "",
     phoneError: "",
-    nameError: "",
+    fullNameError: "",
     addressError: "",
+    dateOfBirthError: "",
+    genderError: "",
   });
 
   const validate = () => {
@@ -36,8 +40,10 @@ const Register = () => {
     let passwordError = "";
     let emailError = "";
     let phoneError = "";
-    let nameError = "";
+    let fullNameError = "";
     let addressError = "";
+    let dateOfBirthError = "";
+    let genderError = "";
 
     if (!state.password) {
       passwordError = "Password is required";
@@ -72,11 +78,11 @@ const Register = () => {
       phoneError = "";
     }
 
-    if (!state.name) {
-      nameError = "Name is required";
+    if (!state.fullName) {
+      fullNameError = "Name is required";
       valid = false;
     } else {
-      nameError = "";
+      fullNameError = "";
     }
 
     if (!state.address) {
@@ -86,12 +92,28 @@ const Register = () => {
       addressError = "";
     }
 
+    if (!state.dateOfBirth) {
+      dateOfBirthError = "Date of birth is required";
+      valid = false;
+    } else {
+      dateOfBirthError = "";
+    }
+
+    if (!state.gender) {
+      genderError = "Gender is required";
+      valid = false;
+    } else {
+      genderError = "";
+    }
+
     setErrors({
       passwordError,
       emailError,
       phoneError,
-      nameError,
+      fullNameError,
       addressError,
+      dateOfBirthError,
+      genderError,
     });
 
     return valid;
@@ -109,14 +131,6 @@ const Register = () => {
     if (!validate()) return;
     dispatch(user_register(state));
   };
-
-  // const overrideStyle = {
-  //   dislay: "flex",
-  //   margin: "0 auto",
-  //   height: "50%",
-  //   justifyContent: "center",
-  //   alignItem: "center",
-  // };
 
   useEffect(() => {
     if (successMessage) {
@@ -145,29 +159,31 @@ const Register = () => {
       <form class="flex flex-col" onSubmit={submit}>
         <div class="pb-2">
           <label
-            for="email"
+            for="fullName"
             class="block mb-2 text-sm font-medium text-[#111827]"
           >
-            Name
+            Full Name
           </label>
           <div class="relative text-gray-400">
             <input
               type="text"
-              name="name"
-              id="name"
+              name="fullName"
+              id="fullName"
               className={`pl-6 bg-gray-50 text-gray-600 border sm:text-sm rounded-lg block w-full p-3 focus:outline-none focus:ring-1 ${
-                errors.nameError
+                errors.fullNameError
                   ? "border-red-500 focus:ring-red-500 bg-red-50"
                   : "border-gray-300 focus:ring-gray-400"
               }`}
-              placeholder="Your Name"
+              placeholder="Full Name"
               autocomplete="off"
-              value={state.name}
+              value={state.fullName}
               onChange={inputHandle}
               onBlur={validate}
             />
-            {errors.nameError && (
-              <span className="text-sm text-red-500">{errors.nameError}</span>
+            {errors.fullNameError && (
+              <span className="text-sm text-red-500">
+                {errors.fullNameError}
+              </span>
             )}
           </div>
         </div>
@@ -287,6 +303,66 @@ const Register = () => {
             />
             {errors.phoneError && (
               <span className="text-sm text-red-500">{errors.phoneError}</span>
+            )}
+          </div>
+        </div>
+
+        <div class="pb-2">
+          <label
+            for="dateOfBirth"
+            class="block mb-2 text-sm font-medium text-[#111827]"
+          >
+            Date of Birth
+          </label>
+          <div class="relative text-gray-400">
+            <input
+              type="date"
+              name="dateOfBirth"
+              id="dateOfBirth"
+              className={`pl-6 bg-gray-50 text-gray-600 border sm:text-sm rounded-lg block w-full p-3 focus:outline-none focus:ring-1 ${
+                errors.dateOfBirthError
+                  ? "border-red-500 focus:ring-red-500 bg-red-50"
+                  : "border-gray-300 focus:ring-gray-400"
+              }`}
+              value={state.dateOfBirth}
+              onChange={inputHandle}
+              onBlur={validate}
+            />
+            {errors.dateOfBirthError && (
+              <span className="text-sm text-red-500">
+                {errors.dateOfBirthError}
+              </span>
+            )}
+          </div>
+        </div>
+        {/* New gender field */}
+        <div class="pb-6">
+          <label
+            for="gender"
+            class="block mb-2 text-sm font-medium text-[#111827]"
+          >
+            Gender
+          </label>
+          <div class="relative text-gray-400">
+            <select
+              name="gender"
+              id="gender"
+              className={`pl-6 bg-gray-50 text-gray-600 border sm:text-sm rounded-lg block w-full p-3 focus:outline-none focus:ring-1 ${
+                errors.genderError
+                  ? "border-red-500 focus:ring-red-500 bg-red-50"
+                  : "border-gray-300 focus:ring-gray-400"
+              }`}
+              value={state.gender}
+              onChange={inputHandle}
+              onBlur={validate}
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+            {errors.genderError && (
+              <span className="text-sm text-red-500">{errors.genderError}</span>
             )}
           </div>
         </div>
