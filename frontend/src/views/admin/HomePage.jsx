@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch, FaTrash } from 'react-icons/fa';
+import ProductCard from '../util/ProductCard';
 
 const HomePage = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -51,16 +52,13 @@ const HomePage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {products.map(product => (
-                    <div key={product.id} className="border p-4 rounded-md relative">
-                        <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" />
-                        <h2 className="text-lg font-semibold">{product.name}</h2>
-                        <p className="text-gray-600">{product.price}</p>
-                        <p className="text-gray-600">Quantity: {product.quantity}</p>
+                    <div key={product.id} className="relative">
+                        <ProductCard product={product} />
                         <button
-                            onClick={() => handleDelete(product.id)}
-                            className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                        className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-bl-md"
+                        onClick={() => handleDelete(product.id)}
                         >
-                            <FaTrash />
+                        <FaTrash />
                         </button>
                     </div>
                 ))}

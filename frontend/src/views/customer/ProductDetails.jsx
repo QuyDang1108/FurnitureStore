@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProductCard from '../util/ProductCard';
 
 const ProductDetails = () => {
     const [product, setProduct] = useState({
@@ -125,11 +126,7 @@ const ProductDetails = () => {
                     <h2 className='text-lg font-semibold mb-4'>Related Products</h2>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                         {relatedProducts.map(product => (
-                            <div key={product.id} className='border p-4 rounded-md'>
-                                <img src={product.image} alt={product.name} className='w-full h-32 object-cover mb-2' />
-                                <h3 className='text-lg font-semibold'>{product.name}</h3>
-                                <p className='text-gray-600'>{product.price}</p>
-                            </div>
+                            <ProductCard key={product.id} product={product} />
                         ))}
                     </div>
                 </div>

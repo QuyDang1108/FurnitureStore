@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import ProductCard from '../util/ProductCard';
 
 const Filter = () => {
     const [searchValue, setSearchValue] = useState("");
@@ -179,15 +180,7 @@ const Filter = () => {
                 <div className="w-3/4 p-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                         {filteredProducts.map(product => (
-                            <div key={product.id} className="border p-4 rounded-md relative">
-                                <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" />
-                                <h2 className="text-lg font-semibold">{product.name}</h2>
-                                <p className="text-gray-600">${product.price}</p>
-                                <p className="text-gray-600">Color: {product.color}</p>
-                                <p className="text-gray-600">Origin: {product.origin}</p>
-                                <p className="text-gray-600">Material: {product.material}</p>
-                                <p className="text-gray-600">Catalogue: {product.catalogue}</p>
-                            </div>
+                            <ProductCard key={product.id} product={product} />
                         ))}
                     </div>
                 </div>
