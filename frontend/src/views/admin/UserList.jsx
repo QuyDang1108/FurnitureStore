@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage, get_users } from "../../store/Reducers/userReducer";
 import toast from "react-hot-toast";
-import Pagination from "../Pagination";
+import { Pagination } from "antd";
 
 const UserList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -57,9 +57,9 @@ const UserList = () => {
                   <tbody>
                     {users.map((customer, i) => (
                       <tr
-                        key={customer.id}
+                        key={customer.userId}
                         onClick={() =>
-                          (window.location.href = `/admin/users/${customer.id}`)
+                          (window.location.href = `/admin/users/${customer.userId}`)
                         }
                         className="cursor-pointer hover:bg-gray-100"
                       >
@@ -67,7 +67,7 @@ const UserList = () => {
                           {i + 1}
                         </td>
                         <td className="py-2 px-4 border-b border-gray- text-center">
-                          {customer.name}
+                          {customer.fullName}
                         </td>
                         <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.email}
@@ -85,11 +85,10 @@ const UserList = () => {
 
                 <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                   <Pagination
-                    pageNumber={currentPage}
-                    setPageNumber={setCurrentPage}
-                    totalItem={total}
-                    perPage={perPage}
-                    showItem={3}
+                    current={currentPage}
+                    total={total}
+                    pageSize={perPage}
+                    onChange={(page) => setCurrentPage(page)}
                   />
                 </div>
               </div>

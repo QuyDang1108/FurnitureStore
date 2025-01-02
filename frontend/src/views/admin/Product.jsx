@@ -5,7 +5,7 @@ import {
   get_products,
 } from "../../store/Reducers/productReducer";
 import toast from "react-hot-toast";
-import Pagination from "../Pagination";
+import { Pagination } from "antd";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -98,11 +98,10 @@ const Products = () => {
 
                 <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                   <Pagination
-                    pageNumber={currentPage}
-                    setPageNumber={setCurrentPage}
-                    totalItem={total}
-                    perPage={perPage}
-                    showItem={3}
+                    current={currentPage}
+                    total={total}
+                    pageSize={perPage}
+                    onChange={(page) => setCurrentPage(page)}
                   />
                 </div>
               </div>

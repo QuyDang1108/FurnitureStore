@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FaGoogle } from "react-icons/fa";
-import { FaFacebook } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { user_login, messageClear } from "../../store/Reducers/authReducer";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { PropagateLoader } from "react-spinners";
 
 const Login = () => {
   const [state, setState] = useState({
@@ -64,14 +61,6 @@ const Login = () => {
       return;
     }
     dispatch(user_login(state));
-  };
-
-  const overrideStyle = {
-    dislay: "flex",
-    margin: "0 auto",
-    height: "50%",
-    justifyContent: "center",
-    alignItem: "center",
   };
 
   useEffect(() => {

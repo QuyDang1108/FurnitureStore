@@ -17,6 +17,18 @@ export const get_categories = createAsyncThunk(
   }
 );
 
+export const get_category = createAsyncThunk(
+  "category/get_category",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/category${id}`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const add_category = createAsyncThunk(
   "category/add_category",
   async (info, { fulfillWithValue, rejectWithValue }) => {
@@ -87,6 +99,18 @@ export const categorySlice = createSlice({
         state.success = true;
       })
       .addCase(get_categories.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload;
+      })
+      .addCase(get_category.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_category.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.category = payload;
+        state.success = true;
+      })
+      .addCase(get_category.rejected, (state, { payload }) => {
         state.loader = false;
         state.errorMessage = payload;
       })

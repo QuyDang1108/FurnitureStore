@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearMessage, get_orders } from "../../store/Reducers/orderReducer";
 import toast from "react-hot-toast";
-import Pagination from "../Pagination";
+import { Pagination } from "antd";
 
 const Orders = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -60,14 +60,14 @@ const Orders = () => {
                   <tbody>
                     {orders.map((order) => (
                       <tr
-                        key={order.id}
+                        key={order.orderId}
                         onClick={() =>
-                          (window.location.href = `/admin/orders/${order.id}`)
+                          (window.location.href = `/admin/orders/${order.orderId}`)
                         }
                         className="hover:bg-gray-100 cursor-pointer"
                       >
                         <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {order.id}
+                          {order.orderId}
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200 text-center">
                           {order.customerName}
@@ -85,11 +85,10 @@ const Orders = () => {
 
                 <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                   <Pagination
-                    pageNumber={currentPage}
-                    setPageNumber={setCurrentPage}
-                    totalItem={total}
-                    perPage={perPage}
-                    showItem={3}
+                    current={currentPage}
+                    total={total}
+                    pageSize={perPage}
+                    onChange={(page) => setCurrentPage(page)}
                   />
                 </div>
               </div>

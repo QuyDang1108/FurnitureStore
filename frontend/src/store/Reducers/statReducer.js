@@ -49,6 +49,18 @@ export const get_total_products = createAsyncThunk(
   }
 );
 
+export const get_revennue_stats = createAsyncThunk(
+  "stat/get_revennue_stats",
+  async (option, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/revenueStats");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const statSlice = createSlice({
   name: "stat",
   initialState: {
@@ -56,6 +68,8 @@ const statSlice = createSlice({
     totalOrders: 0,
     totalUsers: 0,
     totalProducts: 0,
+    chart: {},
+    table: [],
     loader: false,
     success: false,
     errorMessage: "",
@@ -114,6 +128,23 @@ const statSlice = createSlice({
       state.success = true;
     });
     builder.addCase(get_total_products.rejected, (state, { payload }) => {
+      state.loader = false;
+      state.errorMessage = payload;
+    });
+    builder.addCase(get_revennue_stats.pending, (state) => {
+      state.loader = true;
+    });
+    builder.addCase(get_revennue_stats.fulfilled, (state, { payload }) => {
+      state.loader = false;
+      state.success = true;
+      state.totalUsers = payload.totalUsers;
+      state.totalOrders = payload.totalOrders;
+      state.totalSales = payload.totalSales;
+      state.totalProducts = payload.totalProducts;
+      state.chart = payload.chartData;
+      state.table = payload.tableData;
+    });
+    builder.addCase(get_revennue_stats.rejected, (state, { payload }) => {
       state.loader = false;
       state.errorMessage = payload;
     });
