@@ -29,7 +29,7 @@ public class SecurityConfig {
     private final LogoutHandler logoutHandler;
 
     private static final String[] WHITE_LIST_URL = {"auth/**", "products/**", "categories/**", "materials/**",
-        "/order/**", "/superadmin/**"};
+        "/order/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +43,7 @@ public class SecurityConfig {
                 .hasAnyRole(String.valueOf(ERole.ADMIN), String.valueOf(ERole.SUPER_ADMIN))
                 .requestMatchers("/user/superAdmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
                 .requestMatchers("/cart/*").authenticated()
+                .requestMatchers("/superadmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
             )
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authenticationProvider)
