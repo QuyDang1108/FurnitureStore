@@ -44,9 +44,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductDTO> getAllProducts(String keyword, Long categoryId, PageRequest pageRequest) {
+    public Page<ProductDTO> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest) {
         Page<Product> productPage;
-        productPage = productRepository.searchProducts(keyword, categoryId, pageRequest);
+        productPage = productRepository.searchProducts(keyword, categoryId, materialId, pageRequest);
         return productPage.map(productMapper::toDTO);
     }
 

@@ -14,7 +14,7 @@ public interface ProductService {
 
     ProductDTO updateProduct(ProductDTO productDTO);
 
-    Page<ProductDTO> getAllProducts(String keyword, Long categoryId, PageRequest pageRequest);
+    Page<ProductDTO> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest);
 
     boolean deleteProduct(long id);
 }

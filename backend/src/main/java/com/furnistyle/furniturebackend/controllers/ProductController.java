@@ -41,10 +41,11 @@ public class ProductController {
     public ResponseEntity<ProductListResponse> getProducts(
         @RequestParam(defaultValue = "") String keyword,
         @RequestParam(defaultValue = "0", name = "category_id") Long categoryId,
+        @RequestParam(defaultValue = "0", name = "material_id") Long materialId,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<ProductDTO> productDTOPage = productService.getAllProducts(keyword, categoryId, pageRequest);
+        Page<ProductDTO> productDTOPage = productService.getAllProducts(keyword, categoryId, materialId, pageRequest);
         return ResponseEntity.ok(ProductListResponse
             .builder()
             .products(productDTOPage.getContent())
