@@ -33,11 +33,18 @@ export const allNav = [
     path: "/admin/user-list",
   },
   {
-    id: 9,
+    id: 8,
     title: "Home",
     icon: <FaHome />,
     role: "customer",
     path: "/customer/homepage",
+  },
+  {
+    id: 9,
+    title: "Product List",
+    icon: <FaProductHunt />,
+    role: "customer",
+    path: "/customer/product-list",
   },
   {
     id: 10,

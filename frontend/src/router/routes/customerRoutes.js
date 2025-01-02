@@ -1,5 +1,6 @@
 import { lazy } from "react";
-const HomePage = lazy(() => import("./../../views/customer/HomePage"));
+const Homepage = lazy(() => import("../../views/customer/Homepage"));
+const ProductList = lazy(() => import("../../views/customer/Shop"));
 const Filter = lazy(() => import("./../../views/customer/Filter"));
 const Cart = lazy(() => import("./../../views/customer/Cart"));
 const PaymentHistory = lazy(() => import("./../../views/customer/PaymentHistory"));
@@ -10,7 +11,12 @@ const ShippingInfo = lazy(() => import("./../../views/customer/ShippingInfo"));
 export const customerRoute = [
   {
     path: "/customer/homepage",
-    element: <HomePage />,
+    element: <Homepage />,
+    role: "customer",
+  },
+  {
+    path: "/customer/product-list",
+    element: <ProductList />,
     role: "customer",
   },
   {
