@@ -26,20 +26,19 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
     @Override
     public String storeFile(MultipartFile file) throws IOException {
-        if (!isImageFile(file) || file.getOriginalFilename() == null) {
+        if (!isImageFile(file)) {
             throw new IOException(Constants.Message.INVALID_FORMAT_IMAGES);
         }
 
         String originalFilename = file.getOriginalFilename();
 
-        String baseFilename;
-        try {
-            baseFilename = originalFilename.contains(".")
-                ? originalFilename.substring(0, originalFilename.lastIndexOf('.'))
-                : originalFilename;
-        } catch (Exception e) {
-            throw new IOException("Error processing file name: " + e.getMessage(), e);
+        if (originalFilename == null || originalFilename.isEmpty()) {
+            throw new IOException(Constants.Message.INVALID_FORMAT_IMAGES);
         }
+
+        String baseFilename = originalFilename.contains(".")
+            ? originalFilename.substring(0, originalFilename.lastIndexOf('.'))
+            : originalFilename;
 
         String uniqueFilename = UUID.randomUUID() + "_" + baseFilename;
 
