@@ -32,28 +32,29 @@ const RevenueDashboard = () => {
       title: "Date/Month/Quarter/Year",
       dataIndex: "period",
       key: "period",
+      align: "center",
     },
     {
       title: "Total Revenue",
       dataIndex: "totalRevenue",
       key: "totalRevenue",
+      align: "center",
     },
     {
       title: "Orders",
       dataIndex: "orders",
       key: "orders",
+      align: "center",
     },
     {
       title: "% Growth",
       dataIndex: "growth",
       key: "growth",
+      align: "center",
     },
   ];
 
-  // Function to fetch data
-  const fetchData = async () => {
-    dispatch(get_revennue_stats({ timeFilter, dateRange }));
-
+  useEffect(() => {
     const chartData = {
       labels: chart?.labels || [],
       datasets: [
@@ -75,16 +76,16 @@ const RevenueDashboard = () => {
       growth: item.growth,
     }));
 
-    console.log(table);
-    console.log("chartData", chartData);
-    console.log("tableData", tableData);
-
     setChartData(chartData);
     setTableData(tableData);
-  };
+  }, [chart, table]);
 
   useEffect(() => {
-    fetchData();
+    const timeout = setTimeout(() => {
+      dispatch(get_revennue_stats({ timeFilter, dateRange }));
+    }, 300);
+
+    return () => clearTimeout(timeout);
   }, [timeFilter, dateRange]);
 
   useEffect(() => {
@@ -97,9 +98,11 @@ const RevenueDashboard = () => {
     <div className="p-5 bg-gray-100 min-h-screen">
       <div className="bg-white shadow-md p-4 rounded-md">
         {/* Header */}
-        <div className="flex justify-between items-center mb-5">
-          <h1 className="text-xl font-bold">Revenue Statistics</h1>
-          <Space size="middle">
+        <div className="flex flex-wrap justify-between items-center mb-5">
+          <h1 className="text-xl font-bold w-full sm:w-auto">
+            Revenue Statistics
+          </h1>
+          <Space size="middle" className="w-full sm:w-auto mt-3 sm:mt-0">
             <Select
               value={timeFilter}
               onChange={(value) => setTimeFilter(value)}
@@ -110,6 +113,7 @@ const RevenueDashboard = () => {
                 { value: "year", label: "Year" },
               ]}
               placeholder="Select time period"
+              className="w-full sm:w-auto"
             />
             <DatePicker.RangePicker
               onChange={(dates) => {
@@ -117,15 +121,22 @@ const RevenueDashboard = () => {
                 setDateRange(fmtDates);
               }}
               format="YYYY-MM-DD"
+              className="w-full sm:w-auto"
             />
-            <Button type="primary" onClick={fetchData}>
+            <Button
+              type="primary"
+              onClick={() =>
+                dispatch(get_revennue_stats({ timeFilter, dateRange }))
+              }
+              className="w-full sm:w-auto sm:mt-0"
+            >
               Apply
             </Button>
           </Space>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-5">
           <div className="bg-blue-100 p-4 rounded-md shadow">
             <p className="text-sm font-semibold">Total Revenue</p>
             <p className="text-lg font-bold">{totalSales} VND</p>
@@ -146,18 +157,22 @@ const RevenueDashboard = () => {
 
         {/* Chart Section */}
         <div className="mb-5">
-          <div className="flex justify-between items-center mb-3">
-            <h2 className="text-lg font-bold">Revenue Chart</h2>
-            <Space>
+          <div className="flex flex-wrap justify-between items-center mb-3">
+            <h2 className="text-lg font-bold w-full sm:w-auto">
+              Revenue Chart
+            </h2>
+            <Space className="w-full sm:w-auto mt-3 sm:mt-0" size="middle">
               <Button
                 type={chartType === "line" ? "primary" : "default"}
                 onClick={() => setChartType("line")}
+                className="w-full sm:w-auto mb-2 sm:mb-0"
               >
                 Line Chart
               </Button>
               <Button
                 type={chartType === "bar" ? "primary" : "default"}
                 onClick={() => setChartType("bar")}
+                className="w-full sm:w-auto"
               >
                 Bar Chart
               </Button>
@@ -175,14 +190,17 @@ const RevenueDashboard = () => {
         </div>
 
         {/* Table Section */}
-        <div>
+        <div className="mb-5">
           <h2 className="text-lg font-bold mb-3">Details Table</h2>
-          <Table
-            columns={columns}
-            dataSource={tableData}
-            loading={loader}
-            pagination={{ pageSize: 5 }}
-          />
+          <div className="overflow-x-auto">
+            <Table
+              columns={columns}
+              dataSource={tableData}
+              loading={loader}
+              pagination={{ pageSize: 5 }}
+              scroll={{ x: "max-content" }}
+            />
+          </div>
         </div>
       </div>
     </div>

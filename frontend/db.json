@@ -386,6 +386,36 @@
         "totalRevenue": 8000,
         "orders": 80,
         "growth": "25%"
+      },
+      {
+        "period": "2024-01-06",
+        "totalRevenue": 9000,
+        "orders": 90,
+        "growth": "30%"
+      },
+      {
+        "period": "2024-01-07",
+        "totalRevenue": 10000,
+        "orders": 100,
+        "growth": "35%"
+      },
+      {
+        "period": "2024-01-08",
+        "totalRevenue": 11000,
+        "orders": 110,
+        "growth": "40%"
+      },
+      {
+        "period": "2024-01-09",
+        "totalRevenue": 12000,
+        "orders": 120,
+        "growth": "45%"
+      },
+      {
+        "period": "2024-01-10",
+        "totalRevenue": 13000,
+        "orders": 130,
+        "growth": "50%"
       }
     ]
   }

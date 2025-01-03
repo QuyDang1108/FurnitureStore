@@ -54,6 +54,7 @@ export const get_revennue_stats = createAsyncThunk(
   async (option, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get("/revenueStats");
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -68,7 +69,7 @@ const statSlice = createSlice({
     totalOrders: 0,
     totalUsers: 0,
     totalProducts: 0,
-    chart: {},
+    chart: { labels: [], data: [] },
     table: [],
     loader: false,
     success: false,
