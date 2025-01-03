@@ -32,9 +32,14 @@ public class CloudinaryServiceImpl implements CloudinaryService {
 
         String originalFilename = file.getOriginalFilename();
 
-        String baseFilename = originalFilename.contains(".")
-            ? originalFilename.substring(0, originalFilename.lastIndexOf('.'))
-            : originalFilename;
+        String baseFilename;
+        try {
+            baseFilename = originalFilename.contains(".")
+                ? originalFilename.substring(0, originalFilename.lastIndexOf('.'))
+                : originalFilename;
+        } catch (Exception e) {
+            throw new IOException("Error processing file name: " + e.getMessage(), e);
+        }
 
         String uniqueFilename = UUID.randomUUID() + "_" + baseFilename;
 
