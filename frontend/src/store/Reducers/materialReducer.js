@@ -55,6 +55,18 @@ export const delete_material = createAsyncThunk(
   }
 );
 
+export const get_colors = createAsyncThunk(
+  "materials/get_colors",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/colors");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const materialSlice = createSlice({
   name: "materials",
   initialState: {
@@ -62,6 +74,7 @@ const materialSlice = createSlice({
     success: false,
     errorMessage: "",
     materials: [],
+    colors: [],
   },
   reducers: {
     clearMessage: (state) => {
@@ -112,6 +125,17 @@ const materialSlice = createSlice({
         state.success = true;
       })
       .addCase(delete_material.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload;
+      })
+      .addCase(get_colors.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_colors.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.colors = payload;
+      })
+      .addCase(get_colors.rejected, (state, { payload }) => {
         state.loader = false;
         state.errorMessage = payload;
       });

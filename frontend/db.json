@@ -254,48 +254,58 @@
     "products": [
       {
         "id": 1,
-        "name": "Sushi Roll",
-        "price": 12.99,
-        "category": "Food",
-        "material": "Rice, Salmon, Seaweed",
-        "origin": "Japan",
-        "size": "Medium"
+        "name": "Modern Sofa",
+        "quantity": 10,
+        "image": "https://th.bing.com/th/id/OIP.eBAjlK_TE4Jb5iMDAz7H6gHaHa?rs=1&pid=ImgDetMain",
+        "price": 200000,
+        "category": "Sofa",
+        "material": "Fabric",
+        "color": "Blue",
+        "rating": 4
       },
       {
         "id": 2,
-        "name": "Nigiri Sushi",
-        "price": 15.99,
-        "category": "Food",
-        "material": "Rice, Shrimp",
-        "origin": "Japan",
-        "size": "Small"
+        "name": "Dining Table Set",
+        "quantity": 5,
+        "image": "https://th.bing.com/th/id/OIP.iYpB_7olQEpejZ25gKkuPQHaF7?rs=1&pid=ImgDetMain",
+        "price": 300000,
+        "category": "Table",
+        "material": "Wood",
+        "color": "Brown",
+        "rating": 5
       },
       {
         "id": 3,
-        "name": "Sashimi Deluxe",
-        "price": 25.99,
-        "category": "Food",
-        "material": "Tuna, Salmon, Octopus",
-        "origin": "Japan",
-        "size": "Large"
+        "name": "Queen Bed Frame",
+        "quantity": 7,
+        "image": "https://th.bing.com/th/id/OIP.WvaAG74Cnm3fJxBaawpuHAHaHa?rs=1&pid=ImgDetMain",
+        "price": 400000,
+        "category": "Bed",
+        "material": "Wood",
+        "color": "White",
+        "rating": 3
       },
       {
         "id": 4,
-        "name": "Miso Soup",
-        "price": 5.99,
-        "category": "Drink",
-        "material": "Miso, Tofu, Seaweed",
-        "origin": "Japan",
-        "size": "Small"
+        "name": "Wooden Wardrobe",
+        "quantity": 4,
+        "image": "https://th.bing.com/th/id/R.d7f3f8a193b44ebb4c826850a9e02ac5?rik=UW3jGZkbBZEA%2fg&pid=ImgRaw&r=0",
+        "price": 500000,
+        "category": "Cabinet",
+        "material": "Wood",
+        "color": "Brown",
+        "rating": 5
       },
       {
         "id": 5,
-        "name": "Green Tea",
-        "price": 2.99,
-        "category": "Drink",
-        "material": "Green Tea Leaves",
-        "origin": "Japan",
-        "size": "Medium"
+        "name": "Office Chair",
+        "quantity": 15,
+        "image": "https://th.bing.com/th/id/OIP.OOei9q882l1FKUwlei6XEwHaHa?rs=1&pid=ImgDetMain",
+        "price": 100000,
+        "category": "Chair",
+        "material": "Plastic",
+        "color": "Black",
+        "rating": 4
       }
     ],
     "total": 5
