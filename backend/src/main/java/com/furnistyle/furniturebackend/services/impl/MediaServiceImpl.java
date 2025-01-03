@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,7 +28,9 @@ public class MediaServiceImpl implements MediaService {
     private final MediaMapper mediaMapper;
     private final ProductService productService;
     private final ProductRepository productRepository;
-    private final CloudinaryService cloudinaryService;
+
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     @Override
     public MediaDTO createProductImage(Long productId, MediaDTO mediaDTO) {
@@ -98,7 +101,7 @@ public class MediaServiceImpl implements MediaService {
     public MediaDTO deleteProductImage(Long id) {
         Optional<Media> productImage = mediaRepository.findById(id);
         if (productImage.isEmpty()) {
-            throw new NotFoundException (Constants.Message.NOT_FOUND_DATABASE_IMAGES);
+            throw new NotFoundException(Constants.Message.NOT_FOUND_DATABASE_IMAGES);
         }
         mediaRepository.deleteById(id);
         return mediaMapper.toDTO(productImage.get());

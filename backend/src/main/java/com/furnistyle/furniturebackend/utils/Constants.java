@@ -59,8 +59,10 @@ public class Constants {
 
         public static final Integer MAXIMUM_IMAGES_PER_PRODUCT = 20;
         public static final Integer MAXIMUM_SIZE_PER_PRODUCT = 10;  //MB
-        public static final String UPLOAD_IMAGES_MAX_20 = "Tổng số lượng ảnh của một sản phẩm không được vượt quá" + MAXIMUM_IMAGES_PER_PRODUCT;
-        public static final String UPLOAD_IMAGES_FILE_LARGE = "Dung lượng ảnh không được vượt quá " + MAXIMUM_SIZE_PER_PRODUCT + "MB!";
+        public static final String UPLOAD_IMAGES_MAX_20 = "Tổng số lượng ảnh của một sản phẩm không được vượt quá"
+                                                            + MAXIMUM_IMAGES_PER_PRODUCT;
+        public static final String UPLOAD_IMAGES_FILE_LARGE = "Dung lượng ảnh không được vượt quá "
+                                                            + MAXIMUM_SIZE_PER_PRODUCT + "MB!";
         public static final String UPLOAD_IMAGES_FILE_MUST_BE_IMAGE = "File tải lên phải là hình ảnh!";
         public static final String UPLOAD_IMAGES_FILE_SUCCESSFUL = "Upload ảnh thành công!";
         public static final String INVALID_FORMAT_IMAGES = "File ảnh không hợp lệ!";

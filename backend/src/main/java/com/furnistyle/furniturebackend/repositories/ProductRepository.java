@@ -15,11 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> findAll(Pageable pageable);
 
-    @Query("SELECT p FROM Product p WHERE " +
-        "(:categoryId IS NULL OR :categoryId = 0 OR p.category.id = :categoryId) " +
-        "AND (:keyword IS NULL OR :keyword = '' OR p.name LIKE %:keyword% OR p.description LIKE %:keyword%) " +
-        "AND (:materialId IS NULL OR :materialId = 0 OR p.material.id = :materialId) " +
-        "AND p.status = 'ACTIVE'")
+    @Query("SELECT p FROM Product p WHERE "
+        + "(:categoryId IS NULL OR :categoryId = 0 OR p.category.id = :categoryId) "
+        + "AND (:keyword IS NULL OR :keyword = '' OR p.name LIKE %:keyword% OR p.description LIKE %:keyword%) "
+        + "AND (:materialId IS NULL OR :materialId = 0 OR p.material.id = :materialId) "
+        + "AND p.status = 'ACTIVE'")
     Page<Product> searchProducts(
         @Param("keyword") String keyword,
         @Param("categoryId") Long categoryId,
