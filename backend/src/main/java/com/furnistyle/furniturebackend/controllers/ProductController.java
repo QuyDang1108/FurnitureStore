@@ -2,6 +2,7 @@ package com.furnistyle.furniturebackend.controllers;
 
 import com.furnistyle.furniturebackend.dtos.bases.ProductDTO;
 import com.furnistyle.furniturebackend.dtos.responses.ProductListResponse;
+import com.furnistyle.furniturebackend.dtos.responses.ProductResponse;
 import com.furnistyle.furniturebackend.services.ProductService;
 import com.furnistyle.furniturebackend.utils.Constants;
 import jakarta.validation.Valid;
@@ -45,11 +46,11 @@ public class ProductController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<ProductDTO> productDTOPage = productService.getAllProducts(keyword, categoryId, materialId, pageRequest);
+        Page<ProductResponse> productResponsePage = productService.getAllProducts(keyword, categoryId, materialId, pageRequest);
         return ResponseEntity.ok(ProductListResponse
             .builder()
-            .products(productDTOPage.getContent())
-            .totalPages(productDTOPage.getTotalPages())
+            .products(productResponsePage.getContent())
+            .totalPages(productResponsePage.getTotalPages())
             .build());
     }
 

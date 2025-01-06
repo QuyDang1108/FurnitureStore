@@ -1,9 +1,11 @@
 package com.furnistyle.furniturebackend.services.impl;
 
 import com.furnistyle.furniturebackend.dtos.bases.ProductDTO;
+import com.furnistyle.furniturebackend.dtos.responses.ProductResponse;
 import com.furnistyle.furniturebackend.enums.EProductStatus;
 import com.furnistyle.furniturebackend.exceptions.NotFoundException;
 import com.furnistyle.furniturebackend.mappers.ProductMapper;
+import com.furnistyle.furniturebackend.mappers.ProductResponseMapper;
 import com.furnistyle.furniturebackend.models.Product;
 import com.furnistyle.furniturebackend.repositories.CategoryRepository;
 import com.furnistyle.furniturebackend.repositories.MaterialRepository;
@@ -22,13 +24,14 @@ public class ProductServiceImpl implements ProductService {
     private final CategoryRepository categoryRepository;
     private final MaterialRepository materialRepository;
     private final ProductMapper productMapper;
+    private final ProductResponseMapper productResponseMapper;
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
-        if (!categoryRepository.existsById(productDTO.getCategory().getId())) {
+        if (!categoryRepository.existsById(productDTO.getCategoryId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_CATEGORY);
         }
-        if (!materialRepository.existsById(productDTO.getMaterial().getId())) {
+        if (!materialRepository.existsById(productDTO.getMaterialId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_MATERIAL);
         }
         productRepository.save(productMapper.toEntity(productDTO));
@@ -36,18 +39,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById(long id) {
+    public ProductResponse getProductById(long id) {
         Product existingProduct = productRepository
             .findById(id)
             .orElseThrow(() -> new NotFoundException(Constants.Message.NOT_FOUND_PRODUCT));
-        return productMapper.toDTO(existingProduct);
+        return productResponseMapper.toDTO(existingProduct);
     }
 
     @Override
-    public Page<ProductDTO> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest) {
+    public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest) {
         Page<Product> productPage;
         productPage = productRepository.searchProducts(keyword, categoryId, materialId, pageRequest);
-        return productPage.map(productMapper::toDTO);
+        return productPage.map(productResponseMapper::toDTO);
     }
 
     @Override
@@ -56,11 +59,11 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFoundException(Constants.Message.NOT_FOUND_PRODUCT);
         }
 
-        if (!categoryRepository.existsById(productDTO.getCategory().getId())) {
+        if (!categoryRepository.existsById(productDTO.getCategoryId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_CATEGORY);
         }
 
-        if (!materialRepository.existsById(productDTO.getMaterial().getId())) {
+        if (!materialRepository.existsById(productDTO.getMaterialId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_MATERIAL);
         }
 

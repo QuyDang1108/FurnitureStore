@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Data;
 
 @Data
@@ -24,11 +22,11 @@ public class ProductDTO {
 
     @NotNull(message = "Phân loại không được để trống!")
     @JsonProperty("category_id")
-    private CategoryDTO category;
+    private Long categoryId;
 
     @NotNull(message = "Chất liệu không được để trống!")
     @JsonProperty("material_id")
-    private MaterialDTO material;
+    private Long materialId;
 
     @NotBlank(message = "Xuất xứ không được để trống!")
     @Size(min = 1, max = 100, message = "Xuất xứ phải từ 1 đến 100 ký tự!")
@@ -41,7 +39,4 @@ public class ProductDTO {
     private String description;
 
     private EProductStatus status = EProductStatus.ACTIVE;
-
-    @JsonProperty("product_images")
-    private List<MediaDTO> productImages;
 }

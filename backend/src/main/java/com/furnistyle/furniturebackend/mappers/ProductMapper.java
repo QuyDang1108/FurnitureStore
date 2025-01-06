@@ -8,14 +8,12 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring", uses = MediaMapper.class)
 public interface ProductMapper extends EntityMapper<Product, ProductDTO> {
     @Override
-//    @Mapping(source = "category.id", target = "categoryId")
-//    @Mapping(source = "material.id", target = "materialId")
-    @Mapping(source = "productImages", target = "productImages")
+    @Mapping(source = "category.id", target = "categoryId")
+    @Mapping(source = "material.id", target = "materialId")
     ProductDTO toDTO(Product product);
 
     @Override
-//    @Mapping(source = "categoryId", target = "category.id")
-//    @Mapping(source = "materialId", target = "material.id")
-    @Mapping(source = "productImages", target = "productImages")
+    @Mapping(source = "categoryId", target = "category.id")
+    @Mapping(source = "materialId", target = "material.id")
     Product toEntity(ProductDTO productDTO);
 }
