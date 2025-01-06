@@ -18,6 +18,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -34,29 +36,38 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(req -> req
-                .requestMatchers(WHITE_LIST_URL).permitAll()
-                .requestMatchers("/user/*")
-                .hasAnyRole(String.valueOf(ERole.USER), String.valueOf(ERole.ADMIN),
-                    String.valueOf(ERole.SUPER_ADMIN))
-                .requestMatchers("/user/admin/*")
-                .hasAnyRole(String.valueOf(ERole.ADMIN), String.valueOf(ERole.SUPER_ADMIN))
-                .requestMatchers("/user/superAdmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
-                .requestMatchers("/cart/*").authenticated()
-                .requestMatchers("/superadmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
-            )
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authenticationProvider(authenticationProvider)
-            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-            .logout(logout -> logout
-                .logoutUrl("/auth/logout")
-                .logoutSuccessUrl("/auth/login")
-                .addLogoutHandler(logoutHandler)
-                .logoutSuccessHandler((request, response, authentication)
-                    -> SecurityContextHolder.clearContext())
-            );
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000")); // Nguồn cho phép
+                    corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Các method cho phép
+                    corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept")); // Header cho phép
+                    corsConfiguration.setAllowCredentials(true); // Cho phép cookie/token
+                    return corsConfiguration;
+                }))
+                .authorizeHttpRequests(req -> req
+                        .requestMatchers(WHITE_LIST_URL).permitAll()
+                        .requestMatchers("/user/*")
+                        .hasAnyRole(String.valueOf(ERole.USER), String.valueOf(ERole.ADMIN),
+                                String.valueOf(ERole.SUPER_ADMIN))
+                        .requestMatchers("/user/admin/*")
+                        .hasAnyRole(String.valueOf(ERole.ADMIN), String.valueOf(ERole.SUPER_ADMIN))
+                        .requestMatchers("/user/superAdmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
+                        .requestMatchers("/cart/*").authenticated()
+                        .requestMatchers("/superadmin/*").hasRole(String.valueOf(ERole.SUPER_ADMIN))
+                )
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider)
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .logoutSuccessUrl("/auth/login")
+                        .addLogoutHandler(logoutHandler)
+                        .logoutSuccessHandler((request, response, authentication)
+                                -> SecurityContextHolder.clearContext())
+                );
 
         return http.build();
     }
+
 
 }
