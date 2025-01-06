@@ -13,6 +13,10 @@ public interface ProductService {
 
     ProductResponse getProductById(long id);
 
+    List<ProductResponse> getRelatedProducts(Long currentProductId, int limit);
+
+    List<ProductResponse> getNewProducts(int limit);
+
     ProductDTO updateProduct(ProductDTO productDTO);
 
     Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest);
