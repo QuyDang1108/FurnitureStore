@@ -198,7 +198,7 @@ const LazyProductCard = ({ product }) => {
               style={{ height: 200, objectFit: "cover" }}
             />
           }
-          onClick={() => navigate(`/product/${product.id}`)}
+          onClick={() => navigate(`/customer/product/${product.id}`)}
         >
           <div style={{ textAlign: "start" }}>
             <h3

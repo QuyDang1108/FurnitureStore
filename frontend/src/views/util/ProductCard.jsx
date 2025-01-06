@@ -1,14 +1,66 @@
-import React from 'react';
+import React from "react";
+import { Card } from "antd";
+import { useNavigate } from "react-router-dom";
 
-const ProductCard = ({ product }) => {
+const LazyProductCard = ({ product }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="border p-3">
-      <img src={product.image} alt={product.name} className="w-full h-32 object-cover mb-2" />
-      <h3 className="text-lg font-bold">{product.name}</h3>
-      <p className="text-gray-700">{product.price}</p>
-      <p className="text-gray-500">Quantity: {product.quantity}</p>
-    </div>
+    <Card
+      hoverable
+      cover={
+        <img
+          alt={product.name}
+          src={product.image}
+          style={{ height: 200, objectFit: "cover" }}
+        />
+      }
+      onClick={() => navigate(`/customer/product/${product.id}`)}
+    >
+      <div style={{ textAlign: "start" }}>
+        <h3
+          style={{
+            margin: "10px 0",
+            fontSize: "1.1rem",
+            fontWeight: "bold",
+          }}
+        >
+          {product.name}
+        </h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <p
+            style={{
+              margin: 0,
+              fontWeight: "bold",
+              fontSize: "1.1rem",
+              color: "#ff4d4f",
+            }}
+          >
+            {new Intl.NumberFormat("vi-VN", {
+              style: "currency",
+              currency: "VND",
+            }).format(product.price)}
+          </p>
+          <p
+            style={{
+              margin: 0,
+              fontSize: "0.85rem",
+              color: "#555",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {`Stock: ${product.quantity}`}
+          </p>
+        </div>
+      </div>
+    </Card>
   );
 };
 
-export default ProductCard;
+export default LazyProductCard;

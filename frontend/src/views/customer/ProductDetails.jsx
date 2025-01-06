@@ -1,138 +1,139 @@
-import React, { useState } from 'react';
-import ProductCard from '../util/ProductCard';
+import React, { useEffect, useState } from "react";
+import { Row, Col, Card, Button, Carousel, Divider, InputNumber } from "antd";
+import { ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-hot-toast";
+import {
+  get_product,
+  get_related_products,
+} from "../../store/Reducers/productReducer";
+import { add_to_cart } from "../../store/Reducers/cartReducer";
+import ProductCard from "../util/ProductCard";
 
 const ProductDetails = () => {
-    const [product, setProduct] = useState({
-        id: 1,
-        image: 'image1.jpg',
-        name: 'Product 1',
-        sale: '10%',
-        price: '$100',
-        status: 'In Stock',
-        remainingAmount: 20,
-        description: 'This is a great product.',
-        catalogue: 'Electronics'
-    });
+  const [quantity, setQuantity] = useState(1);
+  const { id } = useParams();
 
-    const [reviews, setReviews] = useState([
-        { id: 1, user: 'John Doe', comment: 'Great product!', rating: 5 },
-        { id: 2, user: 'Jane Smith', comment: 'Good value for money.', rating: 4 },
-        // Add more reviews as needed
-    ]);
+  const { product, relatedProducts } = useSelector((state) => state.products);
+  const dispatch = useDispatch();
+  const { userInfo, isLogged } = useSelector((state) => state.auth);
 
-    const [relatedProducts, setRelatedProducts] = useState([
-        { id: 2, name: 'Product 2', image: 'image2.jpg', price: '$150', catalogue: 'Electronics' },
-        { id: 3, name: 'Product 3', image: 'image3.jpg', price: '$200', catalogue: 'Electronics' },
-        // Add more related products as needed
-    ]);
+  useEffect(() => {
+    dispatch(get_product(id));
+    dispatch(get_related_products(id));
+  }, [dispatch, id]);
 
-    const [newReview, setNewReview] = useState({ user: '', comment: '', rating: 0 });
-
-    const handleAddToCart = () => {
-        // Handle add to cart action
-        console.log('Add to cart:', product);
+  const handleAddToCart = () => {
+    const cartItem = {
+      id: product.id,
+      quantity,
+      name: product.name,
+      price: product.price,
+      image: product.images[0],
     };
 
-    const handleReviewChange = (e) => {
-        const { name, value } = e.target;
-        setNewReview({ ...newReview, [name]: value });
-    };
+    if (!isLogged) {
+      const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingItem = tempCart.find((item) => item.id === product.id);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        tempCart.push(cartItem);
+      }
+      localStorage.setItem("cart", JSON.stringify(tempCart));
+      toast.success("Added to cart successfully. Please login to checkout.");
+    } else {
+      dispatch(add_to_cart({ ...cartItem, userId: userInfo.id }));
+      toast.success("Added to cart successfully.");
+    }
+  };
 
-    const handleAddReview = () => {
-        setReviews([...reviews, { ...newReview, id: reviews.length + 1 }]);
-        setNewReview({ user: '', comment: '', rating: 0 });
-    };
-
-    return (
-        <div className='px-2 lg:px-7 pt-5'>
-            <div className='flex lg:hidden justify-between items-center mb-5 p-4 bg-[#6a5fdf] rounded-md'>
-                <h1 className='text-[#d0d2d6] font-semibold text-lg'>Product Details</h1>
+  return (
+    <div className="px-4 lg:px-10 py-8">
+      <Row gutter={[16, 16]} className="bg-white shadow-md rounded-lg p-5">
+        <Col xs={24} md={12}>
+          <Carousel autoplay nextArrow={null} prevArrow={null}>
+            {product.images?.map((image, index) => (
+              <div key={index}>
+                <img
+                  src={image}
+                  alt={`product-${index}`}
+                  className="w-full h-96 object-cover rounded-md"
+                />
+              </div>
+            ))}
+          </Carousel>
+        </Col>
+        <Col xs={24} md={12}>
+          <div className="text-start">
+            <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
+            <p className="text-red-500 text-xl font-semibold mb-2">
+              {new Intl.NumberFormat("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }).format(product.price)}
+            </p>
+            <Divider />
+            <p>
+              <strong>Category:</strong> {product.category}
+            </p>
+            <p>
+              <strong>Material:</strong> {product.material}
+            </p>
+            <p>
+              <strong>Origin:</strong> {product.origin}
+            </p>
+            <p>
+              <strong>Size:</strong> {product.size}
+            </p>
+            <p>
+              <strong>Description:</strong> {product.description}
+            </p>
+            <div className="mt-5 flex flex-row items-baseline">
+              <p className="mr-5">
+                <strong>Số lượng:</strong>
+              </p>
+              <InputNumber
+                min={1}
+                max={100}
+                value={quantity}
+                onChange={(value) => setQuantity(value || 1)}
+                className="mb-4 w-full md:w-1/3"
+              />
             </div>
-
-            <div className='flex flex-wrap w-full'>
-                <div className='w-full p-4'>
-                    <div className='bg-white p-5 rounded-md shadow-md'>
-                        <div className='flex flex-wrap'>
-                        <div className='w-full lg:w-1/2'>
-                                    <img src={product.image} alt={product.name} className='w-full h-64 object-cover mb-4' />
-                                </div>
-                                <div className='w-full lg:w-1/2'>
-                                    <h2 className='text-lg font-semibold mb-2'>{product.name}</h2>
-                                    <p className='text-gray-600 mb-2'>Sale: {product.sale}</p>
-                                    <p className='text-gray-600 mb-2'>Price: {product.price}</p>
-                                    <p className='text-gray-600 mb-2'>Status: {product.status}</p>
-                                    <p className='text-gray-600 mb-2'>Remaining Amount: {product.remainingAmount}</p>
-                                    <p className='text-gray-600 mb-4'>{product.description}</p>
-                                    <button
-                                        onClick={handleAddToCart}
-                                        className='bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700'
-                                    >
-                                        Add to Cart
-                                    </button>
-                                </div>
-                        </div>
-                    </div>
-                </div>
+            <div className="mt-1 flex gap-4">
+              <Button
+                type="primary"
+                size="large"
+                icon={<ShoppingCartOutlined />}
+                className="flex-1"
+                onClick={handleAddToCart}
+              >
+                Add to cart
+              </Button>
             </div>
+          </div>
+        </Col>
+      </Row>
 
-            <div className='w-full p-4'>
-                <div className='bg-white p-5 rounded-md shadow-md'>
-                    <h2 className='text-lg font-semibold mb-4'>Customer Reviews</h2>
-                    {reviews.map(review => (
-                        <div key={review.id} className='mb-4'>
-                            <p className='text-gray-600'><strong>{review.user}</strong>: {review.comment}</p>
-                            <p className='text-gray-600'>Rating: {review.rating} / 5</p>
-                        </div>
-                    ))}
-                    <div className='mt-4'>
-                        <h3 className='text-lg font-semibold mb-2'>Add Your Review</h3>
-                        <input
-                            type='text'
-                            name='user'
-                            value={newReview.user}
-                            onChange={handleReviewChange}
-                            placeholder='Your Name'
-                            className='border p-2 rounded-md w-full mb-2'
-                        />
-                        <textarea
-                            name='comment'
-                            value={newReview.comment}
-                            onChange={handleReviewChange}
-                            placeholder='Your Comment'
-                            className='border p-2 rounded-md w-full mb-2'
-                        />
-                        <input
-                            type='number'
-                            name='rating'
-                            value={newReview.rating}
-                            onChange={handleReviewChange}
-                            placeholder='Rating (0-5)'
-                            className='border p-2 rounded-md w-full mb-2'
-                            min='0'
-                            max='5'
-                        />
-                        <button
-                            onClick={handleAddReview}
-                            className='bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700'
-                        >
-                            Submit Review
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div className='w-full p-4'>
-                <div className='bg-white p-5 rounded-md shadow-md'>
-                    <h2 className='text-lg font-semibold mb-4'>Related Products</h2>
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
-                        {relatedProducts.map(product => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
+      {/* Sản phẩm cùng danh mục */}
+      <div className="mt-10">
+        <h2 className="text-2xl font-bold mb-6">Related Products</h2>
+        <Row gutter={[16, 16]}>
+          {relatedProducts.map((product) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={product.id}>
+              <ProductCard
+                product={product}
+                key={product.id}
+                onClick={() => console.log("click")}
+              />
+            </Col>
+          ))}
+        </Row>
+      </div>
+    </div>
+  );
 };
 
 export default ProductDetails;

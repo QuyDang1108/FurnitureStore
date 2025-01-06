@@ -1,19 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { update_user } from "./../../store/Reducers/userReducer";
 
 const UserProfile = () => {
-  const [userInfo, setUserInfo] = useState({
-    fullName: "John Doe",
-    address: "123 Main St",
-    phoneNumber: "123-456-7890",
-    state: "Active",
-  });
+  const { userInfo } = useSelector((state) => state.auth); // lấy userInfo từ state.auth
+  const dispatch = useDispatch();
 
+  const [formData, setFormData] = useState({
+    fullName: "",
+    address: "",
+    phoneNumber: "",
+    state: "",
+    email: "",
+    dateOfBirth: "",
+    gender: "",
+  });
   const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    if (userInfo) {
+      setFormData({
+        fullName: userInfo.fullName,
+        address: userInfo.address,
+        phoneNumber: userInfo.phoneNumber,
+        state: userInfo.state,
+        email: userInfo.email,
+        dateOfBirth: userInfo.dateOfBirth,
+        gender: userInfo.gender,
+      });
+    }
+  }, [userInfo]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo({
-      ...userInfo,
+    setFormData({
+      ...formData,
       [name]: value,
     });
   };
@@ -24,13 +45,12 @@ const UserProfile = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log("User information updated:", userInfo);
+    dispatch(update_user(formData));
     setIsEditing(false);
   };
 
   return (
-    <div className="px-2 lg:px-7 pt-5">
+    <div className="px-2 lg:px-7 p-5">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-5 rounded-md shadow-md"
@@ -45,6 +65,7 @@ const UserProfile = () => {
             {isEditing ? "Cancel" : "Edit Information"}
           </button>
         </div>
+
         <div className="mb-4">
           <label
             htmlFor="fullName"
@@ -56,7 +77,7 @@ const UserProfile = () => {
             type="text"
             id="fullName"
             name="fullName"
-            value={userInfo.fullName}
+            value={formData.fullName}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -75,7 +96,7 @@ const UserProfile = () => {
             type="email"
             id="email"
             name="email"
-            value={userInfo.email}
+            value={formData.email}
             onChange={handleInputChange}
             disabled
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -94,7 +115,7 @@ const UserProfile = () => {
             type="date"
             id="dob"
             name="dob"
-            value={userInfo.dateOfBirth}
+            value={formData.dateOfBirth}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -112,7 +133,7 @@ const UserProfile = () => {
           <select
             id="gender"
             name="gender"
-            value={userInfo.gender}
+            value={formData.gender}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -135,7 +156,7 @@ const UserProfile = () => {
             type="text"
             id="address"
             name="address"
-            value={userInfo.address}
+            value={formData.address}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -153,7 +174,7 @@ const UserProfile = () => {
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            value={userInfo.phoneNumber}
+            value={formData.phoneNumber}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -171,14 +192,14 @@ const UserProfile = () => {
             type="text"
             id="state"
             name="state"
-            value={userInfo.state}
+            value={formData.state}
             disabled
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
 
         {isEditing && (
-          <div className="mt-4">
+          <div className="mt-4 text-right">
             <button
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700"
