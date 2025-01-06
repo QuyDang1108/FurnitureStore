@@ -1,6 +1,5 @@
 import { AiOutlineDashboard, AiOutlineShoppingCart } from "react-icons/ai";
 import { BiSolidCategory } from "react-icons/bi";
-import { MdPayment } from "react-icons/md";
 import { FaHome, FaHistory, FaUser, FaProductHunt } from "react-icons/fa";
 
 export const allNav = [
@@ -73,5 +72,12 @@ export const allNav = [
     icon: <FaProductHunt />,
     role: "admin",
     path: "/admin/product-list",
+  },
+  {
+    id: 15,
+    title: "Order History",
+    icon: <FaHistory />,
+    role: "customer",
+    path: "/customer/order-history",
   },
 ];
