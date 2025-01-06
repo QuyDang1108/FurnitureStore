@@ -13,9 +13,23 @@ export const get_users = createAsyncThunk(
   }
 );
 
+export const get_user = createAsyncThunk(
+  "users/get_user",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/user/getUserById?id=${id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const update_user = createAsyncThunk(
   "users/update_user",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/user/updateUser", info, {
         withCredentials: true,
