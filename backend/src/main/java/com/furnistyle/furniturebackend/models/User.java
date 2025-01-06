@@ -1,7 +1,13 @@
 package com.furnistyle.furniturebackend.models;
 
+import com.furnistyle.furniturebackend.enums.EGender;
+import com.furnistyle.furniturebackend.enums.ERole;
+import com.furnistyle.furniturebackend.enums.EUserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Check;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,7 +36,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, unique = true, length = 100)
     private String username;
@@ -55,17 +60,23 @@ public class User implements UserDetails {
     @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false, length = 6)
-    @Check(constraints = "gender IN ('MALE', 'FEMALE')")
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private EGender gender;
+    private ERole role;
+    private EUserStatus status;
 
-    @Column(nullable = false)
-    private String role;
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<CartDetail> cartDetails;
 
-    private boolean status;
-
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Token> tokens;
+
+    @OneToMany(mappedBy = "createdCustomer", fetch = FetchType.LAZY)
+    private List<Order> orders;
+
+    @OneToMany(mappedBy = "confirmedAdmin", fetch = FetchType.LAZY)
+    private List<Order> confirmOrders;
+
 
     @Override
     public String getUsername() {
@@ -74,7 +85,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.trim()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
     }
 
     @Override

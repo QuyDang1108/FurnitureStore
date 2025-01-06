@@ -2,8 +2,13 @@ package com.furnistyle.furniturebackend.config;
 
 
 import com.furnistyle.furniturebackend.auditing.ApplicationAuditAware;
+import com.furnistyle.furniturebackend.enums.EGender;
+import com.furnistyle.furniturebackend.enums.ERole;
+import com.furnistyle.furniturebackend.enums.EUserStatus;
+import com.furnistyle.furniturebackend.exceptions.NotFoundException;
 import com.furnistyle.furniturebackend.models.User;
 import com.furnistyle.furniturebackend.repositories.UserRepository;
+import com.furnistyle.furniturebackend.utils.Constants;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +23,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -49,9 +53,6 @@ public class ApplicationConfig {
     @Value("${application.admin.default.dob}")
     private LocalDate dateOfBirth;
 
-    @Value("${application.admin.default.gender}")
-    private String gender;
-
     @Bean
     @ConditionalOnProperty(
         prefix = "spring",
@@ -68,15 +69,16 @@ public class ApplicationConfig {
                     .phone(phone)
                     .address(address)
                     .dateOfBirth(dateOfBirth)
-                    .gender(gender)
+                    .gender(EGender.MALE)
                     .password(passwordEncoder().encode(password))
-                    .role("SUPER_ADMIN")
+                    .role(ERole.SUPER_ADMIN)
+                    .status(EUserStatus.ACTIVE)
                     .build();
                 userRepository.save(user);
-                log.warn("Create: admin user has been created: email = {}, password = {} ",
+                log.warn("Create: admin user has been created: username = {}, password = {} ",
                     username, password);
             } else {
-                log.warn("Admin user: email = {}, password = {} ", username, password);
+                log.warn("Super admin: username = {}, password = {} ", username, password);
             }
             log.info("Application initialization completed .....");
         };
@@ -84,8 +86,13 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return username -> {
+            User user = userRepository.findByUsername(username);
+            if (user == null) {
+                throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
+            }
+            return user;
+        };
     }
 
     @Bean
