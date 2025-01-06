@@ -6,6 +6,34 @@ export const get_users = createAsyncThunk(
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(
+        "/user/admin/getAllNormalUser"
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const get_admins = createAsyncThunk(
+  "users/get_admins",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        "/user/superAdmin/getAllAdmin"
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const get_user = createAsyncThunk(
+  "users/get_user",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
         "/user/getCurrentUser"
       );
       return fulfillWithValue(data);
