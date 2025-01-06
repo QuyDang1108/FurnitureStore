@@ -5,16 +5,40 @@ export const get_users = createAsyncThunk(
   "users/get_users",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/user/getCurrentUser");
+      const { data } = await api.get("/user/admin/getAllNormalUser");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_admins = createAsyncThunk(
+  "users/get_admins",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/user/superAdmin/getAllAdmin");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
 
 export const get_user = createAsyncThunk(
   "users/get_user",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/user/getCurrentUser");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_user_by_id = createAsyncThunk(
+  "users/get_user_by_id",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/user/getUserById?id=${id}`, {
@@ -22,7 +46,7 @@ export const get_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -36,7 +60,7 @@ export const update_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -53,7 +77,7 @@ export const lock_user = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -67,7 +91,7 @@ export const active_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );

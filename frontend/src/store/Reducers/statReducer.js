@@ -12,7 +12,7 @@ export const get_total_sales = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -24,7 +24,7 @@ export const get_total_orders = createAsyncThunk(
       const { data } = await api.get("/totalOrders");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -36,7 +36,7 @@ export const get_total_users = createAsyncThunk(
       const { data } = await api.get("/totalUsers");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -48,7 +48,7 @@ export const get_total_products = createAsyncThunk(
       const { data } = await api.get("/totalProducts");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -61,7 +61,72 @@ export const get_revennue_stats = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_category_revenue = createAsyncThunk(
+  "stat/get_category_revenue",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/superadmin/revenueOfCategory?startDate=${ info.startDate }&endDate=${ info.endDate }&categoryId=${ info.id }`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_product_revenue = createAsyncThunk(
+  "stat/get_product_revenue",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/superadmin/revenueOfProduct?startDate=${ info.startDate }&endDate=${ info.endDate }&productId=${ info.id }`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_store_revenue = createAsyncThunk(
+  "stat/get_store_revenue",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/superadmin/revenueOfStore?startDate=${ info.startDate }&endDate=${ info.endDate }`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_categories_revenue = createAsyncThunk(
+  "stat/get_categories_revenue",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/superadmin/revenueStatisticsForAllCategories?startDate=${ info.startDate }&endDate=${ info.endDate }`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_products_revenue = createAsyncThunk(
+  "stat/get_products_revenue",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/superadmin/revenueStatisticsForAllProducts?startDate=${ info.startDate }&endDate=${ info.endDate }`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
