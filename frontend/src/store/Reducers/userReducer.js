@@ -5,9 +5,7 @@ export const get_users = createAsyncThunk(
   "users/get_users",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        "/user/getCurrentUser"
-      );
+      const { data } = await api.get("/user/getCurrentUser");
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -33,9 +31,12 @@ export const lock_user = createAsyncThunk(
   "users/lock_user",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/user/admin/deactivateUserWithId?id=${id}`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/user/admin/deactivateUserWithId?id=${id}`,
+        {
+          withCredentials: true,
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -106,17 +107,6 @@ const usersSlice = createSlice({
         state.loader = false;
       })
       .addCase(update_user.rejected, (state, { payload }) => {
-        state.errorMessage = payload;
-        state.loader = false;
-      })
-      .addCase(delete_user.pending, (state) => {
-        state.loader = true;
-      })
-      .addCase(delete_user.fulfilled, (state) => {
-        state.success = true;
-        state.loader = false;
-      })
-      .addCase(delete_user.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
       });

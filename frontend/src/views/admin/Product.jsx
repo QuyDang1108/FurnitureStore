@@ -12,7 +12,7 @@ const Products = () => {
   const perPage = 10;
 
   const dispatch = useDispatch();
-  const { products, success, errorMessage, total } = useSelector(
+  const { products, success, errorMessage, totalPage } = useSelector(
     (state) => state.products
   );
 
@@ -99,7 +99,7 @@ const Products = () => {
                 <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                   <Pagination
                     current={currentPage}
-                    total={total}
+                    total={products.length * totalPage}
                     pageSize={perPage}
                     onChange={(page) => setCurrentPage(page)}
                   />

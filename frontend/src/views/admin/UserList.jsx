@@ -57,9 +57,9 @@ const UserList = () => {
                   <tbody>
                     {users.map((customer, i) => (
                       <tr
-                        key={customer.userId}
+                        key={customer.id}
                         onClick={() =>
-                          (window.location.href = `/admin/users/${customer.userId}`)
+                          (window.location.href = `/admin/users/${customer.id}`)
                         }
                         className="cursor-pointer hover:bg-gray-100"
                       >
@@ -67,7 +67,7 @@ const UserList = () => {
                           {i + 1}
                         </td>
                         <td className="py-2 px-4 border-b border-gray- text-center">
-                          {customer.fullName}
+                          {customer.fullname}
                         </td>
                         <td className="py-2 px-4 border-b border-gray- text-center">
                           {customer.email}

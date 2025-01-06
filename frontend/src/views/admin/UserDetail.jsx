@@ -41,10 +41,9 @@ const UserDetail = () => {
   }, [success, errorMessage]);
 
   const handleStatusChange = (status) => {
-    if (status == "Locked") {
+    if (status == "LOCKED") {
       dispatch(lock_user(id));
-    }
-    else {
+    } else {
       dispatch(active_user(id));
     }
     setNewStatus(status);
@@ -79,9 +78,9 @@ const UserDetail = () => {
           <h1 className="text-2xl font-bold">User Information</h1>
           <span
             className={`px-3 py-1 rounded-full text-white ${
-              status === "Active"
+              status === "ACTIVE"
                 ? "bg-green-500"
-                : status === "Suspended"
+                : status === "INACTIVE"
                 ? "bg-yellow-500"
                 : "bg-red-500"
             }`}
@@ -95,11 +94,11 @@ const UserDetail = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div>
               <p className="font-bold">User ID:</p>
-              <p>{user.userId}</p>
+              <p>{user.id}</p>
             </div>
             <div>
               <p className="font-bold">Name:</p>
-              <p>{user.fullName}</p>
+              <p>{user.fullname}</p>
             </div>
             <div>
               <p className="font-bold">Email:</p>
@@ -131,13 +130,13 @@ const UserDetail = () => {
           <h2 className="font-bold mb-4">Change Account Status</h2>
           <div className="flex space-x-4">
             <Button
-              onClick={() => handleStatusChange("Active")}
+              onClick={() => handleStatusChange("ACTIVE")}
               className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
             >
               Activate
             </Button>
             <Button
-              onClick={() => handleStatusChange("Locked")}
+              onClick={() => handleStatusChange("LOCKED")}
               className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
             >
               Lock
@@ -148,7 +147,7 @@ const UserDetail = () => {
 
       <Modal
         title="Confirm Status Change"
-        visible={newStatus !== ""}
+        open={newStatus !== ""}
         onCancel={handleCancelChange}
         footer={modalFooter}
       >
