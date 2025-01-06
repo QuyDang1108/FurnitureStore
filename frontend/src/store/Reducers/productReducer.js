@@ -17,7 +17,20 @@ export const get_product = createAsyncThunk(
   "products/get_product",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/products/${id}`);
+      const { data } = await api.get(`/product1`);
+      console.log(data);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const get_related_products = createAsyncThunk(
+  "products/get_related_products",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/related`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -67,11 +80,38 @@ export const delete_product = createAsyncThunk(
   }
 );
 
+export const get_featured_products = createAsyncThunk(
+  "products/get_featured_products",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/products_featured");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const get_new_arrivals = createAsyncThunk(
+  "products/get_new_arrivals",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get("/products_new");
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const productSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
     product: {},
+    relatedProducts: [],
+    featuredProducts: [],
+    newArrivals: [],
     total: 0,
     success: false,
     errorMessage: "",
@@ -110,6 +150,18 @@ export const productSlice = createSlice({
         state.loader = false;
         state.errorMessage = payload.message;
       })
+      .addCase(get_related_products.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_related_products.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.relatedProducts = payload;
+        state.success = true;
+      })
+      .addCase(get_related_products.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
+      })
       .addCase(add_product.pending, (state) => {
         state.loader = true;
       })
@@ -140,6 +192,30 @@ export const productSlice = createSlice({
         state.success = true;
       })
       .addCase(delete_product.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
+      })
+      .addCase(get_featured_products.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_featured_products.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.featuredProducts = payload;
+        state.success = true;
+      })
+      .addCase(get_featured_products.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload.message;
+      })
+      .addCase(get_new_arrivals.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_new_arrivals.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.newArrivals = payload;
+        state.success = true;
+      })
+      .addCase(get_new_arrivals.rejected, (state, { payload }) => {
         state.loader = false;
         state.errorMessage = payload.message;
       });

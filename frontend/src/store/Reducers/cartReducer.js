@@ -3,12 +3,12 @@ import api from "../../api/api";
 
 export const get_cart = createAsyncThunk(
   "cart/get_cart",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (userId, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get("/cart");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -22,7 +22,7 @@ export const add_to_cart = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -36,7 +36,7 @@ export const update_cart = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -50,7 +50,7 @@ export const delete_from_cart = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error.message);
     }
   }
 );
