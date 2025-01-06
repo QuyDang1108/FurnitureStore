@@ -57,19 +57,6 @@ export const user_forgot_password = createAsyncThunk(
   }
 );
 
-export const log_out = createAsyncThunk(
-  "auth/log_out",
-  async ({ role }, { rejectWithValue, fulfillWithValue }) => {
-    try {
-      const { data } = await api.post("/logout");
-      localStorage.removeItem("accessToken");
-      return fulfillWithValue(data);
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
 const get_role = (token) => {
   if (token) {
     const decodedToken = jwtDecode(token);
@@ -147,19 +134,6 @@ export const authReducer = createSlice({
       state.success = true;
     });
     builder.addCase(user_forgot_password.rejected, (state, { payload }) => {
-      state.loader = false;
-      state.errorMessage = payload;
-    });
-    builder.addCase(log_out.pending, (state, _) => {
-      state.loader = true;
-    });
-    builder.addCase(log_out.fulfilled, (state, _) => {
-      state.loader = false;
-      state.isLogged = false;
-      state.userInfo = "";
-      state.role = "";
-    });
-    builder.addCase(log_out.rejected, (state, { payload }) => {
       state.loader = false;
       state.errorMessage = payload;
     });
