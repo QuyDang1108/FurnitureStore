@@ -62,7 +62,8 @@ public class ProductController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<ProductResponse> productResponsePage = productService.getAllProducts(keyword, categoryId, materialId, pageRequest);
+        Page<ProductResponse> productResponsePage = productService
+            .getAllProducts(keyword, categoryId, materialId, pageRequest);
         return ResponseEntity.ok(ProductListResponse
             .builder()
             .products(productResponsePage.getContent())

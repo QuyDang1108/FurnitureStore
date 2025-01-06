@@ -51,7 +51,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponse> getAllProducts(String keyword, Long categoryId, Long materialId, PageRequest pageRequest) {
+    public Page<ProductResponse> getAllProducts(String keyword,
+                                                Long categoryId,
+                                                Long materialId,
+                                                PageRequest pageRequest) {
         Page<Product> productPage;
         productPage = productRepository.searchProducts(keyword, categoryId, materialId, pageRequest);
         return productPage.map(productResponseMapper::toDTO);
@@ -62,7 +65,10 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(0, limit);
         Product product = productRepository.findById(currentProductId)
             .orElseThrow(() -> new NotFoundException(Constants.Message.NOT_FOUND_PRODUCT));
-        List<Product> relatedProducts = productRepository.findRelatedProducts(currentProductId, product.getCategory().getId(), product.getMaterial().getId(), pageable);
+        List<Product> relatedProducts = productRepository
+            .findRelatedProducts(currentProductId,
+                product.getCategory().getId(),
+                product.getMaterial().getId(), pageable);
         return relatedProducts.stream()
             .map(productResponseMapper::toDTO)
             .collect(Collectors.toList());
