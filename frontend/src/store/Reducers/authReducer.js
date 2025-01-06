@@ -57,6 +57,32 @@ export const user_forgot_password = createAsyncThunk(
   }
 );
 
+export const user_verification = createAsyncThunk(
+  "auth/user_verification",
+  async (email, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/auth/verification?email=${ email }`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const user_OTP_validation = createAsyncThunk(
+  "auth/user_OTP_validation",
+  async (email, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/auth/validateOTP?email=${email}`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      console.log(error);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const get_role = (token) => {
   if (token) {
     const decodedToken = jwtDecode(token);

@@ -96,6 +96,18 @@ export const get_order_history = createAsyncThunk(
   }
 );
 
+export const get_delivered_orders = createAsyncThunk(
+  "order/get_delivered_orders",
+  async (_, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/order/getOrdersByStatus?status=DELIVERED`);
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 const orderSlice = createSlice({
   name: "orders",
   initialState: {

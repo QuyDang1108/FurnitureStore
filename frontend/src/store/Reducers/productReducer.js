@@ -15,6 +15,48 @@ export const get_products = createAsyncThunk(
   }
 );
 
+export const get_category = createAsyncThunk(
+  "products/get_category",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/products?category_id=${ id }`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const product_search = createAsyncThunk(
+  "products/search",
+  async (keyword, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/products?keyword=${ keyword }`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const product_filter = createAsyncThunk(
+  "products/filter",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(
+        `/products?page=${ info.page }&limit=${ info.limit }&keyword=${ info.keyword }&category_id=${ info.category_id }&material_id=${ info.material_id }`
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const get_product = createAsyncThunk(
   "products/get_product",
   async (id, { fulfillWithValue, rejectWithValue }) => {
@@ -58,7 +100,7 @@ export const update_product = createAsyncThunk(
   "products/update_product",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.put(`/products/${info.id}`, info, {
+      const { data } = await api.post(`/products`, info, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
