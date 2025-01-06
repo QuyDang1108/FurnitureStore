@@ -16,13 +16,13 @@ const ProtectRoute = ({ route, children }) => {
             <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
           );
         } else {
-          return <Navigate to="/404" replace />;
+          return <Navigate to="/not-found" replace />;
         }
       } else {
-        return <Navigate to="/unauthorize" replace />;
+        return <Navigate to="/unauthorized" replace />;
       }
     } else {
-      return <Navigate to="/404" replace />;
+      return <Navigate to="/not-found" replace />;
     }
   } else {
     return <Navigate to="/login" replace />;

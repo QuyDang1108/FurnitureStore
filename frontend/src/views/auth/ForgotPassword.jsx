@@ -23,9 +23,7 @@ const ForgotPassword = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loader, errorMessage, successMessage } = useSelector(
-    (state) => state.auth
-  );
+  const { loader, errorMessage, success } = useSelector((state) => state.auth);
 
   const inputHandle = (e) => {
     setEmail(e.target.value);
@@ -38,17 +36,17 @@ const ForgotPassword = () => {
   };
 
   useEffect(() => {
-    if (successMessage) {
-      toast.success(successMessage);
+    if (success) {
+      toast.success("Reset link sent to your email");
       dispatch(messageClear());
-      navigate("/login");
+      // navigate("/login");
     }
 
     if (errorMessage) {
       toast.error(errorMessage);
       dispatch(messageClear());
     }
-  }, [successMessage, errorMessage]);
+  }, [success, errorMessage]);
 
   return (
     <div className="flex flex-col w-full md:w-1/2 xl:w-2/5 mx-auto p-8 bg-[#ffffff] rounded-2xl shadow-xl my-12">
