@@ -24,11 +24,11 @@ public class ProductDTO {
 
     @NotNull(message = "Phân loại không được để trống!")
     @JsonProperty("category_id")
-    private Long categoryId;
+    private CategoryDTO category;
 
     @NotNull(message = "Chất liệu không được để trống!")
     @JsonProperty("material_id")
-    private Long materialId;
+    private MaterialDTO material;
 
     @NotBlank(message = "Xuất xứ không được để trống!")
     @Size(min = 1, max = 100, message = "Xuất xứ phải từ 1 đến 100 ký tự!")

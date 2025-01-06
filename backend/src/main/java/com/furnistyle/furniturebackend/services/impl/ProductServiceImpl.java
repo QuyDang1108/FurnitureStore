@@ -25,10 +25,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(ProductDTO productDTO) {
-        if (!categoryRepository.existsById(productDTO.getCategoryId())) {
+        if (!categoryRepository.existsById(productDTO.getCategory().getId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_CATEGORY);
         }
-        if (!materialRepository.existsById(productDTO.getMaterialId())) {
+        if (!materialRepository.existsById(productDTO.getMaterial().getId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_MATERIAL);
         }
         productRepository.save(productMapper.toEntity(productDTO));
@@ -56,11 +56,11 @@ public class ProductServiceImpl implements ProductService {
             throw new NotFoundException(Constants.Message.NOT_FOUND_PRODUCT);
         }
 
-        if (!categoryRepository.existsById(productDTO.getCategoryId())) {
+        if (!categoryRepository.existsById(productDTO.getCategory().getId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_CATEGORY);
         }
 
-        if (!materialRepository.existsById(productDTO.getMaterialId())) {
+        if (!materialRepository.existsById(productDTO.getMaterial().getId())) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_MATERIAL);
         }
 
