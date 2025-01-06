@@ -29,11 +29,25 @@ export const update_user = createAsyncThunk(
   }
 );
 
-export const delete_user = createAsyncThunk(
-  "users/delete_user",
+export const lock_user = createAsyncThunk(
+  "users/lock_user",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.delete(`/users/${id}`, {
+      const { data } = await api.get(`/user/admin/deactivateUserWithId?id=${id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const active_user = createAsyncThunk(
+  "users/active_user",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/user/admin/activeUserWithId?id=${id}`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);

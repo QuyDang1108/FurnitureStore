@@ -6,6 +6,8 @@ import {
   clearMessage,
   get_user,
   update_user,
+  lock_user,
+  active_user,
 } from "../../store/Reducers/userReducer";
 import toast from "react-hot-toast";
 
@@ -39,6 +41,12 @@ const UserDetail = () => {
   }, [success, errorMessage]);
 
   const handleStatusChange = (status) => {
+    if (status == "Locked") {
+      dispatch(lock_user(id));
+    }
+    else {
+      dispatch(active_user(id));
+    }
     setNewStatus(status);
   };
 
@@ -127,12 +135,6 @@ const UserDetail = () => {
               className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
             >
               Activate
-            </Button>
-            <Button
-              onClick={() => handleStatusChange("Suspended")}
-              className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
-            >
-              Suspend
             </Button>
             <Button
               onClick={() => handleStatusChange("Locked")}
