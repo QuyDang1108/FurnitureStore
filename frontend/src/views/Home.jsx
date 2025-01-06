@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom";
 
 const Home = () => {
   const { role } = useSelector((state) => state.auth);
-  console.log(role);
+  console.log("role", role);
   if (role === "customer") return <Navigate to="/customer/dashboard" replace />;
   else if (role === "admin") return <Navigate to="/admin/dashboard" replace />;
   else if (role === "superadmin")

@@ -8,7 +8,7 @@ export const get_users = createAsyncThunk(
       const { data } = await api.get("/user/admin/getAllNormalUser");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_admins = createAsyncThunk(
       const { data } = await api.get("/user/superAdmin/getAllAdmin");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -32,7 +32,21 @@ export const get_user = createAsyncThunk(
       const { data } = await api.get("/user/getCurrentUser");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const get_user_by_id = createAsyncThunk(
+  "users/get_user_by_id",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.get(`/user/getUserById?id=${id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -46,7 +60,7 @@ export const update_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -63,7 +77,7 @@ export const lock_user = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -77,7 +91,7 @@ export const active_user = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );

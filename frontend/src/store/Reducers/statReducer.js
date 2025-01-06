@@ -8,7 +8,7 @@ export const get_total_sales = createAsyncThunk(
       const { data } = await api.get("/totalSales");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -20,7 +20,7 @@ export const get_total_orders = createAsyncThunk(
       const { data } = await api.get("/totalOrders");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -32,7 +32,7 @@ export const get_total_users = createAsyncThunk(
       const { data } = await api.get("/totalUsers");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -44,7 +44,7 @@ export const get_total_products = createAsyncThunk(
       const { data } = await api.get("/totalProducts");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -57,7 +57,7 @@ export const get_revennue_stats = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -70,7 +70,7 @@ export const get_category_revenue = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -83,7 +83,7 @@ export const get_product_revenue = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -96,7 +96,7 @@ export const get_store_revenue = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -109,7 +109,7 @@ export const get_categories_revenue = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -122,7 +122,7 @@ export const get_products_revenue = createAsyncThunk(
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );

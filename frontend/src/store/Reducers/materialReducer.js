@@ -8,7 +8,7 @@ export const get_materials = createAsyncThunk(
       const { data } = await api.get("/materials");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -22,7 +22,7 @@ export const add_material = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -36,7 +36,7 @@ export const update_material = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -50,7 +50,7 @@ export const delete_material = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -62,7 +62,7 @@ export const get_colors = createAsyncThunk(
       const { data } = await api.get("/colors");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );

@@ -13,7 +13,7 @@ export const get_orders = createAsyncThunk(
       );
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -25,7 +25,7 @@ export const get_order = createAsyncThunk(
       const { data } = await api.get(`/order${id}`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -39,7 +39,7 @@ export const add_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -53,7 +53,7 @@ export const update_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -67,7 +67,7 @@ export const delete_order = createAsyncThunk(
       });
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -79,7 +79,7 @@ export const get_recent_orders = createAsyncThunk(
       const { data } = await api.get("/recentOrders");
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -91,7 +91,7 @@ export const get_order_history = createAsyncThunk(
       const { data } = await api.get(`/orderHistory${userId}`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -103,7 +103,7 @@ export const get_delivered_orders = createAsyncThunk(
       const { data } = await api.get(`/order/getOrdersByStatus?status=DELIVERED`);
       return fulfillWithValue(data);
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response.data);
     }
   }
 );

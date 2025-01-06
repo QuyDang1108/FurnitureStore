@@ -124,11 +124,40 @@ export const delete_product = createAsyncThunk(
   }
 );
 
+export const add_product_image = createAsyncThunk(
+  "medias/add_product_image",
+  async (info, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.post(`/medias?productId=${ info.id }`, info.image, {
+        withCredentials: true,
+      }
+      );
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const delete_product_image = createAsyncThunk(
+  "products/delete_product_image",
+  async (id, { fulfillWithValue, rejectWithValue }) => {
+    try {
+      const { data } = await api.delete(`/medias/${id}`, {
+        withCredentials: true,
+      });
+      return fulfillWithValue(data);
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const get_featured_products = createAsyncThunk(
   "products/get_featured_products",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/products_featured");
+      const { data } = await api.get("/featured_products");
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

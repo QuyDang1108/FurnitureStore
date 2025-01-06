@@ -24,11 +24,26 @@ const publicRoutes = [
   },
   {
     path: "/unauthorized",
-    element: <ErrorPage onButtonClick={(window.location.href = "/")} />,
+    element: (
+      <ErrorPage
+        status="403"
+        title="Unauthorized"
+        subTitle="You are not authorized to access this page"
+        onButtonClick={() => {
+          window.location.href = "/";
+        }}
+      />
+    ),
   },
   {
     path: "not-found",
-    element: <NotFound />,
+    element: (
+      <ErrorPage
+        onButtonClick={() => {
+          window.location.href = "/";
+        }}
+      />
+    ),
   },
 ];
 
