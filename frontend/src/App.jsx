@@ -37,7 +37,8 @@ function App() {
     if (token) {
       const role = get_role(token);
       if (!role) {
-        dispatch(log_out({ navigate }));
+        localStorage.removeItem("accessToken");
+        navigate("/login");
       } else {
         dispatch(get_user_info());
       }
