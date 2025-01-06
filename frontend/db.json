@@ -344,6 +344,51 @@
       }
     ]
   },
+  "product1": {
+    "id": 1,
+    "name": "Áo thun Unisex Basic",
+    "price": 250000,
+    "category": "Áo thun",
+    "material": "Cotton 100%",
+    "origin": "Việt Nam",
+    "size": "M",
+    "description": "Áo thun Unisex Basic với chất liệu cotton thoáng mát, phù hợp cho cả nam và nữ. Sản phẩm có nhiều màu sắc và kích cỡ để lựa chọn.",
+    "images": [
+      "https://via.placeholder.com/400x400.png?text=Image+1",
+      "https://via.placeholder.com/400x400.png?text=Image+2",
+      "https://via.placeholder.com/400x400.png?text=Image+3"
+    ]
+  },
+  "related": [
+    {
+      "id": 2,
+      "name": "Áo thun Nam Cổ Tròn",
+      "price": 300000,
+      "image": "https://via.placeholder.com/400x400.png?text=Related+1",
+      "quantity": 20
+    },
+    {
+      "id": 3,
+      "name": "Áo thun Nữ Form Rộng",
+      "price": 280000,
+      "image": "https://via.placeholder.com/400x400.png?text=Related+2",
+      "quantity": 15
+    },
+    {
+      "id": 4,
+      "name": "Áo thun Tay Dài",
+      "price": 350000,
+      "image": "https://via.placeholder.com/400x400.png?text=Related+3",
+      "quantity": 8
+    },
+    {
+      "id": 5,
+      "name": "Áo thun Basic Trơn",
+      "price": 220000,
+      "image": "https://via.placeholder.com/400x400.png?text=Related+4",
+      "quantity": 30
+    }
+  ],
   "revenueStats": {
     "totalUsers": 100,
     "totalOrders": 1000,
@@ -428,5 +473,181 @@
         "growth": "50%"
       }
     ]
-  }
+  },
+  "cart": [
+    {
+      "id": 1,
+      "name": "Laptop Dell XPS 15",
+      "image": "https://via.placeholder.com/60",
+      "price": 1500,
+      "quantity": 1
+    },
+    {
+      "id": 2,
+      "name": "Wireless Mouse",
+      "image": "https://via.placeholder.com/60",
+      "price": 25,
+      "quantity": 2
+    },
+    {
+      "id": 3,
+      "name": "Mechanical Keyboard",
+      "image": "https://via.placeholder.com/60",
+      "price": 100,
+      "quantity": 1
+    },
+    {
+      "id": 4,
+      "name": "Smartphone Samsung Galaxy S21",
+      "image": "https://via.placeholder.com/60",
+      "price": 799,
+      "quantity": 1
+    },
+    {
+      "id": 5,
+      "name": "Headphones Sony WH-1000XM4",
+      "image": "https://via.placeholder.com/60",
+      "price": 349,
+      "quantity": 1
+    }
+  ],
+  "orderHistory1": [
+    {
+      "id": "ORD123",
+      "date": "2025-01-03T12:30:00Z",
+      "status": "Pending",
+      "products": [
+        { "id": "P1", "name": "Modern Sofa", "quantity": 1 },
+        { "id": "P2", "name": "Wooden Chair", "quantity": 2 }
+      ],
+      "shippingInfo": {
+        "address": "123 Main Street, Cityville",
+        "phone": "0123456789"
+      }
+    },
+    {
+      "id": "ORD124",
+      "date": "2024-12-28T14:00:00Z",
+      "status": "Delivered",
+      "products": [{ "id": "P3", "name": "Coffee Table", "quantity": 1 }],
+      "shippingInfo": {
+        "address": "456 Elm Street, Townville",
+        "phone": "0987654321"
+      }
+    }
+  ],
+  "products_featured": [
+    {
+      "id": 1,
+      "name": "Wooden Chair",
+      "price": 1200000,
+      "quantity": 10,
+      "image": "https://example.com/images/wooden-chair.jpg",
+      "category": "Chair",
+      "material": "Wood",
+      "rating": 4,
+      "color": "Brown"
+    },
+    {
+      "id": 2,
+      "name": "Modern Sofa",
+      "price": 3500000,
+      "quantity": 5,
+      "image": "https://example.com/images/modern-sofa.jpg",
+      "category": "Sofa",
+      "material": "Fabric",
+      "rating": 5,
+      "color": "Gray"
+    },
+    {
+      "id": 3,
+      "name": "Glass Dining Table",
+      "price": 2500000,
+      "quantity": 7,
+      "image": "https://example.com/images/glass-dining-table.jpg",
+      "category": "Table",
+      "material": "Glass",
+      "rating": 4,
+      "color": "Clear"
+    },
+    {
+      "id": 4,
+      "name": "Wooden Bed Frame",
+      "price": 4500000,
+      "quantity": 3,
+      "image": "https://example.com/images/wooden-bed-frame.jpg",
+      "category": "Bed",
+      "material": "Wood",
+      "rating": 4,
+      "color": "Natural"
+    },
+    {
+      "id": 5,
+      "name": "Metal Cabinet",
+      "price": 1800000,
+      "quantity": 8,
+      "image": "https://example.com/images/metal-cabinet.jpg",
+      "category": "Cabinet",
+      "material": "Metal",
+      "rating": 3,
+      "color": "Black"
+    }
+  ],
+  "products_new": [
+    {
+      "id": 1,
+      "name": "Wooden Chair",
+      "price": 1200000,
+      "quantity": 10,
+      "image": "https://example.com/images/wooden-chair.jpg",
+      "category": "Chair",
+      "material": "Wood",
+      "rating": 4,
+      "color": "Brown"
+    },
+    {
+      "id": 2,
+      "name": "Modern Sofa",
+      "price": 3500000,
+      "quantity": 5,
+      "image": "https://example.com/images/modern-sofa.jpg",
+      "category": "Sofa",
+      "material": "Fabric",
+      "rating": 5,
+      "color": "Gray"
+    },
+    {
+      "id": 3,
+      "name": "Glass Dining Table",
+      "price": 2500000,
+      "quantity": 7,
+      "image": "https://example.com/images/glass-dining-table.jpg",
+      "category": "Table",
+      "material": "Glass",
+      "rating": 4,
+      "color": "Clear"
+    },
+    {
+      "id": 4,
+      "name": "Wooden Bed Frame",
+      "price": 4500000,
+      "quantity": 3,
+      "image": "https://example.com/images/wooden-bed-frame.jpg",
+      "category": "Bed",
+      "material": "Wood",
+      "rating": 4,
+      "color": "Natural"
+    },
+    {
+      "id": 5,
+      "name": "Metal Cabinet",
+      "price": 1800000,
+      "quantity": 8,
+      "image": "https://example.com/images/metal-cabinet.jpg",
+      "category": "Cabinet",
+      "material": "Metal",
+      "rating": 3,
+      "color": "Black"
+    }
+  ]
 }
