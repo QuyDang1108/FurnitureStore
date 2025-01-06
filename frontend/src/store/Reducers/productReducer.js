@@ -3,9 +3,9 @@ import api from "../../api/api";
 
 export const get_products = createAsyncThunk(
   "products/get_products",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/products");
+      const { data } = await api.get(`/products?page=${ info.currentPage }&limit=${ info.perPage }`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -17,7 +17,7 @@ export const get_product = createAsyncThunk(
   "products/get_product",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/product1`);
+      const { data } = await api.get(`/products/${ id }`);
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
@@ -40,7 +40,7 @@ export const get_related_products = createAsyncThunk(
 
 export const add_product = createAsyncThunk(
   "products/add_product",
-  async (info, { fulfillWithValue, rejectWithValue }) => {
+  async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/products", info, {
         withCredentials: true,

@@ -3,9 +3,9 @@ import api from "../../api/api";
 
 export const get_cart = createAsyncThunk(
   "cart/get_cart",
-  async (userId, { fulfillWithValue, rejectWithValue }) => {
+  async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/cart");
+      const { data } = await api.get("/cart/cartOfCurrentUser");
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -17,7 +17,7 @@ export const add_to_cart = createAsyncThunk(
   "cart/add_to_cart",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.post("/cart", info, {
+      const { data } = await api.get(`/cart/addToCart?productId=${ info.id }&amount=${ info.quantity }`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -31,7 +31,7 @@ export const update_cart = createAsyncThunk(
   "cart/update_cart",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.put("/cart", info, {
+      const { data } = await api.get(`/cart/updateCartDetail?productId=${ info.id }&amount=${ info.quantity }`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
@@ -45,7 +45,7 @@ export const delete_from_cart = createAsyncThunk(
   "cart/delete_from_cart",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.delete(`/cart/${id}`, {
+      const { data } = await api.get(`/cart/deleteCartDetail?productId=${id}`, {
         withCredentials: true,
       });
       return fulfillWithValue(data);
