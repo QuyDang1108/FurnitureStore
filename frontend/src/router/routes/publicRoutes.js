@@ -1,10 +1,14 @@
 import { lazy } from "react";
 const Login = lazy(() => import("./../../views/auth/Login"));
 const Register = lazy(() => import("./../../views/auth/Register"));
-const AdminLogin = lazy(() => import("./../../views/auth/AdminLogin"));
 const ForgotPassword = lazy(() => import("./../../views/auth/ForgotPassword"));
+const Home = lazy(() => import("./../../views/Home"));
 
 const publicRoutes = [
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "/login",
     element: <Login />,
@@ -14,11 +18,7 @@ const publicRoutes = [
     element: <Register />,
   },
   {
-    path: "/admin/login",
-    element: <AdminLogin />,
-  },
-  {
-    path: "/forgot-password", 
+    path: "/forgot-password",
     element: <ForgotPassword />,
   },
 ];

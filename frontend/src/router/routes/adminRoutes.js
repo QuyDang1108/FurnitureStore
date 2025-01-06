@@ -25,11 +25,6 @@ export const adminRoute = [
     element: <Category />,
     role: "admin",
   },
-  // {
-  //   path: "/admin/payment-request",
-  //   element: <PaymentRequest />,
-  //   role: "admin",
-  // },
   {
     path: "/admin/add-product",
     element: <AddProduct />,
