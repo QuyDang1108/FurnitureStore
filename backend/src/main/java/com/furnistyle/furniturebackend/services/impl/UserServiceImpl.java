@@ -12,6 +12,7 @@ import com.furnistyle.furniturebackend.models.Token;
 import com.furnistyle.furniturebackend.models.User;
 import com.furnistyle.furniturebackend.repositories.TokenRepository;
 import com.furnistyle.furniturebackend.repositories.UserRepository;
+import com.furnistyle.furniturebackend.services.JwtService;
 import com.furnistyle.furniturebackend.services.UserService;
 import com.furnistyle.furniturebackend.utils.Constants;
 import jakarta.validation.ValidationException;
@@ -19,16 +20,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+
+    @Value("${application.default.password}")
+    private String defaultPassword;
 
     @Override
     public boolean changePassword(String username, String oldPassword, String newPassword) {
@@ -55,14 +60,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void resetPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
+        }
+
+        user.setPassword(passwordEncoder.encode(defaultPassword));
+        userRepository.save(user);
+    }
+
+    @Override
     public UserDTO getUserByToken(String token) {
-        Token tokens = tokenRepository.findByToken(token)
-            .orElseThrow(() -> new NotFoundException(Constants.Message.NOT_FOUND_USER));
-        User user = tokens.getUser();
+        String username = jwtService.extractUsername(token);
+
+        User user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
         }
+        user.setPassword(null);
+
         return userMapper.toDTO(user);
     }
 

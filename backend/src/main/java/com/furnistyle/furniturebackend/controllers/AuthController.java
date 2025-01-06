@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -22,6 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(authService.authenticate(request));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest request) {
@@ -32,23 +38,23 @@ public class AuthController {
         }
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
-        return ResponseEntity.ok(authService.authenticate(request));
+    @GetMapping("/forgotPassword")
+    public ResponseEntity<Boolean> forgotPassword(@RequestParam String email) {
+        return ResponseEntity.ok(authService.sendOTPForForgotPassword(email));
+    }
+
+    @GetMapping("/verification")
+    public ResponseEntity<Boolean> verification(@RequestParam String email) {
+        return ResponseEntity.ok(authService.sendOTPForVerification(email));
+    }
+
+    @GetMapping("/validateOTP")
+    public ResponseEntity<Boolean> validateOTP(@RequestParam String email, @RequestParam String otp) {
+        return ResponseEntity.ok(authService.validateOTP(email, otp));
     }
 
     @PostMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         authService.refreshToken(request, response);
-    }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> test() {
-        return ResponseEntity.ok("Deploy successfully!");
-    }
-
-    @GetMapping("/test3")
-    public ResponseEntity<String> test3() {
-        return ResponseEntity.ok("CI/CD thành công rồi mấy đứa ơi :)))");
     }
 }
