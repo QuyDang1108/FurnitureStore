@@ -5,7 +5,11 @@ export const get_total_sales = createAsyncThunk(
   "stat/get_total_sales",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/totalSales");
+      const startDate = new Date(0).toISOString().split("T")[0];
+      const endDate = new Date().toISOString().split("T")[0];
+      const { data } = await api.get(
+        `/superadmin/revenueOfStore?startDate=2${startDate}&endDate=${endDate}`
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.message);
@@ -78,6 +82,7 @@ const statSlice = createSlice({
   reducers: {
     clearMessage: (state) => {
       state.errorMessage = "";
+      state.success = false;
     },
   },
   extraReducers: (builder) => {

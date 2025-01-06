@@ -13,46 +13,46 @@ export const adminRoute = [
   {
     path: "/admin/dashboard",
     element: <AdminDashboard />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/orders",
     element: <Orders />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/category",
     element: <Category />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/add-product",
     element: <AddProduct />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/user-list",
     element: <UserList />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/product-list",
     element: <ProductList />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/orders/:id",
     element: <OrderDetail />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/users/:id",
     element: <UserDetail />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
   {
     path: "/admin/category/:id",
     element: <CategoryDetail />,
-    role: "admin",
+    role: ["admin", "superadmin"],
   },
 ];

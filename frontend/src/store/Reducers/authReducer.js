@@ -96,6 +96,7 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = payload;
       state.isLogged = true;
+      state.role = get_role(localStorage.getItem("accessToken"));
     });
     builder.addCase(get_user_info.rejected, (state, { payload }) => {
       state.loader = false;

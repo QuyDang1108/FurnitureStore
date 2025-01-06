@@ -12,31 +12,31 @@ export const customerRoute = [
   {
     path: "/customer/homepage",
     element: <HomePage />,
-    role: "customer",
+    role: ["customer"],
   },
   {
     path: "/customer/product-list",
     element: <ProductList />,
-    role: "customer",
+    role: ["customer"],
   },
   {
     path: "/customer/cart",
     element: <Cart />,
-    role: "customer",
+    role: ["customer"],
   },
   {
     path: "/customer/order-history",
     element: <OrderHistory />,
-    role: "customer",
+    role: ["customer"],
   },
   {
     path: "/customer/product/:id",
     element: <ProductDetails />,
-    role: "customer",
+    role: ["customer"],
   },
   {
     path: "/customer/user-profile",
     element: <UserProfile />,
-    role: "customer",
+    role: ["customer"],
   },
 ];
