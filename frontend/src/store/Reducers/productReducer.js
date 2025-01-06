@@ -42,7 +42,7 @@ export const get_related_products = createAsyncThunk(
 
 export const add_product = createAsyncThunk(
   "products/add_product",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/products", info, {
         withCredentials: true,

@@ -39,7 +39,7 @@ export const get_user = createAsyncThunk(
 
 export const update_user = createAsyncThunk(
   "users/update_user",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/user/updateUser", info, {
         withCredentials: true,

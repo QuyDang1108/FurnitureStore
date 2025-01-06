@@ -32,7 +32,7 @@ export const get_order = createAsyncThunk(
 
 export const add_order = createAsyncThunk(
   "orders/add_order",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/order/createOrder", info, {
         withCredentials: true,
@@ -46,7 +46,7 @@ export const add_order = createAsyncThunk(
 
 export const update_order = createAsyncThunk(
   "orders/update_order",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+  async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/order/updateStatus`, info, {
         withCredentials: true,

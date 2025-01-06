@@ -10,7 +10,7 @@ const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    const navs = getNav("customer");
+    const navs = getNav(userInfo.role);
     setAllNav(navs);
   }, []);
 
