@@ -8,6 +8,7 @@ export const get_products = createAsyncThunk(
       const { data } = await api.get(
         `/products?page=${info.currentPage}&limit=${info.perPage}`
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -19,9 +20,7 @@ export const get_category = createAsyncThunk(
   "products/get_category",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        `/products?category_id=${ id }`
-      );
+      const { data } = await api.get(`/products?category_id=${id}`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -33,9 +32,7 @@ export const product_search = createAsyncThunk(
   "products/search",
   async (keyword, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        `/products?keyword=${ keyword }`
-      );
+      const { data } = await api.get(`/products?keyword=${keyword}`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -48,7 +45,7 @@ export const product_filter = createAsyncThunk(
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(
-        `/products?page=${ info.page }&limit=${ info.limit }&keyword=${ info.keyword }&category_id=${ info.category_id }&material_id=${ info.material_id }`
+        `/products?page=${info.page}&limit=${info.limit}&keyword=${info.keyword}&category_id=${info.category_id}&material_id=${info.material_id}`
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -128,9 +125,12 @@ export const add_product_image = createAsyncThunk(
   "medias/add_product_image",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.post(`/medias?productId=${ info.id }`, info.image, {
-        withCredentials: true,
-      }
+      const { data } = await api.post(
+        `/medias?productId=${info.id}`,
+        info.image,
+        {
+          withCredentials: true,
+        }
       );
       return fulfillWithValue(data);
     } catch (error) {
@@ -204,7 +204,7 @@ export const productSlice = createSlice({
       .addCase(get_products.fulfilled, (state, { payload }) => {
         state.loader = false;
         state.products = payload.products;
-        state.totalPage = payload.totalPage;
+        state.totalPage = payload.totalPages;
         state.success = true;
       })
       .addCase(get_products.rejected, (state, { payload }) => {

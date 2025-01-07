@@ -11,6 +11,7 @@ export const get_user_info = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -61,7 +62,7 @@ export const user_verification = createAsyncThunk(
   "auth/user_verification",
   async (email, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/auth/verification?email=${ email }`);
+      const { data } = await api.get(`/auth/verification?email=${email}`);
       return fulfillWithValue(data);
     } catch (error) {
       console.log(error);
@@ -83,21 +84,6 @@ export const user_OTP_validation = createAsyncThunk(
   }
 );
 
-const get_role = (token) => {
-  if (token) {
-    const decodedToken = jwtDecode(token);
-    const expirateTime = new Date(decodedToken.exp * 1000);
-    if (expirateTime < new Date()) {
-      localStorage.removeItem("accessToken");
-      return "";
-    } else {
-      return decodedToken.sub;
-    }
-  } else {
-    return "";
-  }
-};
-
 export const authReducer = createSlice({
   name: "auth",
   initialState: {
@@ -106,7 +92,6 @@ export const authReducer = createSlice({
     loader: false,
     userInfo: {},
     isLogged: false,
-    role: get_role(localStorage.getItem("accessToken")),
   },
   reducers: {
     messageClear: (state, _) => {
@@ -122,7 +107,6 @@ export const authReducer = createSlice({
       state.loader = false;
       state.userInfo = payload;
       state.isLogged = true;
-      state.role = get_role(localStorage.getItem("accessToken"));
     });
     builder.addCase(get_user_info.rejected, (state, { payload }) => {
       state.loader = false;

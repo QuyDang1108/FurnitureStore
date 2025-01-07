@@ -6,10 +6,7 @@ export const get_categories = createAsyncThunk(
   "category/get_categories",
   async (pageData, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        // `/category?page=${pageData.currentPage}&limit=${pageData.perPage}`
-        `/categories`
-      );
+      const { data } = await api.get(`/categories`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

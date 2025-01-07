@@ -5,9 +5,15 @@ export const get_users = createAsyncThunk(
   "users/get_users",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/user/admin/getAllNormalUser");
+      const { data } = await api.get("/user/admin/getAllNormalUser", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
+      console.log(error.response);
       return rejectWithValue(error.response.data);
     }
   }
@@ -25,24 +31,14 @@ export const get_admins = createAsyncThunk(
   }
 );
 
-export const get_user = createAsyncThunk(
-  "users/get_user",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
-    try {
-      const { data } = await api.get("/user/getCurrentUser");
-      return fulfillWithValue(data);
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
-
 export const get_user_by_id = createAsyncThunk(
   "users/get_user_by_id",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/user/getUserById?id=${id}`, {
-        withCredentials: true,
+      const { data } = await api.get(`/user/admin/getById?id=${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -56,8 +52,11 @@ export const update_user = createAsyncThunk(
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/user/updateUser", info, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -72,7 +71,9 @@ export const lock_user = createAsyncThunk(
       const { data } = await api.get(
         `/user/admin/deactivateUserWithId?id=${id}`,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
       );
       return fulfillWithValue(data);
@@ -87,7 +88,9 @@ export const active_user = createAsyncThunk(
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/user/admin/activeUserWithId?id=${id}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -118,22 +121,22 @@ const usersSlice = createSlice({
         state.loader = true;
       })
       .addCase(get_users.fulfilled, (state, { payload }) => {
-        state.users = payload.users;
-        state.total = payload.total;
+        state.users = payload;
+        state.total = payload.length;
         state.loader = false;
       })
       .addCase(get_users.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
       })
-      .addCase(get_user.pending, (state) => {
+      .addCase(get_user_by_id.pending, (state) => {
         state.loader = true;
       })
-      .addCase(get_user.fulfilled, (state, { payload }) => {
+      .addCase(get_user_by_id.fulfilled, (state, { payload }) => {
         state.user = payload;
         state.loader = false;
       })
-      .addCase(get_user.rejected, (state, { payload }) => {
+      .addCase(get_user_by_id.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
       })

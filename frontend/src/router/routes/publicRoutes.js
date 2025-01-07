@@ -36,7 +36,7 @@ const publicRoutes = [
     ),
   },
   {
-    path: "not-found",
+    path: "/not-found",
     element: (
       <ErrorPage
         onButtonClick={() => {
