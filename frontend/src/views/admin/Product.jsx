@@ -21,9 +21,6 @@ const Products = () => {
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-    if (success) {
-      toast.success("Product list fetched successfully");
-    }
     if (errorMessage) {
       toast.error(errorMessage);
     }
@@ -43,58 +40,102 @@ const Products = () => {
             <div className="flex flex-wrap">
               <div className="w-full">
                 <h2 className="text-lg font-semibold mb-4">Products</h2>
-                <table className="min-w-full bg-white">
-                  <thead>
-                    <tr>
-                      <th className="py-2 px-4 border-b border-gray-200">ID</th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Name
-                      </th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Price
-                      </th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Category
-                      </th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Material
-                      </th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Origin
-                      </th>
-                      <th className="py-2 px-4 border-b border-gray-200">
-                        Size
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {products.map((product) => (
-                      <tr key={product.id}>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.id}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.name}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.price}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.category}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.material}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.origin}
-                        </td>
-                        <td className="py-2 px-4 border-b border-gray-200 text-center">
-                          {product.size}
-                        </td>
+
+                {/* Table for larger screens */}
+                <div className="hidden lg:block">
+                  <table className="min-w-full bg-white">
+                    <thead>
+                      <tr>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          ID
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Name
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Price
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Category
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Material
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Origin
+                        </th>
+                        <th className="py-2 px-4 border-b border-gray-200">
+                          Size
+                        </th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {products.map((product) => (
+                        <tr key={product.id}>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.id}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.name}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.price}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.category}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.material}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.origin}
+                          </td>
+                          <td className="py-2 px-4 border-b border-gray-200 text-center">
+                            {product.size}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Cards for smaller screens */}
+                <div className="block lg:hidden">
+                  {products.map((product) => (
+                    <div
+                      key={product.id}
+                      className="mb-4 p-4 border rounded-md shadow-md bg-gray-50"
+                    >
+                      <p className="font-semibold">
+                        <span className="text-gray-600">ID:</span> {product.id}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Name:</span>{" "}
+                        {product.name}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Price:</span>{" "}
+                        {product.price}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Category:</span>{" "}
+                        {product.category}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Material:</span>{" "}
+                        {product.material}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Origin:</span>{" "}
+                        {product.origin}
+                      </p>
+                      <p className="font-semibold">
+                        <span className="text-gray-600">Size:</span>{" "}
+                        {product.size}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
                 <div className="w-full flex justify-end mt-4 bottom-4 right-4">
                   <Pagination

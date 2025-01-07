@@ -16,7 +16,6 @@ const OrderHistory = () => {
 
   useEffect(() => {
     if (userInfo) {
-      //   dispatch(get_order_history(userInfo.id));
       dispatch(get_order_history(1));
     }
   }, [dispatch, userInfo]);

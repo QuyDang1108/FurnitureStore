@@ -4,10 +4,9 @@ import { useParams } from "react-router-dom";
 import { Modal, Button } from "antd";
 import {
   clearMessage,
-  get_user,
-  update_user,
   lock_user,
   active_user,
+  get_user_by_id,
 } from "../../store/Reducers/userReducer";
 import toast from "react-hot-toast";
 
@@ -23,7 +22,7 @@ const UserDetail = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(get_user(id));
+    dispatch(get_user_by_id(id));
     return () => {
       dispatch(clearMessage());
     };
@@ -41,16 +40,17 @@ const UserDetail = () => {
   }, [success, errorMessage]);
 
   const handleStatusChange = (status) => {
-    if (status == "LOCKED") {
-      dispatch(lock_user(id));
-    } else {
-      dispatch(active_user(id));
-    }
     setNewStatus(status);
   };
 
   const handleConfirmChange = () => {
-    dispatch(update_user({ id, status: newStatus }));
+    if (newStatus === "ACTIVE") {
+      dispatch(active_user(id));
+    } else if (newStatus === "DEACTIVE") {
+      dispatch(lock_user(id));
+    }
+    setStatus(newStatus);
+    setNewStatus("");
   };
 
   const handleCancelChange = () => {
@@ -136,10 +136,10 @@ const UserDetail = () => {
               Activate
             </Button>
             <Button
-              onClick={() => handleStatusChange("LOCKED")}
-              className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+              onClick={() => handleStatusChange("DEACTIVE")}
+              className="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
             >
-              Lock
+              Deactivate
             </Button>
           </div>
         </div>

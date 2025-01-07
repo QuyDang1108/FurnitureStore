@@ -154,7 +154,7 @@ const AddProduct = () => {
                   />
                   {/* Image Preview */}
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {product.images.map((image, index) => (
+                    {product?.images?.map((image, index) => (
                       <div key={index} className="relative">
                         <img
                           src={URL.createObjectURL(image)}
@@ -216,8 +216,8 @@ const AddProduct = () => {
                       onChange={(e) => {
                         setCategoryName(e.target.value);
                         setFilteredCategories(
-                          categories.filter((category) =>
-                            category.name
+                          categories?.filter((category) =>
+                            category?.name
                               .toLowerCase()
                               .includes(e.target.value.toLowerCase())
                           )
@@ -230,7 +230,7 @@ const AddProduct = () => {
                       }
                     />
                   </div>
-                  {isCategoryFocused && filteredCategories.length > 0 && (
+                  {isCategoryFocused && filteredCategories?.length > 0 && (
                     <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10">
                       {filteredCategories.map((category) => (
                         <li
@@ -272,8 +272,8 @@ const AddProduct = () => {
                       onChange={(e) => {
                         setMaterialName(e.target.value);
                         setFilteredMaterials(
-                          materials.filter((material) =>
-                            material.name
+                          materials?.filter((material) =>
+                            material?.name
                               .toLowerCase()
                               .includes(e.target.value.toLowerCase())
                           )
@@ -286,9 +286,9 @@ const AddProduct = () => {
                       }
                     />
                   </div>
-                  {isMaterialFocused && filteredMaterials.length > 0 && (
+                  {isMaterialFocused && filteredMaterials?.length > 0 && (
                     <ul className="absolute bg-white border border-gray-300 w-full mt-1 max-h-40 overflow-y-auto z-10">
-                      {filteredMaterials.map((material) => (
+                      {filteredMaterials?.map((material) => (
                         <li
                           key={material.id}
                           onClick={() => {

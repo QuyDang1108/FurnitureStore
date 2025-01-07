@@ -7,12 +7,12 @@ const UserProfile = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    fullName: "",
+    fullname: "",
     address: "",
-    phoneNumber: "",
+    phone: "",
     state: "",
     email: "",
-    dateOfBirth: "",
+    date_of_birth: "",
     gender: "",
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -20,12 +20,12 @@ const UserProfile = () => {
   useEffect(() => {
     if (userInfo) {
       setFormData({
-        fullName: userInfo.fullName,
+        fullname: userInfo.fullname,
         address: userInfo.address,
-        phoneNumber: userInfo.phoneNumber,
-        state: userInfo.state,
+        phone: userInfo.phone,
+        state: userInfo.status,
         email: userInfo.email,
-        dateOfBirth: userInfo.dateOfBirth,
+        date_of_birth: userInfo.date_of_birth,
         gender: userInfo.gender,
       });
     }
@@ -68,16 +68,16 @@ const UserProfile = () => {
 
         <div className="mb-4">
           <label
-            htmlFor="fullName"
+            htmlFor="fullname"
             className="block text-sm font-medium text-gray-700"
           >
             Full Name
           </label>
           <input
             type="text"
-            id="fullName"
-            name="fullName"
-            value={formData.fullName}
+            id="fullname"
+            name="fullname"
+            value={formData.fullname}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -115,7 +115,7 @@ const UserProfile = () => {
             type="date"
             id="dob"
             name="dob"
-            value={formData.dateOfBirth}
+            value={formData.date_of_birth}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -138,10 +138,11 @@ const UserProfile = () => {
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
+            <option value="" disabled>
+              Select Gender
+            </option>
+            <option value="MALE">Male</option>
+            <option value="FEMALE">Female</option>
           </select>
         </div>
 
@@ -165,16 +166,16 @@ const UserProfile = () => {
 
         <div className="mb-4">
           <label
-            htmlFor="phoneNumber"
+            htmlFor="phone"
             className="block text-sm font-medium text-gray-700"
           >
             Phone Number
           </label>
           <input
             type="text"
-            id="phoneNumber"
-            name="phoneNumber"
-            value={formData.phoneNumber}
+            id="phone"
+            name="phone"
+            value={formData.phone}
             onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

@@ -7,10 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
   clearMessage,
-  get_total_orders,
-  get_total_products,
-  get_total_sales,
-  get_total_users,
+  get_revennue_stats,
 } from "../../store/Reducers/statReducer";
 import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
@@ -37,25 +34,8 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(get_total_users());
-    dispatch(get_total_sales());
-    dispatch(get_total_products());
-    dispatch(get_total_orders());
-    dispatch(get_recent_orders());
+    dispatch(get_revennue_stats());
   }, []);
-
-  useEffect(() => {
-    if (totalSales > 1000000000) {
-      setUnit("B");
-      setSales(totalSales / 1000000000);
-    } else if (totalSales > 1000000) {
-      setUnit("M");
-      setSales(totalSales / 1000000);
-    } else if (totalSales > 1000) {
-      setUnit("K");
-      setSales(totalSales / 1000);
-    }
-  }, [totalSales]);
 
   useEffect(() => {
     setProducts(totalProducts);
@@ -72,6 +52,19 @@ const AdminDashboard = () => {
   useEffect(() => {
     setRecentOrd(recentOrders);
   }, [recentOrders]);
+
+  useEffect(() => {
+    if (totalSales > 1000000000) {
+      setUnit("B");
+      setSales(totalSales / 1000000000);
+    } else if (totalSales > 1000000) {
+      setUnit("M");
+      setSales(totalSales / 1000000);
+    } else if (totalSales > 1000) {
+      setUnit("K");
+      setSales(totalSales / 1000);
+    }
+  }, [totalSales]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -118,7 +111,7 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* // Orders */}
+        {/* // Orders
         <div className="flex justify-between items-center p-5 bg-[#ECEBFF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
             <h2 className="font-bold text-3xl">{orders}</h2>
@@ -131,7 +124,7 @@ const AdminDashboard = () => {
           >
             <RiShoppingCartFill className="text-[white] shadow-lg" />
           </div>
-        </div>
+        </div> */}
 
         {/* // Customers */}
         <div className="flex justify-between items-center p-5 bg-[#E6F9FF] rounded-md gap-3">
