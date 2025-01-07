@@ -54,6 +54,9 @@ public class Product {
     @Column(nullable = false, length = 50)
     private String size;
 
+    @Column(nullable = false)
+    private int quantity;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 

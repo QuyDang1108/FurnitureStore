@@ -19,6 +19,7 @@ public class ProductResponse {
     private MaterialDTO material;
     private String origin;
     private String size;
+    private int quantity;
     private String description;
     private EProductStatus status = EProductStatus.ACTIVE;
     @JsonProperty("product_images")
