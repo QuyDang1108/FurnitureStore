@@ -96,11 +96,11 @@ export const get_order_history = createAsyncThunk(
   }
 );
 
-export const get_delivered_orders = createAsyncThunk(
-  "order/get_delivered_orders",
-  async (_, { fulfillWithValue, rejectWithValue }) => {
+export const get_orders_by_status = createAsyncThunk(
+  "order/get_orders_by_status",
+  async (status, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/order/getOrdersByStatus?status=DELIVERED`);
+      const { data } = await api.get(`/order/getOrdersByStatus?status=${ status }`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
