@@ -66,4 +66,11 @@ export const allNav = [
     role: ["USER"],
     path: "/customer/order-history",
   },
+  {
+    id: 16,
+    title: "Revenue",
+    icon: <BiSolidCategory />,
+    role: ["SUPER_ADMIN"],
+    path: "/sadmin/revenue",
+  },
 ];
