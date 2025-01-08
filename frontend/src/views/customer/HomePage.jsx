@@ -12,11 +12,6 @@ import {
 
 const Homepage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { featuredProducts, newArrivals } = useSelector(
-    (state) => state.products
-  );
 
   useEffect(() => {
     dispatch(get_featured_products());
@@ -43,23 +38,6 @@ const Homepage = () => {
           </Link>
         </div>
       </Carousel>
-      <section className="m-5 pt-5">
-        <h2 className="text-xl font-bold mb-3">Featured Products</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {featuredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
-
-      <section className="m-5 pt-5">
-        <h1 className="text-xl font-bold mb-3">New Arrivals</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {newArrivals.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </section>
 
       <section className="m-5 pt-5">
         <h1 className="text-xl font-bold mb-3">Feedback</h1>

@@ -17,7 +17,8 @@ const ProductDetails = () => {
 
   const { product, relatedProducts } = useSelector((state) => state.products);
   const dispatch = useDispatch();
-  const { userInfo, isLogged } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const { userInfo } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(get_product(id));
@@ -30,10 +31,10 @@ const ProductDetails = () => {
       quantity,
       name: product.name,
       price: product.price,
-      image: product.images[0],
+      image: product.product_images[0].image_link,
     };
 
-    if (!isLogged) {
+    if (!userInfo.role) {
       const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
       const existingItem = tempCart.find((item) => item.id === product.id);
       if (existingItem) {
@@ -44,7 +45,7 @@ const ProductDetails = () => {
       localStorage.setItem("cart", JSON.stringify(tempCart));
       toast.success("Added to cart successfully. Please login to checkout.");
     } else {
-      dispatch(add_to_cart({ ...cartItem, userId: userInfo.id }));
+      dispatch(add_to_cart({ ...cartItem }));
       toast.success("Added to cart successfully.");
     }
   };
@@ -54,10 +55,10 @@ const ProductDetails = () => {
       <Row gutter={[16, 16]} className="bg-white shadow-md rounded-lg p-5">
         <Col xs={24} md={12}>
           <Carousel autoplay nextArrow={null} prevArrow={null}>
-            {product.images?.map((image, index) => (
+            {product.product_images?.map((image, index) => (
               <div key={index}>
                 <img
-                  src={image}
+                  src={image.image_link}
                   alt={`product-${index}`}
                   className="w-full h-96 object-cover rounded-md"
                 />
@@ -76,10 +77,10 @@ const ProductDetails = () => {
             </p>
             <Divider />
             <p>
-              <strong>Category:</strong> {product.category}
+              <strong>Category:</strong> {product.category_id?.category_name}
             </p>
             <p>
-              <strong>Material:</strong> {product.material}
+              <strong>Material:</strong> {product.material_id?.material_name}
             </p>
             <p>
               <strong>Origin:</strong> {product.origin}
@@ -92,7 +93,7 @@ const ProductDetails = () => {
             </p>
             <div className="mt-5 flex flex-row items-baseline">
               <p className="mr-5">
-                <strong>Số lượng:</strong>
+                <strong>Quantity:</strong>
               </p>
               <InputNumber
                 min={1}
@@ -126,7 +127,7 @@ const ProductDetails = () => {
               <ProductCard
                 product={product}
                 key={product.id}
-                onClick={() => console.log("click")}
+                onClick={() => navigate(`/product/${product.id}`)}
               />
             </Col>
           ))}

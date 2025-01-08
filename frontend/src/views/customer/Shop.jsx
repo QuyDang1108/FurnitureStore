@@ -3,22 +3,64 @@ import { FaSearch } from "react-icons/fa";
 import { Card, Input, Button, Select, Row, Col, Slider, Checkbox } from "antd";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   clearMessage,
+  get_category,
   get_products,
 } from "../../store/Reducers/productReducer";
 import { toast } from "react-hot-toast";
+import { get_categories } from "./../../store/Reducers/categoryReducer";
+import { get_materials } from "../../store/Reducers/materialReducer";
+
 const { Option } = Select;
 
 const Shop = () => {
   const { products, errorMessage, loader } = useSelector(
     (state) => state.products
   );
+  const { categories } = useSelector((state) => state.categories);
+  const { materials } = useSelector((state) => state.materials);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [searchValue, setSearchValue] = useState("");
+  const [sortAttribute, setSortAttribute] = useState("name");
+  const [priceRange, setPriceRange] = useState([0, 5000000]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedMaterial, setSelectedMaterial] = useState([]);
+
+  const cate = categories.map((category) => category.category_name);
+  const mate = materials.map((material) => material.material_name);
+
+  const updateQueryParams = (key, value) => {
+    const params = new URLSearchParams(location.search);
+    if (value || value === 0) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
+    navigate({ search: params.toString() });
+  };
 
   useEffect(() => {
-    dispatch(get_products());
+    const params = new URLSearchParams(location.search);
+
+    setSearchValue(params.get("search") || "");
+    setPriceRange([
+      Number(params.get("price_min") || 0),
+      Number(params.get("price_max") || 5000000),
+    ]);
+    setSelectedCategory(params.get("category")?.split(",") || []);
+    setSelectedMaterial(params.get("material")?.split(",") || []);
+  }, [location.search]);
+
+  useEffect(() => {
+    dispatch(get_products({ currentPage: 1, perPage: 100 }));
+    dispatch(get_categories());
+    dispatch(get_materials());
   }, [dispatch]);
 
   useEffect(() => {
@@ -28,18 +70,29 @@ const Shop = () => {
     dispatch(clearMessage());
   }, [errorMessage]);
 
-  const [searchValue, setSearchValue] = useState("");
-  const [sortAttribute, setSortAttribute] = useState("name");
-  const [priceRange, setPriceRange] = useState([0, 5000000]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [selectedMaterial, setSelectedMaterial] = useState([]);
-  const [selectedRating, setSelectedRating] = useState(null);
-  const [selectedColor, setSelectedColor] = useState([]);
+  const handlePriceChange = (value) => {
+    setPriceRange(value);
+    updateQueryParams("price_min", value[0]);
+    updateQueryParams("price_max", value[1]);
+  };
 
-  const categories = ["Chair", "Table", "Sofa", "Bed", "Cabinet"];
-  const materials = ["Wood", "Metal", "Plastic", "Glass", "Fabric"];
-  const colors = ["Red", "Blue", "Green", "White", "Black"];
-  const ratings = [5, 4, 3, 2, 1];
+  const handleCategoryChange = (values) => {
+    setSelectedCategory(values);
+    updateQueryParams("category", values.join(","));
+  };
+
+  const handleMaterialChange = (values) => {
+    setSelectedMaterial(values);
+    updateQueryParams("material", values.join(","));
+  };
+
+  const resetFilters = () => {
+    navigate({ search: "" });
+    setSearchValue("");
+    setPriceRange([0, 5000000]);
+    setSelectedCategory([]);
+    setSelectedMaterial([]);
+  };
 
   const filteredProducts = products
     .filter((product) =>
@@ -52,24 +105,16 @@ const Shop = () => {
     .filter(
       (product) =>
         selectedCategory.length === 0 ||
-        selectedCategory.includes(product.category)
+        selectedCategory.includes(product?.category_id?.category_name)
     )
     .filter(
       (product) =>
         selectedMaterial.length === 0 ||
-        selectedMaterial.includes(product.material)
-    )
-    .filter(
-      (product) => selectedRating === null || product.rating >= selectedRating
-    )
-    .filter(
-      (product) =>
-        selectedColor.length === 0 || selectedColor.includes(product.color)
+        selectedMaterial.includes(product?.material_id?.material_name)
     )
     .sort((a, b) => {
       if (sortAttribute === "name") return a.name.localeCompare(b.name);
       if (sortAttribute === "price") return a.price - b.price;
-      if (sortAttribute === "quantity") return a.quantity - b.quantity;
       return 0;
     });
 
@@ -85,7 +130,7 @@ const Shop = () => {
             min={0}
             max={10000000}
             step={100000}
-            onChange={(value) => setPriceRange(value)}
+            onChange={handlePriceChange}
           />
           <p>
             {new Intl.NumberFormat("vi-VN", {
@@ -103,40 +148,18 @@ const Shop = () => {
         <div>
           <h4 className="font-semibold">Category</h4>
           <Checkbox.Group
-            options={categories}
-            onChange={(values) => setSelectedCategory(values)}
+            options={cate}
+            value={selectedCategory}
+            onChange={handleCategoryChange}
           />
         </div>
 
         <div>
           <h4 className="font-semibold">Material</h4>
           <Checkbox.Group
-            options={materials}
-            onChange={(values) => setSelectedMaterial(values)}
-          />
-        </div>
-
-        <div>
-          <h4 className="font-semibold">Rating</h4>
-          <Select
-            placeholder="Select Rating"
-            style={{ width: "100%" }}
-            onChange={(value) => setSelectedRating(value)}
-            allowClear
-          >
-            {ratings.map((star) => (
-              <Option key={star} value={star}>
-                {`${star} Star${star > 1 ? "s" : ""}`}
-              </Option>
-            ))}
-          </Select>
-        </div>
-
-        <div>
-          <h4 className="font-semibold">Color</h4>
-          <Checkbox.Group
-            options={colors}
-            onChange={(values) => setSelectedColor(values)}
+            options={mate}
+            value={selectedMaterial}
+            onChange={handleMaterialChange}
           />
         </div>
       </div>
@@ -146,7 +169,10 @@ const Shop = () => {
         <div className="flex items-center">
           <Input
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              setSearchValue(e.target.value);
+              updateQueryParams("search", e.target.value);
+            }}
             placeholder="Search..."
             addonAfter={<Button type="text" icon={<FaSearch />} />}
             style={{ width: 300 }}
@@ -164,7 +190,6 @@ const Shop = () => {
           >
             <Option value="name">Name</Option>
             <Option value="price">Price</Option>
-            <Option value="quantity">Quantity</Option>
           </Select>
         </div>
       </div>
@@ -194,7 +219,7 @@ const LazyProductCard = ({ product }) => {
           cover={
             <img
               alt={product.name}
-              src={product.image}
+              src={product.product_images[0]?.image_link}
               style={{ height: 200, objectFit: "cover" }}
             />
           }
@@ -222,7 +247,7 @@ const LazyProductCard = ({ product }) => {
                   margin: 0,
                   fontWeight: "bold",
                   fontSize: "1.1rem",
-                  color: "#ff4d4f", // Màu đỏ nổi bật cho giá
+                  color: "#ff4d4f",
                 }}
               >
                 {new Intl.NumberFormat("vi-VN", {
@@ -238,7 +263,7 @@ const LazyProductCard = ({ product }) => {
                   whiteSpace: "nowrap",
                 }}
               >
-                {`Stock: ${product.quantity}`}
+                {`Origin: ${product.origin}`}
               </p>
             </div>
           </div>

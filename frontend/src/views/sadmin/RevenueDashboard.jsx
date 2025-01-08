@@ -4,13 +4,27 @@ import { Line, Bar } from "react-chartjs-2";
 import { DatePicker, Space, Select, Button, Table } from "antd";
 import "antd/dist/reset.css";
 import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { get_revennue_stats } from "./../../store/Reducers/statReducer";
 import { toast } from "react-hot-toast";
+import dayjs from "dayjs";
 
 const RevenueDashboard = () => {
-  const [timeFilter, setTimeFilter] = useState("day"); // day, month, quarter, year
-  const [chartType, setChartType] = useState("line"); // line, bar
-  const [dateRange, setDateRange] = useState([]); // For date range filter
+  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  const [timeFilter, setTimeFilter] = useState(
+    searchParams.get("timeFilter") || "day"
+  ); // day, month, quarter, year
+  const [chartType, setChartType] = useState(
+    searchParams.get("chartType") || "line"
+  ); // line, bar
+  const [dateRange, setDateRange] = useState(() => {
+    const startDate = searchParams.get("startDate");
+    const endDate = searchParams.get("endDate");
+    return startDate && endDate ? [startDate, endDate] : [];
+  });
+
   const [chartData, setChartData] = useState({}); // Data for the chart
   const [tableData, setTableData] = useState([]); // Data for the table
 
@@ -55,6 +69,25 @@ const RevenueDashboard = () => {
   ];
 
   useEffect(() => {
+    setSearchParams({
+      timeFilter,
+      chartType,
+      ...(dateRange.length === 2 && {
+        startDate: dateRange[0],
+        endDate: dateRange[1],
+      }),
+    });
+  }, [timeFilter, chartType, dateRange, setSearchParams]);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      dispatch(get_revennue_stats({ timeFilter, dateRange }));
+    }, 300);
+
+    return () => clearTimeout(timeout);
+  }, [timeFilter, dateRange, dispatch]);
+
+  useEffect(() => {
     const chartData = {
       labels: chart?.labels || [],
       datasets: [
@@ -79,14 +112,6 @@ const RevenueDashboard = () => {
     setChartData(chartData);
     setTableData(tableData);
   }, [chart, table]);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => {
-      dispatch(get_revennue_stats({ timeFilter, dateRange }));
-    }, 300);
-
-    return () => clearTimeout(timeout);
-  }, [timeFilter, dateRange]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -117,9 +142,23 @@ const RevenueDashboard = () => {
             />
             <DatePicker.RangePicker
               onChange={(dates) => {
-                const fmtDates = dates.map((date) => date.format("YYYY-MM-DD"));
-                setDateRange(fmtDates);
+                if (dates && dates.length === 2) {
+                  const fmtDates = dates.map((date) =>
+                    date?.format("YYYY-MM-DD")
+                  );
+                  setDateRange(fmtDates);
+                } else {
+                  setDateRange([]);
+                }
               }}
+              value={
+                dateRange.length === 2
+                  ? [
+                      dayjs(dateRange[0], "YYYY-MM-DD"),
+                      dayjs(dateRange[1], "YYYY-MM-DD"),
+                    ]
+                  : undefined
+              }
               format="YYYY-MM-DD"
               className="w-full sm:w-auto"
             />

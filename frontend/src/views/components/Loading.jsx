@@ -1,7 +1,7 @@
 import React from "react";
 import { Spin } from "antd";
 
-const Loading = ({ message = "Loading...", fullScreen = false }) => {
+const Loading = ({ message = "Loading...", fullScreen = true }) => {
   return (
     <div
       className={`flex items-center justify-center ${

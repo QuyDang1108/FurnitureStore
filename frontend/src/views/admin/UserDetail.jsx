@@ -9,6 +9,7 @@ import {
   get_user_by_id,
 } from "../../store/Reducers/userReducer";
 import toast from "react-hot-toast";
+import Loading from "./../components/Loading";
 
 const UserDetail = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const UserDetail = () => {
   ];
 
   if (loader) {
-    return <div>Loading...</div>;
+    return <Loading fullScreen={true} />;
   }
 
   return (
@@ -114,7 +115,7 @@ const UserDetail = () => {
             </div>
             <div>
               <p className="font-bold">Date of Birth:</p>
-              <p>{user.dateOfBirth}</p>
+              <p>{user.date_of_birth}</p>
             </div>
             <div>
               <p className="font-bold">Gender:</p>
