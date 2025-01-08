@@ -18,16 +18,6 @@ function App() {
     setAllRoutes([...allRoutes, route]);
   }, []);
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem("accessToken");
-  //   console.log("token", token);
-  //   if (token) {
-  //     dispatch(get_user_info());
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [dispatch, navigate]);
-
   return <Router allRoutes={allRoutes} />;
 }
 
