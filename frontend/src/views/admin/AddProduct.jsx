@@ -14,13 +14,13 @@ const AddProduct = () => {
   const [product, setProduct] = useState({
     name: "",
     price: "",
-    categoryId: "",
-    materialId: "",
+    category_id: "",
+    material_id: "",
     origin: "",
     size: "",
     description: "",
     images: [],
-    stock: 0,
+    status: "ACTIVE",
   });
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredMaterials, setFilteredMaterials] = useState([]);
@@ -55,16 +55,16 @@ const AddProduct = () => {
       [name]: value,
     });
 
-    if (name === "categoryId") {
+    if (name === "category_id") {
       setFilteredCategories(
         categories.filter((category) =>
-          category.name.toLowerCase().includes(value.toLowerCase())
+          category.category_name.toLowerCase().includes(value.toLowerCase())
         )
       );
-    } else if (name === "materialId") {
+    } else if (name === "material_id") {
       setFilteredMaterials(
         materials.filter((material) =>
-          material.name.toLowerCase().includes(value.toLowerCase())
+          material.material_name.toLowerCase().includes(value.toLowerCase())
         )
       );
     }
@@ -87,7 +87,8 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(add_product(product));
+    console.log(product);
+    // dispatch(add_product(product));
   };
 
   useEffect(() => {
@@ -198,7 +199,7 @@ const AddProduct = () => {
                 {/* Category */}
                 <div className="mb-4 relative">
                   <label
-                    htmlFor="categoryId"
+                    htmlFor="category_id"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Category
@@ -210,14 +211,14 @@ const AddProduct = () => {
                     <input
                       className="px-4 py-2 outline-none bg-white text-black w-full"
                       type="text"
-                      id="categoryId"
-                      name="categoryId"
+                      id="category_id"
+                      name="category_id"
                       value={categoryName}
                       onChange={(e) => {
                         setCategoryName(e.target.value);
                         setFilteredCategories(
                           categories?.filter((category) =>
-                            category?.name
+                            category?.category_name
                               .toLowerCase()
                               .includes(e.target.value.toLowerCase())
                           )
@@ -238,13 +239,13 @@ const AddProduct = () => {
                           onClick={() => {
                             setProduct({
                               ...product,
-                              categoryId: category.id,
+                              category_id: category.id,
                             });
-                            setCategoryName(category.name);
+                            setCategoryName(category.category_name);
                           }}
                           className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                         >
-                          {category.name}
+                          {category.category_name}
                         </li>
                       ))}
                     </ul>
@@ -254,7 +255,7 @@ const AddProduct = () => {
                 {/* Material */}
                 <div className="mb-4 relative">
                   <label
-                    htmlFor="materialId"
+                    htmlFor="material_id"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Material
@@ -266,14 +267,14 @@ const AddProduct = () => {
                     <input
                       className="px-4 py-2 outline-none bg-white text-black w-full"
                       type="text"
-                      id="materialId"
-                      name="materialId"
+                      id="material_id"
+                      name="material_id"
                       value={materialName}
                       onChange={(e) => {
                         setMaterialName(e.target.value);
                         setFilteredMaterials(
                           materials?.filter((material) =>
-                            material?.name
+                            material?.material_name
                               .toLowerCase()
                               .includes(e.target.value.toLowerCase())
                           )
@@ -294,13 +295,13 @@ const AddProduct = () => {
                           onClick={() => {
                             setProduct({
                               ...product,
-                              materialId: material.id,
+                              material_id: material.id,
                             });
-                            setMaterialName(material.name);
+                            setMaterialName(material.material_name);
                           }}
                           className="px-4 py-2 cursor-pointer hover:bg-gray-100"
                         >
-                          {material.name}
+                          {material.material_name}
                         </li>
                       ))}
                     </ul>
@@ -363,23 +364,24 @@ const AddProduct = () => {
                   />
                 </div>
 
-                {/* Stock */}
+                {/* Status */}
                 <div className="mb-4">
                   <label
-                    htmlFor="stock"
+                    htmlFor="status"
                     className="block text-sm font-medium text-gray-700"
                   >
-                    Stock
+                    Status
                   </label>
-                  <input
+                  <select
                     className="px-4 py-2 outline-none bg-white text-black border border-slate-700 rounded-md w-full"
-                    type="number"
-                    id="stock"
-                    name="stock"
-                    value={product.stock}
+                    id="status"
+                    name="status"
+                    value={product.status}
                     onChange={handleInputChange}
-                    placeholder="Stock"
-                  />
+                  >
+                    <option value="ACTIVE">Active</option>
+                    <option value="INACTIVE">Inactive</option>
+                  </select>
                 </div>
 
                 {/* Add Product Button */}

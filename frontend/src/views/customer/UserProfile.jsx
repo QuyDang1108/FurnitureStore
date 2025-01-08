@@ -7,6 +7,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
+    id: 0,
     fullname: "",
     address: "",
     phone: "",
@@ -20,6 +21,7 @@ const UserProfile = () => {
   useEffect(() => {
     if (userInfo) {
       setFormData({
+        id: userInfo.id,
         fullname: userInfo.fullname,
         address: userInfo.address,
         phone: userInfo.phone,

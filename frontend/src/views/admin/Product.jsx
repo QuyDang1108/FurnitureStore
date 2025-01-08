@@ -82,10 +82,10 @@ const Products = () => {
                             {product.price}
                           </td>
                           <td className="py-2 px-4 border-b border-gray-200 text-center">
-                            {product.category}
+                            {product.category_id.category_name}
                           </td>
                           <td className="py-2 px-4 border-b border-gray-200 text-center">
-                            {product.material}
+                            {product.material_id.material_name}
                           </td>
                           <td className="py-2 px-4 border-b border-gray-200 text-center">
                             {product.origin}

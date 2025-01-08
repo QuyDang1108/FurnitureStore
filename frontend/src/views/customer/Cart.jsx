@@ -3,7 +3,11 @@ import { FaSearch, FaTrash } from "react-icons/fa";
 import { Input, Button, Table, Space, Typography, Checkbox, Modal } from "antd";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { get_cart, update_cart } from "./../../store/Reducers/cartReducer";
+import {
+  delete_from_cart,
+  get_cart,
+  update_cart,
+} from "./../../store/Reducers/cartReducer";
 import { useNavigate } from "react-router-dom";
 import { add_order } from "./../../store/Reducers/orderReducer";
 import { toast } from "react-hot-toast";
@@ -35,7 +39,7 @@ const Cart = () => {
     const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
     setFilteredCart(tempCart);
     if (isLogged) {
-      dispatch(get_cart(userInfo.id));
+      dispatch(get_cart());
     }
   }, [dispatch, isLogged, userInfo.id]);
 
@@ -47,16 +51,17 @@ const Cart = () => {
 
   const handleQuantityChange = (id, delta) => {
     const item = filteredCart.find((item) => item.id === id);
-    if (item.quantity + delta < 1) return;
+    if (item.amount + delta < 1) return;
 
     const updatedCart = filteredCart.map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + delta } : item
+      item.id === id ? { ...item, amount: item.amount + delta } : item
     );
     setFilteredCart(updatedCart);
   };
 
   const handleRemoveItem = (id) => {
     const updatedCart = filteredCart.filter((item) => item.id !== id);
+    dispatch(delete_from_cart(id));
     setFilteredCart(updatedCart);
   };
 
@@ -98,7 +103,7 @@ const Cart = () => {
       items: selectedItems,
       shippingInfo,
       totalAmount: selectedItems.reduce(
-        (total, item) => total + item.price * item.quantity,
+        (total, item) => total + item.price * item.amount,
         0
       ),
     };
@@ -111,12 +116,11 @@ const Cart = () => {
   };
 
   const displayedCart = filteredCart.filter((item) =>
-    item.name.toLowerCase().includes(searchValue.toLowerCase())
+    item?.name?.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   const totalPrice = displayedCart.reduce(
-    (total, item) =>
-      total + item.price * item.quantity * (item.selected ? 1 : 0),
+    (total, item) => total + item.price * item.amount * (item.selected ? 1 : 0),
     0
   );
 
@@ -155,7 +159,7 @@ const Cart = () => {
     },
     {
       title: "Quantity",
-      dataIndex: "quantity",
+      dataIndex: "amount",
       render: (text, record) => (
         <Space>
           <Button
@@ -179,7 +183,7 @@ const Cart = () => {
     {
       title: "Total",
       dataIndex: "total",
-      render: (text, record) => `$${record.price * record.quantity}`,
+      render: (text, record) => `$${record.price * record.amount}`,
     },
     {
       title: "Action",

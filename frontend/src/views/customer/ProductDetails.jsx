@@ -4,6 +4,7 @@ import { ShoppingCartOutlined, ShoppingOutlined } from "@ant-design/icons";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
+import { LeftOutlined, RightOutlined } from "@ant-design/icons";
 import {
   get_product,
   get_related_products,
@@ -54,7 +55,15 @@ const ProductDetails = () => {
     <div className="px-4 lg:px-10 py-8">
       <Row gutter={[16, 16]} className="bg-white shadow-md rounded-lg p-5">
         <Col xs={24} md={12}>
-          <Carousel autoplay nextArrow={null} prevArrow={null}>
+          <Carousel
+            autoplay
+            prevArrow={
+              <LeftOutlined style={{ fontSize: "24px", color: "#000" }} />
+            }
+            nextArrow={
+              <RightOutlined style={{ fontSize: "24px", color: "#000" }} />
+            }
+          >
             {product.product_images?.map((image, index) => (
               <div key={index}>
                 <img
