@@ -5,7 +5,11 @@ export const get_cart = createAsyncThunk(
   "cart/get_cart",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/cart/cartOfCurrentUser");
+      const { data } = await api.get("/cart/cartOfCurrentUser", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

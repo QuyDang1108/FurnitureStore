@@ -150,6 +150,40 @@ const usersSlice = createSlice({
       .addCase(update_user.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
+      })
+      .addCase(lock_user.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(lock_user.fulfilled, (state) => {
+        state.success = true;
+        state.loader = false;
+      })
+      .addCase(lock_user.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+        state.loader = false;
+      })
+      .addCase(active_user.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(active_user.fulfilled, (state) => {
+        state.success = true;
+        state.loader = false;
+      })
+      .addCase(active_user.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+        state.loader = false;
+      })
+      .addCase(get_admins.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_admins.fulfilled, (state, { payload }) => {
+        state.users = payload;
+        state.total = payload.length;
+        state.loader = false;
+      })
+      .addCase(get_admins.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+        state.loader = false;
       });
   },
 });

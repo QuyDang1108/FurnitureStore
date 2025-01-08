@@ -72,7 +72,7 @@ export const get_related_products = createAsyncThunk(
   "products/get_related_products",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/${id}/related`);
+      const { data } = await api.get(`/products/${id}/related`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
