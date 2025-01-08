@@ -8,11 +8,11 @@ export const sadminRoute = [
   {
     path: "/sadmin/dashboard",
     element: <AdminDashboard />,
-    role: ["superadmin"],
+    role: ["SUPER_ADMIN"],
   },
   {
     path: "/sadmin/revenue",
     element: <RevenueDashboard />,
-    role: ["superadmin"],
+    role: ["SUPER_ADMIN"],
   },
 ];

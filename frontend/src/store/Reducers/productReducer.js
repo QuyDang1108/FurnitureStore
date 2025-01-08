@@ -6,11 +6,12 @@ export const get_products = createAsyncThunk(
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(
-        `/products?page=${info.currentPage}&limit=${info.perPage}`
+        `/products?page=${info.currentPage - 1}&limit=${info.perPage}`
       );
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
+      console.log(error.response.data);
       return rejectWithValue(error.response.data);
     }
   }
@@ -71,7 +72,7 @@ export const get_related_products = createAsyncThunk(
   "products/get_related_products",
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/related`);
+      const { data } = await api.get(`/${id}/related`);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

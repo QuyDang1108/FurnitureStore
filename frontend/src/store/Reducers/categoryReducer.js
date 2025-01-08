@@ -91,8 +91,8 @@ export const categorySlice = createSlice({
       })
       .addCase(get_categories.fulfilled, (state, { payload }) => {
         state.loader = false;
-        state.categories = payload.data;
-        state.total = payload.total;
+        state.categories = payload;
+        state.total = payload.length;
         state.success = true;
       })
       .addCase(get_categories.rejected, (state, { payload }) => {

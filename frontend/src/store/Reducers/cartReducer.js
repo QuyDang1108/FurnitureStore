@@ -17,9 +17,14 @@ export const add_to_cart = createAsyncThunk(
   "cart/add_to_cart",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/cart/addToCart?productId=${ info.id }&amount=${ info.quantity }`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/cart/addToCart?productId=${info.id}&amount=${info.quantity}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -31,9 +36,14 @@ export const update_cart = createAsyncThunk(
   "cart/update_cart",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/cart/updateCartDetail?productId=${ info.id }&amount=${ info.quantity }`, {
-        withCredentials: true,
-      });
+      const { data } = await api.get(
+        `/cart/updateCartDetail?productId=${info.id}&amount=${info.quantity}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
+        }
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -46,7 +56,9 @@ export const delete_from_cart = createAsyncThunk(
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.get(`/cart/deleteCartDetail?productId=${id}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
