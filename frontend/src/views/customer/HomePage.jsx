@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
+import ProductCard from "../util/ProductCard";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../carousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { get_categories } from "../../store/Reducers/categoryReducer";
 
 const Homepage = () => {
@@ -72,7 +73,7 @@ const Homepage = () => {
         infiniteLoop
         responsive={responsiveOne}
       >
-        <div class="relative">
+        <div className="relative">
           <img src="/images/carousel-1.jpg" alt="Featured 1" />
           <Link to="/customer/product-list" className="legend">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
@@ -138,46 +139,21 @@ const Homepage = () => {
             infiniteLoop
             responsive={responsiveTwo}
           >
-            <div class="fixed-size relative">
-              <img src="/images/category/chair.jpg" alt="Featured 1" />
-              <Link to="/customer/product-list" className="legend">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  Shop Now
-                </button>
-              </Link>
-            </div>
-            <div class="fixed-size relative">
-              <img src="/images/category/sofa.jpg" alt="Featured 2" />
-              <Link to="/customer/product-list" className="legend">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  Shop Now
-                </button>
-              </Link>
-            </div>
-            <div class="fixed-size relative">
-              <img src="/images/category/bed.jpg" alt="Featured 3" />
-              <Link to="/customer/product-list" className="legend">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  Shop Now
-                </button>
-              </Link>
-            </div>
-            <div class="fixed-size relative">
-              <img src="/images/category/locker.jpg" alt="Featured 4" />
-              <Link to="/customer/product-list" className="legend">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  Shop Now
-                </button>
-              </Link>
-            </div>
-            <div class="fixed-size relative">
-              <img src="/images/category/table.jpg" alt="Featured 5" />
-              <Link to="/customer/product-list" className="legend">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
-                  Shop Now
-                </button>
-              </Link>
-            </div>
+            {mergedCategories.map((image, index) => {
+              return (
+                <div key={index} className="fixed-size relative">
+                  <img src={image.src} alt={`Featured ${index + 1}`} />
+                  <Link
+                    to={`/customer/product-list?category=${image.category_name}`}
+                    className="legend"
+                  >
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
+                      Shop Now
+                    </button>
+                  </Link>
+                </div>
+              );
+            })}
           </Carousel>
         </div>
       </section>
