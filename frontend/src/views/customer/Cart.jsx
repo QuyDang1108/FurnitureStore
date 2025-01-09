@@ -33,7 +33,7 @@ const Cart = () => {
     if (cart.length > 0) {
       setFilteredCart([...cart, ...filteredCart]);
     }
-  }, [cart]);
+  }, [cart, filteredCart]);
 
   useEffect(() => {
     const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -41,7 +41,7 @@ const Cart = () => {
     if (userInfo.role) {
       dispatch(get_cart());
     }
-  }, [dispatch]);
+  }, [dispatch, userInfo.role]);
 
   useEffect(() => {
     if (!userInfo.role) {

@@ -51,7 +51,7 @@ const AdminDashboard = () => {
       toast.error(errorMessage);
     }
     dispatch(clearMessage());
-  }, [errorMessage]);
+  }, [errorMessage, dispatch]);
 
   return (
     // Main dashboard

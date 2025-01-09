@@ -29,7 +29,7 @@ const Products = () => {
     }
 
     dispatch(clearMessage());
-  }, [success, errorMessage]);
+  }, [success, errorMessage, dispatch]);
 
   if (loader) {
     return <Loading />;

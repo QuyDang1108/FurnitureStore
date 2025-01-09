@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Chart from "chart.js/auto";
 import { Line, Bar } from "react-chartjs-2";
 import { Select, Button } from "antd";
 import "antd/dist/reset.css";
@@ -69,91 +68,95 @@ const RevenueDashboard = () => {
     }
   }, [errorMessage]);
 
-  return (
-    <div className="p-5 bg-gray-100 min-h-screen">
-      <div className="bg-white shadow-md p-4 rounded-md">
-        {/* Header */}
-        <div className="flex flex-wrap justify-between items-center mb-5">
-          <h1 className="text-xl font-bold w-full sm:w-auto">
-            Revenue Statistics
-          </h1>
-          <div className="flex flex-wrap items-center space-x-4 mt-3 sm:mt-0">
-            <Select
-              value={year}
-              onChange={(value) => setYear(value)}
-              options={Array.from({ length: 10 }, (_, i) => {
-                const y = new Date().getFullYear() - i;
-                return { value: String(y), label: String(y) };
-              })}
-              placeholder="Select year"
-              className="w-full sm:w-auto"
-            />
-            <Button
-              type="primary"
-              onClick={() => dispatch(get_revennue_stats({ year }))}
-              className="w-full sm:w-auto sm:mt-0"
-            >
-              Apply
-            </Button>
-          </div>
-        </div>
-
-        {/* Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-5">
-          <div className="bg-blue-100 p-4 rounded-md shadow">
-            <p className="text-sm font-semibold">Total Revenue</p>
-            <p className="text-lg font-bold">{totalSales} VND</p>
-          </div>
-          <div className="bg-green-100 p-4 rounded-md shadow">
-            <p className="text-sm font-semibold">Total Orders</p>
-            <p className="text-lg font-bold">{totalOrders}</p>
-          </div>
-          <div className="bg-yellow-100 p-4 rounded-md shadow">
-            <p className="text-sm font-semibold">Total Products</p>
-            <p className="text-lg font-bold">{totalProducts}</p>
-          </div>
-          <div className="bg-red-100 p-4 rounded-md shadow">
-            <p className="text-sm font-semibold">New User</p>
-            <p className="text-lg font-bold">{totalUsers}</p>
-          </div>
-        </div>
-
-        {/* Chart Section */}
-        <div className="mb-5">
-          <div className="flex flex-wrap justify-between items-center mb-3">
-            <h2 className="text-lg font-bold w-full sm:w-auto">
-              Revenue Chart
-            </h2>
-            <div className="flex space-x-4 mt-3 sm:mt-0">
-              <Button
-                type={chartType === "line" ? "primary" : "default"}
-                onClick={() => setChartType("line")}
-                className="w-full sm:w-auto mb-2 sm:mb-0"
-              >
-                Line Chart
-              </Button>
-              <Button
-                type={chartType === "bar" ? "primary" : "default"}
-                onClick={() => setChartType("bar")}
+  if (loader) {
+    return <Loading />;
+  } else {
+    return (
+      <div className="p-5 bg-gray-100 min-h-screen">
+        <div className="bg-white shadow-md p-4 rounded-md">
+          {/* Header */}
+          <div className="flex flex-wrap justify-between items-center mb-5">
+            <h1 className="text-xl font-bold w-full sm:w-auto">
+              Revenue Statistics
+            </h1>
+            <div className="flex flex-wrap items-center space-x-4 mt-3 sm:mt-0">
+              <Select
+                value={year}
+                onChange={(value) => setYear(value)}
+                options={Array.from({ length: 10 }, (_, i) => {
+                  const y = new Date().getFullYear() - i;
+                  return { value: String(y), label: String(y) };
+                })}
+                placeholder="Select year"
                 className="w-full sm:w-auto"
+              />
+              <Button
+                type="primary"
+                onClick={() => dispatch(get_revennue_stats({ year }))}
+                className="w-full sm:w-auto sm:mt-0"
               >
-                Bar Chart
+                Apply
               </Button>
             </div>
           </div>
-          {chartData?.datasets?.length ? (
-            chartType === "line" ? (
-              <Line data={chartData} />
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-5">
+            <div className="bg-blue-100 p-4 rounded-md shadow">
+              <p className="text-sm font-semibold">Total Revenue</p>
+              <p className="text-lg font-bold">{totalSales} VND</p>
+            </div>
+            <div className="bg-green-100 p-4 rounded-md shadow">
+              <p className="text-sm font-semibold">Total Orders</p>
+              <p className="text-lg font-bold">{totalOrders}</p>
+            </div>
+            <div className="bg-yellow-100 p-4 rounded-md shadow">
+              <p className="text-sm font-semibold">Total Products</p>
+              <p className="text-lg font-bold">{totalProducts}</p>
+            </div>
+            <div className="bg-red-100 p-4 rounded-md shadow">
+              <p className="text-sm font-semibold">New User</p>
+              <p className="text-lg font-bold">{totalUsers}</p>
+            </div>
+          </div>
+
+          {/* Chart Section */}
+          <div className="mb-5">
+            <div className="flex flex-wrap justify-between items-center mb-3">
+              <h2 className="text-lg font-bold w-full sm:w-auto">
+                Revenue Chart
+              </h2>
+              <div className="flex space-x-4 mt-3 sm:mt-0">
+                <Button
+                  type={chartType === "line" ? "primary" : "default"}
+                  onClick={() => setChartType("line")}
+                  className="w-full sm:w-auto mb-2 sm:mb-0"
+                >
+                  Line Chart
+                </Button>
+                <Button
+                  type={chartType === "bar" ? "primary" : "default"}
+                  onClick={() => setChartType("bar")}
+                  className="w-full sm:w-auto"
+                >
+                  Bar Chart
+                </Button>
+              </div>
+            </div>
+            {chartData?.datasets?.length ? (
+              chartType === "line" ? (
+                <Line data={chartData} />
+              ) : (
+                <Bar data={chartData} />
+              )
             ) : (
-              <Bar data={chartData} />
-            )
-          ) : (
-            <Loading />
-          )}
+              <Loading />
+            )}
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default RevenueDashboard;

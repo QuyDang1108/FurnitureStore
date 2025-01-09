@@ -7,7 +7,6 @@ import {
   update_product,
   delete_product,
   clearMessage,
-  get_products,
 } from "../../store/Reducers/productReducer";
 import Loading from "../components/Loading";
 import { get_categories } from "../../store/Reducers/categoryReducer";
@@ -87,7 +86,7 @@ const EditProduct = () => {
       toast.success("Successfully!");
     }
     dispatch(clearMessage());
-  }, [errorMessage, success]);
+  }, [errorMessage, success, dispatch]);
 
   if (!product) {
     return <Loading />;
