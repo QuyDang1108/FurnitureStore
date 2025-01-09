@@ -19,9 +19,10 @@ const AddProduct = () => {
     origin: "",
     size: "",
     description: "",
-    images: [],
     status: "ACTIVE",
   });
+
+  const [images, setImages] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredMaterials, setFilteredMaterials] = useState([]);
   const [isCategoryFocused, setIsCategoryFocused] = useState(false);
@@ -72,17 +73,11 @@ const AddProduct = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setProduct((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, ...files],
-    }));
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   const removeImage = (index) => {
-    setProduct((prevState) => ({
-      ...prevState,
-      images: prevState.images.filter((_, i) => i !== index),
-    }));
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e) => {
@@ -154,7 +149,7 @@ const AddProduct = () => {
                   />
                   {/* Image Preview */}
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {product?.images?.map((image, index) => (
+                    {images?.map((image, index) => (
                       <div key={index} className="relative">
                         <img
                           src={URL.createObjectURL(image)}

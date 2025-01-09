@@ -85,7 +85,9 @@ export const add_product = createAsyncThunk(
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post("/products", info, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -99,7 +101,9 @@ export const update_product = createAsyncThunk(
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.post(`/products`, info, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -113,7 +117,9 @@ export const delete_product = createAsyncThunk(
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.delete(`/products/${id}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -130,7 +136,9 @@ export const add_product_image = createAsyncThunk(
         `/medias?productId=${info.id}`,
         info.image,
         {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+          },
         }
       );
       return fulfillWithValue(data);
@@ -145,7 +153,9 @@ export const delete_product_image = createAsyncThunk(
   async (id, { fulfillWithValue, rejectWithValue }) => {
     try {
       const { data } = await api.delete(`/medias/${id}`, {
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
       });
       return fulfillWithValue(data);
     } catch (error) {
@@ -290,6 +300,28 @@ export const productSlice = createSlice({
         state.success = true;
       })
       .addCase(get_new_arrivals.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload;
+      })
+      .addCase(add_product_image.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(add_product_image.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(add_product_image.rejected, (state, { payload }) => {
+        state.loader = false;
+        state.errorMessage = payload;
+      })
+      .addCase(delete_product_image.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(delete_product_image.fulfilled, (state, { payload }) => {
+        state.loader = false;
+        state.success = true;
+      })
+      .addCase(delete_product_image.rejected, (state, { payload }) => {
         state.loader = false;
         state.errorMessage = payload;
       });
