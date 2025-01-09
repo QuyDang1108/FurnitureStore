@@ -1,6 +1,5 @@
 package com.furnistyle.furniturebackend.services.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.furnistyle.furniturebackend.dtos.requests.AuthenticationRequest;
 import com.furnistyle.furniturebackend.dtos.requests.RegisterRequest;
 import com.furnistyle.furniturebackend.dtos.responses.AuthenticationResponse;
@@ -23,14 +22,10 @@ import com.furnistyle.furniturebackend.services.UserService;
 import com.furnistyle.furniturebackend.utils.Constants;
 import com.warrenstrange.googleauth.GoogleAuthenticator;
 import com.warrenstrange.googleauth.GoogleAuthenticatorKey;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,13 +36,12 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
 
     private final MailService mailService;
-    private final UserRepository repository;
+    private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final OTPRepository otpRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Value("${application.otp.time}")
@@ -55,6 +49,18 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean register(RegisterRequest request) {
+        if (userRepository.findByUsername(request.getUsername()) != null) {
+            throw new BadRequestException(Constants.Message.ALREADY_USERNAME_REGISTER);
+        }
+
+        if (userRepository.findByEmail(request.getEmail()) != null) {
+            throw new BadRequestException(Constants.Message.ALREADY_MAIL_REGISTER);
+        }
+
+        if (userRepository.findByPhone(request.getPhone()) != null) {
+            throw new BadRequestException(Constants.Message.ALREADY_PHONE_REGISTER);
+        }
+
         var user = User.builder()
             .username(request.getUsername())
             .fullname(request.getFullname())
@@ -68,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
             .status(EUserStatus.ACTIVE)
             .build();
 
-        return repository.save(user).getId() > 0;
+        return userRepository.save(user).getId() > 0;
     }
 
     @Override
@@ -79,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
         } catch (Exception e) {
             throw new BadRequestException(Constants.Message.INCORRECT_USERNAME_OR_PASS);
         }
-        var user = repository.findByUsername(request.getUsername());
+        var user = userRepository.findByUsername(request.getUsername());
         if (user == null) {
             throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
         }
@@ -130,34 +136,7 @@ public class AuthServiceImpl implements AuthService {
         return true;
     }
 
-    @Override
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        final String refreshToken;
-        final String username;
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return;
-        }
-        refreshToken = authHeader.substring(7);
-        username = jwtService.extractUsername(refreshToken);
-        if (username != null) {
-            var user = this.repository.findByUsername(username);
-            if (user == null) {
-                throw new NotFoundException(Constants.Message.NOT_FOUND_USER);
-            }
-            if (jwtService.isTokenValid(refreshToken, user)) {
-                var accessToken = jwtService.generateToken(user);
-                revokeAllUserTokens(user);
-                saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
-                    .accessToken(accessToken)
-                    .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
-            }
-        }
-    }
-
-    private void saveUserToken(User user, String jwtToken) {
+    public void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
             .user(user)
             .token(jwtToken)
@@ -167,7 +146,7 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
+    public void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty()) {
             return;
@@ -366,7 +345,7 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
-    private boolean sendOTP(String email, ETypeOfOTP type) {
+    public boolean sendOTP(String email, ETypeOfOTP type) {
         GoogleAuthenticator gauth = new GoogleAuthenticator();
         final GoogleAuthenticatorKey key = gauth.createCredentials();
         String secret = key.getKey();
@@ -396,4 +375,6 @@ public class AuthServiceImpl implements AuthService {
 
         return true;
     }
+
+
 }

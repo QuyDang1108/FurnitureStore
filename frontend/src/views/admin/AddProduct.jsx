@@ -61,7 +61,7 @@ const AddProduct = () => {
       dispatch(add_product_image({ formData, product_id: product.id }));
     }
   }, [product, dispatch]);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({

@@ -1,10 +1,12 @@
 package com.furnistyle.furniturebackend.exceptions;
 
+import com.furnistyle.furniturebackend.utils.Constants;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.mail.MessagingException;
 import jakarta.validation.ValidationException;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,12 +36,15 @@ public class HandleExceptionAPI {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        FieldError error = ex.getBindingResult().getFieldErrors().get(0);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getDefaultMessage());
+    }
+
+    @ExceptionHandler({ExpiredJwtException.class, SignatureException.class})
+    public ResponseEntity<String> handleExpiredJwtException() {
+        return ResponseEntity.status(HttpStatusCode.valueOf(403))
+            .body(Constants.Message.EXPIRED_TOKEN);
     }
 
     @ExceptionHandler(Exception.class)
