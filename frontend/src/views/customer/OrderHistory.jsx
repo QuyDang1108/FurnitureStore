@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { get_order_history, clearMessage } from "../../store/Reducers/orderReducer";
+import {
+  get_order_history,
+  clearMessage,
+} from "../../store/Reducers/orderReducer";
 import toast from "react-hot-toast";
 import { Pagination } from "antd";
 import "../../App.css";
@@ -10,7 +13,7 @@ const OrderHistory = () => {
   const perPage = 10;
 
   const dispatch = useDispatch();
-  const { orderHistory, success, errorMessage} = useSelector(
+  const { orderHistory, success, errorMessage } = useSelector(
     (state) => state.orders
   );
 
@@ -95,7 +98,11 @@ const OrderHistory = () => {
                       <td className="py-2 px-4 border-b border-gray-200 text-center">
                         {new Date(order.createdDate).toLocaleDateString()}
                       </td>
-                      <td className={`py-2 px-4 border-b border-gray-200 text-center ${getStatusClass(order.status)}`}>
+                      <td
+                        className={`py-2 px-4 border-b border-gray-200 text-center ${getStatusClass(
+                          order.status
+                        )}`}
+                      >
                         {order.status}
                       </td>
                       <td className="py-2 px-4 border-b border-gray-200 text-center">

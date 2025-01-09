@@ -11,6 +11,7 @@ export const get_user_info = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -24,6 +25,7 @@ export const user_login = createAsyncThunk(
     try {
       const { data } = await api.post("/auth/login", info);
       localStorage.setItem("accessToken", data.access_token);
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

@@ -69,7 +69,9 @@ const EditProduct = () => {
   const handleDelete = () => {
     dispatch(delete_product(id));
     setIsModalVisible(false);
-    navigate("/admin/product-list");
+    setTimeout(() => {
+      navigate("/admin/product-list");
+    }, 500);
   };
 
   const handleCancel = () => {
@@ -84,7 +86,7 @@ const EditProduct = () => {
       toast.success("Successfully!");
     }
     dispatch(clearMessage());
-  }, [errorMessage, success]);
+  }, [errorMessage, success, dispatch]);
 
   if (!product) {
     return <Loading />;

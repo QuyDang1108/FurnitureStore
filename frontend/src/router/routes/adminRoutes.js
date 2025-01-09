@@ -38,4 +38,9 @@ export const adminRoute = [
     element: <OrderList />,
     role: ["ADMIN", "SUPER_ADMIN"],
   },
+  {
+    path: "/admin/users/:id",
+    element: <UserDetail />,
+    role: ["ADMIN", "SUPER_ADMIN"],
+  },
 ];

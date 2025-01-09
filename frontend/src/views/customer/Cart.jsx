@@ -23,7 +23,7 @@ const Cart = () => {
     phone: "",
   });
 
-  const { userInfo, isLogged } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -32,41 +32,41 @@ const Cart = () => {
     if (cart.length > 0) {
       setFilteredCart([...cart, ...filteredCart]);
     }
-  }, [cart]);
+  }, [cart, filteredCart]);
 
   useEffect(() => {
     const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
     setFilteredCart(tempCart);
-    if (isLogged) {
+    if (userInfo.role) {
       dispatch(get_cart());
     }
-  }, [dispatch, isLogged, userInfo.id]);
+  }, [dispatch, userInfo.role]);
 
   useEffect(() => {
-    if (!isLogged) {
+    if (!userInfo.role) {
       localStorage.setItem("cart", JSON.stringify(filteredCart));
     }
-  }, [filteredCart, isLogged]);
+  }, [filteredCart, userInfo.role]);
 
   const handleQuantityChange = (id, delta) => {
-    const item = filteredCart.find((item) => item.id === id);
+    const item = filteredCart.find((item) => item.product_id === id);
     if (item.amount + delta < 1) return;
 
     const updatedCart = filteredCart.map((item) =>
-      item.id === id ? { ...item, amount: item.amount + delta } : item
+      item.product_id === id ? { ...item, amount: item.amount + delta } : item
     );
     setFilteredCart(updatedCart);
   };
 
   const handleRemoveItem = (id) => {
-    const updatedCart = filteredCart.filter((item) => item.id !== id);
+    const updatedCart = filteredCart.filter((item) => item.product_id !== id);
     dispatch(delete_from_cart(id));
     setFilteredCart(updatedCart);
   };
 
   const handleSelectItem = (id) => {
     const updatedCart = filteredCart.map((item) =>
-      item.id === id ? { ...item, selected: !item.selected } : item
+      item.product_id === id ? { ...item, selected: !item.selected } : item
     );
     setFilteredCart(updatedCart);
   };
@@ -82,7 +82,7 @@ const Cart = () => {
   };
 
   const handleBuyNow = () => {
-    if (!isLogged) {
+    if (!userInfo.id) {
       navigate("/login", { state: { from: "/cart" } });
       return;
     }
@@ -163,7 +163,7 @@ const Cart = () => {
         <Space>
           <Button
             icon={<MinusOutlined />}
-            onClick={() => handleQuantityChange(record.id, -1)}
+            onClick={() => handleQuantityChange(record.product_id, -1)}
             size="small"
           />
           <Input
@@ -173,7 +173,7 @@ const Cart = () => {
           />
           <Button
             icon={<PlusOutlined />}
-            onClick={() => handleQuantityChange(record.id, 1)}
+            onClick={() => handleQuantityChange(record.product_id, 1)}
             size="small"
           />
         </Space>
@@ -189,7 +189,7 @@ const Cart = () => {
       render: (text, record) => (
         <Button
           icon={<FaTrash />}
-          onClick={() => handleRemoveItem(record.id)}
+          onClick={() => handleRemoveItem(record.product_id)}
           type="text"
           danger
         />
@@ -215,7 +215,7 @@ const Cart = () => {
         <Table
           columns={columns}
           dataSource={displayedCart}
-          rowKey="id"
+          rowKey="product_id"
           pagination={false}
           scroll={{ x: 768 }}
         />

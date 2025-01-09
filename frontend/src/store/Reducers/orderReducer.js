@@ -6,9 +6,7 @@ export const get_orders = createAsyncThunk(
   "orders/get_orders",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(
-        `/order/getAllOrders`
-      );
+      const { data } = await api.get(`/order/getAllOrders`);
       console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
@@ -107,6 +105,7 @@ export const get_orders_by_status = createAsyncThunk(
       const { data } = await api.get(
         `/order/getOrdersByStatus?status=${status}`
       );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -201,17 +200,6 @@ const orderSlice = createSlice({
         state.loader = false;
       })
       .addCase(get_recent_orders.rejected, (state, { payload }) => {
-        state.errorMessage = payload;
-        state.loader = false;
-      })
-      .addCase(get_order_history.pending, (state) => {
-        state.loader = true;
-      })
-      .addCase(get_order_history.fulfilled, (state, { payload }) => {
-        state.orderHistory = payload;
-        state.loader = false;
-      })
-      .addCase(get_order_history.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
       })

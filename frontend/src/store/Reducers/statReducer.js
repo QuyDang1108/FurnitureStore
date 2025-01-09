@@ -5,98 +5,15 @@ export const get_revennue_stats = createAsyncThunk(
   "stat/get_revennue_stats",
   async (option, { fulfillWithValue, rejectWithValue }) => {
     try {
-      console.log(option);
-      const data = {
-        totalUsers: 100,
-        totalOrders: 1000,
-        totalSales: 33000000,
-        totalProducts: 1000,
-        chartData: {
-          labels: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-          ],
-          data: [100, 600, 300, 100, 500, 300, 700, 200, 500, 1000, 1100, 1200],
-        },
-        tableData: [
-          {
-            period: "2024-01-01",
-            totalRevenue: 5000,
-            orders: 50,
-            growth: "10%",
+      const { data } = await api.get(
+        `/superadmin/revenueTotalOfYear?year=${option.year}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
           },
-          {
-            period: "2024-01-02",
-            totalRevenue: 6000,
-            orders: 60,
-            growth: "20%",
-          },
-          {
-            period: "2024-01-03",
-            totalRevenue: 4000,
-            orders: 40,
-            growth: "-5%",
-          },
-          {
-            period: "2024-01-04",
-            totalRevenue: 7000,
-            orders: 70,
-            growth: "15%",
-          },
-          {
-            period: "2024-01-05",
-            totalRevenue: 8000,
-            orders: 80,
-            growth: "25%",
-          },
-          {
-            period: "2024-01-06",
-            totalRevenue: 9000,
-            orders: 90,
-            growth: "30%",
-          },
-          {
-            period: "2024-01-07",
-            totalRevenue: 10000,
-            orders: 100,
-            growth: "35%",
-          },
-          {
-            period: "2024-01-08",
-            totalRevenue: 11000,
-            orders: 110,
-            growth: "40%",
-          },
-          {
-            period: "2024-01-09",
-            totalRevenue: 12000,
-            orders: 120,
-            growth: "45%",
-          },
-          {
-            period: "2024-01-10",
-            totalRevenue: 13000,
-            orders: 130,
-            growth: "50%",
-          },
-        ],
-      };
-      // const { data } = await api.get("/revenueStats", {
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-      //   },
-      // });
-      // console.log(data);
+        }
+      );
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
