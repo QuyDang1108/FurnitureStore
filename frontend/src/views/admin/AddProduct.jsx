@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   add_product,
+  add_product_image,
   clearMessage,
 } from "./../../store/Reducers/productReducer";
 import { toast } from "react-hot-toast";
@@ -89,7 +90,7 @@ const AddProduct = () => {
     if (success) {
       toast.success("Product added successfully");
       dispatch(clearMessage());
-      navigate("/admin/products");
+      navigate("/admin/product-list");
     }
     if (errorMessage) {
       toast.error(errorMessage);
