@@ -11,18 +11,21 @@ import static org.mockito.Mockito.when;
 import com.furnistyle.furniturebackend.dtos.bases.UserDTO;
 import com.furnistyle.furniturebackend.dtos.requests.RegisterRequest;
 import com.furnistyle.furniturebackend.dtos.requests.UpdateUserRequest;
+
 import com.furnistyle.furniturebackend.enums.EGender;
 import com.furnistyle.furniturebackend.enums.ERole;
 import com.furnistyle.furniturebackend.enums.EUserStatus;
 import com.furnistyle.furniturebackend.exceptions.BadRequestException;
 import com.furnistyle.furniturebackend.exceptions.NotFoundException;
 import com.furnistyle.furniturebackend.mappers.UserMapper;
+
 import com.furnistyle.furniturebackend.models.User;
 import com.furnistyle.furniturebackend.repositories.UserRepository;
 import com.furnistyle.furniturebackend.services.impl.UserServiceImpl;
 import com.furnistyle.furniturebackend.utils.Constants;
 import jakarta.validation.ValidationException;
 import java.time.LocalDate;
+
 import java.util.List;
 import java.util.Optional;
 import org.instancio.Instancio;
@@ -32,6 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -366,4 +370,3 @@ public class UserServiceTest {
 
         assertTrue(result.isEmpty());
     }
-}
