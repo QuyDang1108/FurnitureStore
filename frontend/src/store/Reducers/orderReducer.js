@@ -73,7 +73,7 @@ export const get_recent_orders = createAsyncThunk(
   "orders/get_recent_orders",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/order/getAllOrders");
+      const { data } = await api.get("/order/getOrdersByStatus");
       return fulfillWithValue(data.slice(0, 5));
     } catch (error) {
       return rejectWithValue(error.response.data);

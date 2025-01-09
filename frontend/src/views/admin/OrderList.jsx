@@ -24,7 +24,7 @@ const OrderList = () => {
 
   useEffect(() => {
     dispatch(get_orders_by_status(orderStatus));
-  }, [dispatch, orderStatus, currentPage]);
+  }, [dispatch, orderStatus]);
 
   useEffect(() => {
     if (errorMessage) {
@@ -129,9 +129,11 @@ const OrderList = () => {
                           {new Date(order.createdDate).toLocaleDateString()}
                         </td>
                         <td className="py-2 px-4 border-b border-gray-200 text-center">
-                        <Select
+                          <Select
                             value={order.status}
-                            onChange={(value) => handleStatusChange(order.id, value)}
+                            onChange={(value) =>
+                              handleStatusChange(order.id, value)
+                            }
                             options={statusOptions}
                             className="w-full"
                           />
@@ -183,7 +185,9 @@ const OrderList = () => {
                       <span className="font-semibold">Status:</span>
                       <Select
                         value={order.status}
-                        onChange={(value) => handleStatusChange(order.id, value)}
+                        onChange={(value) =>
+                          handleStatusChange(order.id, value)
+                        }
                         options={statusOptions}
                         className="w-full"
                       />
