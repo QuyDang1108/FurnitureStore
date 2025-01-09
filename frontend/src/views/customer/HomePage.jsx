@@ -6,14 +6,18 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../carousel.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  get_featured_products,
-  get_new_arrivals,
-} from "../../store/Reducers/productReducer";
+import { get_categories } from "../../store/Reducers/categoryReducer";
 
 const Homepage = () => {
-  const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.categories);
+
+  console.log(categories);
+  
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+      dispatch(get_categories());
+    }, [dispatch]);
 
   const categoryImages = [
     { src: '/images/category/Chair.jpg', name: 'Chair' },
@@ -31,10 +35,7 @@ const Homepage = () => {
     };
   });
 
-  useEffect(() => {
-    dispatch(get_featured_products());
-    dispatch(get_new_arrivals());
-  }, [dispatch]);
+  console.log(mergedCategories);
 
   const responsiveOne = {
     all: {
@@ -65,7 +66,7 @@ const Homepage = () => {
   return (
     <div className="px-2 lg:px-7 pt-5">
       <Carousel showThumbs={false} autoPlay infiniteLoop responsive={responsiveOne}>
-        <div class="relative">
+        <div className="relative">
           <img src="/images/carousel-1.jpg" alt="Featured 1" />
           <Link to="/customer/product-list" className="legend">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
@@ -73,7 +74,7 @@ const Homepage = () => {
             </button>
           </Link>
         </div>
-        <div class="relative">
+        <div className="relative">
           <img src="/images/carousel-2.jpg" alt="Featured 2" />
           <Link to="/customer/product-list" className="legend">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
@@ -81,7 +82,7 @@ const Homepage = () => {
             </button>
           </Link>
         </div>
-        <div class="relative">
+        <div className="relative">
           <img src="/images/carousel-3.jpg" alt="Featured 3" />
           <Link to="/customer/product-list" className="legend">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
@@ -130,7 +131,7 @@ const Homepage = () => {
               return (
                 <div key={index} className="fixed-size relative">
                   <img src={image.src} alt={`Featured ${index + 1}`} />
-                  <Link to="/customer/product-list" className="legend">
+                  <Link to={`/customer/product-list?category=${ image.category_name }`} className="legend">
                     <button
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2"
                     >
