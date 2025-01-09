@@ -110,7 +110,7 @@ const Homepage = () => {
       <div className="mt-8">
         <Carousel showThumbs={false} autoPlay infiniteLoop responsive={responsiveTwo}>
           <div class="fixed-size relative">
-            <img src="/images/category/chair.jpg" alt="Featured 1" />
+            <img src="/images/category/Chair.jpg" alt="Featured 1" />
             <Link to="/customer/product-list" className="legend">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 Shop Now
@@ -118,7 +118,7 @@ const Homepage = () => {
             </Link>
           </div>
           <div class="fixed-size relative">
-            <img src="/images/category/sofa.jpg" alt="Featured 2" />
+            <img src="/images/category/Sofa.jpg" alt="Featured 2" />
             <Link to="/customer/product-list" className="legend">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 Shop Now
@@ -126,7 +126,7 @@ const Homepage = () => {
             </Link>
           </div>
           <div class="fixed-size relative">
-            <img src="/images/category/bed.jpg" alt="Featured 3" />
+            <img src="/images/category/Bed.jpg" alt="Featured 3" />
             <Link to="/customer/product-list" className="legend">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 Shop Now
@@ -134,7 +134,7 @@ const Homepage = () => {
             </Link>
           </div>
           <div class="fixed-size relative">
-            <img src="/images/category/locker.jpg" alt="Featured 4" />
+            <img src="/images/category/Cabinet.jpg" alt="Featured 4" />
             <Link to="/customer/product-list" className="legend">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 Shop Now
@@ -142,7 +142,7 @@ const Homepage = () => {
             </Link>
           </div>
           <div class="fixed-size relative">
-            <img src="/images/category/table.jpg" alt="Featured 5" />
+            <img src="/images/category/Table.jpg" alt="Featured 5" />
             <Link to="/customer/product-list" className="legend">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline absolute bottom-4 left-1/2 transform -translate-x-1/2">
                 Shop Now
