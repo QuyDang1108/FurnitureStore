@@ -4,6 +4,7 @@ const AddProduct = lazy(() => import("./../../views/admin/AddProduct"));
 const UserList = lazy(() => import("./../../views/admin/UserList"));
 const ProductList = lazy(() => import("./../../views/admin/Product"));
 const UserDetail = lazy(() => import("./../../views/admin/UserDetail"));
+const EditProduct = lazy(() => import("./../../views/admin/EditProduct"));
 
 export const adminRoute = [
   {
@@ -24,6 +25,11 @@ export const adminRoute = [
   {
     path: "/admin/product-list",
     element: <ProductList />,
+    role: ["ADMIN", "SUPER_ADMIN"],
+  },
+  {
+    path: "/admin/products/:id",
+    element: <EditProduct />,
     role: ["ADMIN", "SUPER_ADMIN"],
   },
   {
