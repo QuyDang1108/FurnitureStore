@@ -86,9 +86,13 @@ export const get_recent_orders = createAsyncThunk(
 
 export const get_order_history = createAsyncThunk(
   "order/get_order_history",
-  async (userId, { fulfillWithValue, rejectWithValue }) => {
+  async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/orderHistory${userId}`);
+      const { data } = await api.get(`/order/getOrdersByStatus`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+        },
+      });
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

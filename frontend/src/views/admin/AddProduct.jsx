@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   add_product,
+  add_product_image,
   clearMessage,
 } from "./../../store/Reducers/productReducer";
 import { toast } from "react-hot-toast";
@@ -19,9 +20,10 @@ const AddProduct = () => {
     origin: "",
     size: "",
     description: "",
-    images: [],
     status: "ACTIVE",
   });
+
+  const [images, setImages] = useState([]);
   const [filteredCategories, setFilteredCategories] = useState([]);
   const [filteredMaterials, setFilteredMaterials] = useState([]);
   const [isCategoryFocused, setIsCategoryFocused] = useState(false);
@@ -72,17 +74,11 @@ const AddProduct = () => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setProduct((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, ...files],
-    }));
+    setImages((prevImages) => [...prevImages, ...files]);
   };
 
   const removeImage = (index) => {
-    setProduct((prevState) => ({
-      ...prevState,
-      images: prevState.images.filter((_, i) => i !== index),
-    }));
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e) => {
@@ -154,7 +150,7 @@ const AddProduct = () => {
                   />
                   {/* Image Preview */}
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {product?.images?.map((image, index) => (
+                    {images?.map((image, index) => (
                       <div key={index} className="relative">
                         <img
                           src={URL.createObjectURL(image)}

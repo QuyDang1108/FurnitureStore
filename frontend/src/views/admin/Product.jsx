@@ -6,12 +6,14 @@ import {
 } from "../../store/Reducers/productReducer";
 import toast from "react-hot-toast";
 import { Pagination } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 10;
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { products, success, errorMessage, totalPage } = useSelector(
     (state) => state.products
   );
@@ -71,7 +73,13 @@ const Products = () => {
                     </thead>
                     <tbody>
                       {products.map((product) => (
-                        <tr key={product.id}>
+                        <tr
+                          key={product.id}
+                          onClick={() => {
+                            navigate(`/admin/products/${product.id}`);
+                          }}
+                          className="cursor-pointer hover:bg-gray-100"
+                        >
                           <td className="py-2 px-4 border-b border-gray-200 text-center">
                             {product.id}
                           </td>

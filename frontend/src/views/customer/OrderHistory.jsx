@@ -16,7 +16,7 @@ const OrderHistory = () => {
 
   useEffect(() => {
     if (userInfo) {
-      dispatch(get_order_history(userInfo.id));
+      dispatch(get_order_history());
     }
   }, [dispatch, userInfo]);
 
@@ -50,16 +50,16 @@ const OrderHistory = () => {
       render: (status) => {
         let color = "";
         switch (status) {
-          case "Pending":
+          case "PENDING":
             color = "gold";
             break;
-          case "Shipped":
+          case "SHIPPED":
             color = "blue";
             break;
-          case "Delivered":
+          case "DELIVERED":
             color = "green";
             break;
-          case "Cancelled":
+          case "CANCELLED":
             color = "red";
             break;
           default:
