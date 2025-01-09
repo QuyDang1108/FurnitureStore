@@ -2,9 +2,11 @@ package com.furnistyle.furniturebackend.controllers;
 
 import com.furnistyle.furniturebackend.dtos.bases.ProductDTO;
 import com.furnistyle.furniturebackend.dtos.responses.ProductListResponse;
+import com.furnistyle.furniturebackend.dtos.responses.ProductResponse;
 import com.furnistyle.furniturebackend.services.ProductService;
 import com.furnistyle.furniturebackend.utils.Constants;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,14 +29,27 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("")
-    public ResponseEntity<String> createProduct(@Valid @RequestBody ProductDTO productDTO) {
-        productService.createProduct(productDTO);
-        return ResponseEntity.ok(Constants.Message.ADD_PRODUCT_SUCCESSFUL);
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+        return ResponseEntity.ok(productService.createProduct(productDTO));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getProductById(@PathVariable("id") Long productId) {
         return ResponseEntity.ok(productService.getProductById(productId));
+    }
+
+    @GetMapping("/{id}/related")
+    public ResponseEntity<List<ProductResponse>> getRelatedProducts(
+        @PathVariable("id") Long productId) {
+        List<ProductResponse> relatedProducts = productService.getRelatedProducts(productId, 5);
+        return ResponseEntity.ok(relatedProducts);
+    }
+
+    @GetMapping("/new")
+    public ResponseEntity<List<ProductResponse>> getNewProducts(
+        @RequestParam(value = "limit", defaultValue = "10") int limit) {
+        List<ProductResponse> newProducts = productService.getNewProducts(limit);
+        return ResponseEntity.ok(newProducts);
     }
 
     @GetMapping("")
@@ -45,11 +60,12 @@ public class ProductController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit, Sort.by("id").ascending());
-        Page<ProductDTO> productDTOPage = productService.getAllProducts(keyword, categoryId, materialId, pageRequest);
+        Page<ProductResponse> productResponsePage = productService
+            .getAllProducts(keyword, categoryId, materialId, pageRequest);
         return ResponseEntity.ok(ProductListResponse
             .builder()
-            .products(productDTOPage.getContent())
-            .totalPages(productDTOPage.getTotalPages())
+            .products(productResponsePage.getContent())
+            .totalPages(productResponsePage.getTotalPages())
             .build());
     }
 

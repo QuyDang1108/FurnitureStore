@@ -3,6 +3,7 @@ package com.furnistyle.furniturebackend.config.security;
 
 import com.furnistyle.furniturebackend.enums.ERole;
 import com.furnistyle.furniturebackend.filters.JwtAuthenticationFilter;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,12 +29,20 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    private static final String[] WHITE_LIST_URL = {"/auth/**", "products/**", "medias/**",
-        "categories/**", "materials/**", "/order/**"};
+    private static final String[] WHITE_LIST_URL = {"/auth/**", "/products/**", "/medias/**",
+        "/categories/**", "/materials/**", "/order/**", "/reviews/**"};
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+            .cors(cors -> cors.configurationSource(request -> {
+                var corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
+                corsConfiguration.setAllowedOrigins(List.of("*")); // Nguồn cho phép
+                corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                corsConfiguration.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept"));
+                corsConfiguration.setAllowCredentials(true);
+                return corsConfiguration;
+            }))
             .authorizeHttpRequests(req -> req
                 .requestMatchers(WHITE_LIST_URL).permitAll()
                 .requestMatchers("/user/*")

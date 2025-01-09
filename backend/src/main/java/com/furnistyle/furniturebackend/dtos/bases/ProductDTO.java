@@ -6,10 +6,10 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class ProductDTO {
     Long id;
@@ -38,10 +38,10 @@ public class ProductDTO {
     @Size(min = 1, max = 50, message = "Kích cỡ phải từ 1 đến 50 ký tự!")
     private String size;
 
+    @Min(value = 0, message = "Số lượng phải lớn hơn hoặc bằng 0!")
+    private int quantity;
+
     private String description;
 
-    private EProductStatus status = EProductStatus.ACTIVE;
-
-    @JsonProperty("product_images")
-    private List<MediaDTO> productImages;
+    private EProductStatus status;
 }
