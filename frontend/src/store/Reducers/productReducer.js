@@ -89,6 +89,7 @@ export const add_product = createAsyncThunk(
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -133,9 +134,10 @@ export const add_product_image = createAsyncThunk(
   "medias/add_product_image",
   async (info, { fulfillWithValue, rejectWithValue }) => {
     try {
+      console.log(info);
       const { data } = await api.post(
-        `/medias?productId=${info.id}`,
-        info.images,
+        `/medias?productId=${info.product_id}`,
+        info.formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -250,6 +252,7 @@ export const productSlice = createSlice({
       })
       .addCase(add_product.fulfilled, (state, { payload }) => {
         state.loader = false;
+        state.product = payload;
         state.success = true;
       })
       .addCase(add_product.rejected, (state, { payload }) => {

@@ -5,11 +5,30 @@ export const get_cart = createAsyncThunk(
   "cart/get_cart",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/cart/cartOfCurrentUser", {
+      let { data } = await api.get("/cart/cartOfCurrentUser", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         },
       });
+      try {
+        data = await Promise.all(
+          data.map(async (item) => {
+            const rs = await api.get(`/products/${item.product_id}`, {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              },
+            });
+            return {
+              ...item,
+              name: rs.data.name,
+              price: rs.data.price,
+              image: rs.data.product_images[0].image_link,
+            };
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -95,7 +114,7 @@ const cartSlice = createSlice({
       })
       .addCase(get_cart.rejected, (state, action) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = action.payload;
       })
       .addCase(add_to_cart.pending, (state) => {
         state.loader = true;
@@ -106,7 +125,7 @@ const cartSlice = createSlice({
       })
       .addCase(add_to_cart.rejected, (state, action) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = action.payload;
       })
       .addCase(update_cart.pending, (state) => {
         state.loader = true;
@@ -117,7 +136,7 @@ const cartSlice = createSlice({
       })
       .addCase(update_cart.rejected, (state, action) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = action.payload;
       })
       .addCase(delete_from_cart.pending, (state) => {
         state.loader = true;
@@ -128,7 +147,7 @@ const cartSlice = createSlice({
       })
       .addCase(delete_from_cart.rejected, (state, action) => {
         state.loader = false;
-        state.errorMessage = action.payload.message;
+        state.errorMessage = action.payload;
       });
   },
 });
