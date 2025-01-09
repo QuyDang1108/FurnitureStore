@@ -94,7 +94,7 @@ const AddProduct = () => {
     if (success) {
       toast.success("Product added successfully");
       dispatch(clearMessage());
-      navigate("/admin/products");
+      navigate("/admin/product-list");
     }
     if (errorMessage) {
       toast.error(errorMessage);

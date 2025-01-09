@@ -6,45 +6,51 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
-  clearMessage,
-  get_revennue_stats,
+  clearMessage
 } from "../../store/Reducers/statReducer";
+import { get_products } from "../../store/Reducers/productReducer";
+import { get_users } from "../../store/Reducers/userReducer";
+import { get_orders_by_status } from "../../store/Reducers/orderReducer";
 import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
 const AdminDashboard = () => {
-  const [unit, setUnit] = useState("VND");
-  const [sales, setSales] = useState(0);
-  const [orders, setOrders] = useState(0);
-  const [products, setProducts] = useState(0);
-  const [users, setUsers] = useState(0);
-  const [recentOrd, setRecentOrd] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 10;
 
-  const {
-    totalSales,
-    totalUsers,
-    totalProducts,
-    totalOrders,
-    success,
-    errorMessage,
-  } = useSelector((state) => state.stat);
+  const [unit, setUnit] = useState("VND");
+  const [s, setSales] = useState(0);
+  const [p, setProducts] = useState(0);
+  const [u, setUsers] = useState(0);
+  const [recentOrd, setRecentOrd] = useState([]);
 
   const { recentOrders } = useSelector((state) => state.orders);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { products, success, errorMessage } = useSelector((state) => state.products);
+  const totalProducts = products?.length;
+  const { users } = useSelector((state) => state.users);
+  const totalUsers = users?.length;
+  const { orders } = useSelector((state) => state.orders);
+  const totalSales = orders?.reduce((acc, order) => acc + order.total_amount, 0);
+
   useEffect(() => {
-    dispatch(get_revennue_stats());
+    dispatch(get_products({ currentPage, perPage }));
+    dispatch(get_users({ page: currentPage, perPage }));
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    dispatch(get_orders_by_status('PENDING'));
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(get_recent_orders());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setProducts(totalProducts);
   }, [totalProducts]);
-
-  useEffect(() => {
-    setOrders(totalOrders);
-  }, [totalOrders]);
 
   useEffect(() => {
     setUsers(totalUsers);
@@ -65,6 +71,9 @@ const AdminDashboard = () => {
       setUnit("K");
       setSales(totalSales / 1000);
     }
+    else {
+      setSales(totalSales);
+    }
   }, [totalSales]);
 
   useEffect(() => {
@@ -83,7 +92,7 @@ const AdminDashboard = () => {
         <div className="flex justify-between items-center p-5 bg-[#fae8e8] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
             <h2 className="font-bold text-3xl">
-              {sales}
+              {s}
               {unit}
             </h2>
             <span className="text-md font-medium">Total sales</span>
@@ -100,7 +109,7 @@ const AdminDashboard = () => {
         {/* //Products */}
         <div className="flex justify-between items-center p-5 bg-[#FDE2FF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">{products}</h2>
+            <h2 className="font-bold text-3xl">{p}</h2>
             <span className="text-md font-medium">Products</span>
           </div>
 
@@ -130,7 +139,7 @@ const AdminDashboard = () => {
         {/* // Customers */}
         <div className="flex justify-between items-center p-5 bg-[#E6F9FF] rounded-md gap-3">
           <div className="flex flex-col justify-start items-start text-[#5C5A5A]">
-            <h2 className="font-bold text-3xl">{users}</h2>
+            <h2 className="font-bold text-3xl">{u}</h2>
             <span className="text-md font-medium">Users</span>
           </div>
 
@@ -151,7 +160,7 @@ const AdminDashboard = () => {
             Recent Orders
           </h2>
           <Link
-            to={"/admin/orders"}
+            to={"/admin/order-list"}
             className="font-semibold text-sm text-black"
           >
             View All
@@ -184,11 +193,7 @@ const AdminDashboard = () => {
 
             <tbody>
               {recentOrd.map((order, i) => (
-                <tr
-                  key={i}
-                  onClick={() => navigate(`/admin/orders/${order.id}`)}
-                  className="cursor-pointer hover:bg-gray-100"
-                >
+                <tr>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     {order.id}
                   </td>
