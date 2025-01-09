@@ -35,6 +35,7 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     dispatch(get_revennue_stats());
+    dispatch(get_recent_orders());
   }, []);
 
   useEffect(() => {
@@ -158,6 +159,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* // Table  */}
+        {/* // Table */}
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-center text-black">
             <thead className="text-sm text-black uppercase border-b border-gray-300">
@@ -166,13 +168,16 @@ const AdminDashboard = () => {
                   Order Id
                 </th>
                 <th scope="col" className="py-3 px-4">
-                  Customer Name
-                </th>
-                <th scope="col" className="py-3 px-4">
-                  Total
+                  Customer ID
                 </th>
                 <th scope="col" className="py-3 px-4">
                   Status
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Created Date
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Confirmed Admin ID
                 </th>
               </tr>
             </thead>
@@ -188,13 +193,16 @@ const AdminDashboard = () => {
                     {order.id}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    {order.customerName}
-                  </td>
-                  <td className="py-3 px-4 font-medium whitespace-nowrap">
-                    {order.totalAmount}
+                    {order.created_customer_id}
                   </td>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     {order.status}
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    {new Date(order.createdDate).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4 font-medium whitespace-nowrap">
+                    {order.confirmed_admin_id}
                   </td>
                 </tr>
               ))}
