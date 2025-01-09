@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { update_user } from "./../../store/Reducers/userReducer";
+import toast from "react-hot-toast";
 
 const UserProfile = () => {
-  const { userInfo } = useSelector((state) => state.auth); // lấy userInfo từ state.auth
+  const { userInfo } = useSelector((state) => state.auth);
+  const { success, errorMessage } = useSelector((state) => state.users);
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
-    id: 0,
+    id: userInfo?.id,
     fullname: "",
     address: "",
     phone: "",
-    state: "",
     email: "",
-    date_of_birth: "",
-    gender: "",
   });
+
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -25,10 +25,7 @@ const UserProfile = () => {
         fullname: userInfo.fullname,
         address: userInfo.address,
         phone: userInfo.phone,
-        state: userInfo.status,
         email: userInfo.email,
-        date_of_birth: userInfo.date_of_birth,
-        gender: userInfo.gender,
       });
     }
   }, [userInfo]);
@@ -50,6 +47,16 @@ const UserProfile = () => {
     dispatch(update_user(formData));
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    if (success) {
+      toast.success("User information updated successfully");
+    }
+
+    if (errorMessage) {
+      toast.error(errorMessage);
+    }
+  }, [success, errorMessage]);
 
   return (
     <div className="px-2 lg:px-7 p-5">
@@ -100,54 +107,12 @@ const UserProfile = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            disabled
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
-        </div>
-
-        {/* Date of Birth */}
-        <div className="mb-4">
-          <label
-            htmlFor="dob"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Date of Birth
-          </label>
-          <input
-            type="date"
-            id="dob"
-            name="dob"
-            value={formData.date_of_birth}
-            onChange={handleInputChange}
             disabled={!isEditing}
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
         </div>
 
-        {/* Gender */}
-        <div className="mb-4">
-          <label
-            htmlFor="gender"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Gender
-          </label>
-          <select
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleInputChange}
-            disabled={!isEditing}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          >
-            <option value="" disabled>
-              Select Gender
-            </option>
-            <option value="MALE">Male</option>
-            <option value="FEMALE">Female</option>
-          </select>
-        </div>
-
+        {/* Address */}
         <div className="mb-4">
           <label
             htmlFor="address"
@@ -166,6 +131,7 @@ const UserProfile = () => {
           />
         </div>
 
+        {/* Phone Number */}
         <div className="mb-4">
           <label
             htmlFor="phone"
@@ -184,6 +150,41 @@ const UserProfile = () => {
           />
         </div>
 
+        {/* Gender - Readonly */}
+        <div className="mb-4">
+          <label
+            htmlFor="gender"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Gender
+          </label>
+          <input
+            type="text"
+            id="gender"
+            value={userInfo?.gender || ""}
+            disabled
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        {/* Date of Birth - Readonly */}
+        <div className="mb-4">
+          <label
+            htmlFor="dob"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Date of Birth
+          </label>
+          <input
+            type="text"
+            id="dob"
+            value={userInfo?.date_of_birth || ""}
+            disabled
+            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+          />
+        </div>
+
+        {/* State - Readonly */}
         <div className="mb-4">
           <label
             htmlFor="state"
@@ -194,8 +195,7 @@ const UserProfile = () => {
           <input
             type="text"
             id="state"
-            name="state"
-            value={formData.state}
+            value={userInfo?.status || ""}
             disabled
             className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           />
