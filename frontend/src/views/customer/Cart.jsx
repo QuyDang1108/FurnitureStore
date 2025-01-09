@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   delete_from_cart,
   get_cart,
-  update_cart,
 } from "./../../store/Reducers/cartReducer";
 import { useNavigate } from "react-router-dom";
 import { add_order } from "./../../store/Reducers/orderReducer";
