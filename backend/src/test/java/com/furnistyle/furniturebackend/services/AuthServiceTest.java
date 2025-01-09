@@ -1,17 +1,27 @@
 package com.furnistyle.furniturebackend.services;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.furnistyle.furniturebackend.dtos.requests.AuthenticationRequest;
 import com.furnistyle.furniturebackend.dtos.requests.RegisterRequest;
+import com.furnistyle.furniturebackend.enums.ETypeOfOTP;
 import com.furnistyle.furniturebackend.exceptions.BadRequestException;
 import com.furnistyle.furniturebackend.exceptions.NotFoundException;
 import com.furnistyle.furniturebackend.models.OTP;
+import com.furnistyle.furniturebackend.models.Token;
 import com.furnistyle.furniturebackend.models.User;
 import com.furnistyle.furniturebackend.repositories.OTPRepository;
+import com.furnistyle.furniturebackend.repositories.TokenRepository;
 import com.furnistyle.furniturebackend.repositories.UserRepository;
+import com.furnistyle.furniturebackend.services.impl.AuthServiceImpl;
+import com.furnistyle.furniturebackend.utils.Constants;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.instancio.Instancio;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,14 +40,23 @@ public class AuthServiceTest {
     @MockBean
     private UserRepository userRepository;
 
+    @Mock
+    private TokenRepository tokenRepository;
+
     @MockBean
     private OTPRepository otpRepository;
+
+    @MockBean
+    private MailService mailService;
 
     @MockBean
     private AuthenticationManager authenticationManager;
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private AuthServiceImpl authServiceImpl;
 
     @Test
     void register_WhenUsernameAlreadyExists_ThenThrowBadRequestException() {
@@ -159,4 +178,79 @@ public class AuthServiceTest {
         Mockito.verify(otpRepository, Mockito.times(1)).delete(Mockito.any(OTP.class));
     }
 
+    @Test
+    void sendOTP_UserNotFound_ThrowsNotFoundException() {
+        String email = "nonexistent@example.com";
+        ETypeOfOTP type = ETypeOfOTP.VERIFY;
+
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(null);
+
+        NotFoundException exception = assertThrows(
+            NotFoundException.class,
+            () -> authServiceImpl.sendOTP(email, type)
+        );
+
+        assertEquals(Constants.Message.NOT_FOUND_USER, exception.getMessage());
+        Mockito.verify(userRepository).findByEmail(email);
+        Mockito.verifyNoInteractions(mailService);
+    }
+
+    @Test
+    void sendOTP_ExistingOTPDeletedAndEmailSent_Success() {
+        String email = "user@example.com";
+        ETypeOfOTP type = ETypeOfOTP.VERIFY;
+        User mockUser = new User();
+        mockUser.setEmail(email);
+        mockUser.setFullname("John Doe");
+
+        OTP existingOTP = new OTP();
+        existingOTP.setEmail(email);
+
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(mockUser);
+        Mockito.when(otpRepository.getByEmail(email)).thenReturn(existingOTP);
+
+        Mockito.doNothing().when(mailService).sendEmail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        Mockito.doNothing().when(otpRepository).delete(existingOTP);
+        Mockito.doAnswer(invocation -> null).when(otpRepository).save(Mockito.any(OTP.class));
+
+        boolean result = authServiceImpl.sendOTP(email, type);
+
+        assertTrue(result);
+        Mockito.verify(userRepository).findByEmail(email);
+        Mockito.verify(otpRepository).getByEmail(email);
+        Mockito.verify(otpRepository).delete(existingOTP);
+        Mockito.verify(mailService).sendEmail(
+            Mockito.eq(email),
+            Mockito.eq("XÁC THỰC TÀI KHOẢN"),
+            Mockito.anyString()
+        );
+        Mockito.verify(otpRepository).save(Mockito.any(OTP.class));
+    }
+
+    @Test
+    void sendOTP_NoExistingOTP_EmailSentAndOTPStored() {
+        String email = "user@example.com";
+        ETypeOfOTP type = ETypeOfOTP.FORGOT;
+        User mockUser = new User();
+        mockUser.setEmail(email);
+        mockUser.setFullname("John Doe");
+
+        Mockito.when(userRepository.findByEmail(email)).thenReturn(mockUser);
+        Mockito.when(otpRepository.getByEmail(email)).thenReturn(null);
+
+        Mockito.doNothing().when(mailService).sendEmail(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        Mockito.doAnswer(invocation -> null).when(otpRepository).save(Mockito.any(OTP.class));
+
+        boolean result = authServiceImpl.sendOTP(email, type);
+
+        assertTrue(result);
+        Mockito.verify(userRepository).findByEmail(email);
+        Mockito.verify(otpRepository).getByEmail(email);
+        Mockito.verify(mailService).sendEmail(
+            Mockito.eq(email),
+            Mockito.eq("QUÊN MẬT KHẨU"),
+            Mockito.anyString()
+        );
+        Mockito.verify(otpRepository).save(Mockito.any(OTP.class));
+    }
 }

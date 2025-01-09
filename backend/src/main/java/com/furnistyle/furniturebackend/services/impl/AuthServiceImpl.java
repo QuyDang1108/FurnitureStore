@@ -136,7 +136,7 @@ public class AuthServiceImpl implements AuthService {
         return true;
     }
 
-    private void saveUserToken(User user, String jwtToken) {
+    public void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
             .user(user)
             .token(jwtToken)
@@ -146,7 +146,7 @@ public class AuthServiceImpl implements AuthService {
         tokenRepository.save(token);
     }
 
-    private void revokeAllUserTokens(User user) {
+    public void revokeAllUserTokens(User user) {
         var validUserTokens = tokenRepository.findAllValidTokenByUser(user.getId());
         if (validUserTokens.isEmpty()) {
             return;
@@ -345,7 +345,7 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
-    private boolean sendOTP(String email, ETypeOfOTP type) {
+    public boolean sendOTP(String email, ETypeOfOTP type) {
         GoogleAuthenticator gauth = new GoogleAuthenticator();
         final GoogleAuthenticatorKey key = gauth.createCredentials();
         String secret = key.getKey();
