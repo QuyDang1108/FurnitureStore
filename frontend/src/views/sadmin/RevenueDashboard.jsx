@@ -7,6 +7,7 @@ import { useSearchParams } from "react-router-dom";
 import { get_revennue_stats } from "./../../store/Reducers/statReducer";
 import { toast } from "react-hot-toast";
 import Loading from "./../components/Loading";
+import Chart from "chart.js/auto";
 
 const RevenueDashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
