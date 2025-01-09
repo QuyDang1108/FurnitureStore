@@ -65,16 +65,6 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private EProductStatus status;
 
-    @PrePersist
-    @PreUpdate
-    public void updateStatus() {
-        if (this.quantity > 0) {
-            this.status = EProductStatus.IN_STOCK;
-        } else {
-            this.status = EProductStatus.OUT_OF_STOCK;
-        }
-    }
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
