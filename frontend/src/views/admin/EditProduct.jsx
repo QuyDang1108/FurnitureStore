@@ -7,6 +7,7 @@ import {
   update_product,
   delete_product,
   clearMessage,
+  get_products,
 } from "../../store/Reducers/productReducer";
 import Loading from "../components/Loading";
 import { get_categories } from "../../store/Reducers/categoryReducer";
@@ -69,7 +70,9 @@ const EditProduct = () => {
   const handleDelete = () => {
     dispatch(delete_product(id));
     setIsModalVisible(false);
-    navigate("/admin/product-list");
+    setTimeout(() => {
+      navigate("/admin/product-list");
+    }, 500);
   };
 
   const handleCancel = () => {

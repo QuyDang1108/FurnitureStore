@@ -1,24 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Tag, Typography, Button, Modal } from "antd";
-import { get_order_history } from "../../store/Reducers/orderReducer";
-import { useState } from "react";
+import { Table, Tag, Typography, Button, Modal, Select } from "antd";
+import { get_orders_by_status } from "../../store/Reducers/orderReducer";
 
 const { Title, Text } = Typography;
+const { Option } = Select;
 
 const OrderHistory = () => {
-  const { orderHistory } = useSelector((state) => state.orders);
+  const { orders } = useSelector((state) => state.orders);
   const { userInfo } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState("PENDING");
 
   useEffect(() => {
     if (userInfo) {
-      dispatch(get_order_history());
+      dispatch(get_orders_by_status(selectedStatus));
     }
-  }, [dispatch, userInfo]);
+  }, [dispatch, userInfo, selectedStatus]);
 
   const handleViewDetails = (order) => {
     setSelectedOrder(order);
@@ -30,6 +31,11 @@ const OrderHistory = () => {
     setIsModalVisible(false);
   };
 
+  const handleStatusChange = (status) => {
+    setSelectedStatus(status);
+    dispatch(get_orders_by_status(status));
+  };
+
   const columns = [
     {
       title: "Order ID",
@@ -38,10 +44,16 @@ const OrderHistory = () => {
       render: (text) => <Text>{text}</Text>,
     },
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Created Date",
+      dataIndex: "createdDate",
+      key: "createdDate",
       render: (text) => <Text>{new Date(text).toLocaleDateString()}</Text>,
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      render: (text) => <Text>{text}</Text>,
     },
     {
       title: "Status",
@@ -52,6 +64,9 @@ const OrderHistory = () => {
         switch (status) {
           case "PENDING":
             color = "gold";
+            break;
+          case "PROCESSING":
+            color = "orange";
             break;
           case "SHIPPED":
             color = "blue";
@@ -69,10 +84,10 @@ const OrderHistory = () => {
       },
     },
     {
-      title: "Total Products",
-      dataIndex: "products",
-      key: "products",
-      render: (products) => <Text>{products.length}</Text>,
+      title: "Total Amount",
+      dataIndex: "total_amount",
+      key: "total_amount",
+      render: (amount) => <Text>{amount.toLocaleString()} VND</Text>,
     },
     {
       title: "Action",
@@ -90,9 +105,25 @@ const OrderHistory = () => {
       <Title level={3} className="text-center mb-6">
         Order History
       </Title>
+
+      {/* Dropdown to select order status */}
+      <div className="mb-4 flex justify-end">
+        <Select
+          value={selectedStatus}
+          onChange={handleStatusChange}
+          style={{ width: 200 }}
+        >
+          <Option value="PENDING">PENDING</Option>
+          <Option value="PROCESSING">PROCESSING</Option>
+          <Option value="SHIPPED">SHIPPED</Option>
+          <Option value="DELIVERED">DELIVERED</Option>
+          <Option value="CANCELLED">CANCELLED</Option>
+        </Select>
+      </div>
+
       <Table
         columns={columns}
-        dataSource={orderHistory}
+        dataSource={orders}
         rowKey="id"
         pagination={{ pageSize: 5 }}
       />
@@ -109,26 +140,27 @@ const OrderHistory = () => {
           ]}
         >
           <div className="mb-4">
-            <Title level={5}>Shipping Information</Title>
             <Text>
-              <b>Address:</b> {selectedOrder.shippingInfo.address}
+              <b>Order ID:</b> {selectedOrder.id}
             </Text>
             <br />
             <Text>
-              <b>Phone:</b> {selectedOrder.shippingInfo.phone}
+              <b>Created Date:</b>{" "}
+              {new Date(selectedOrder.createdDate).toLocaleDateString()}
             </Text>
-          </div>
-          <div>
-            <Title level={5}>Products</Title>
-            {selectedOrder.products.map((product) => (
-              <div
-                key={product.id}
-                className="flex justify-between items-center py-2 border-b border-gray-200"
-              >
-                <Text>{product.name}</Text>
-                <Text>x{product.quantity}</Text>
-              </div>
-            ))}
+            <br />
+            <Text>
+              <b>Address:</b> {selectedOrder.address}
+            </Text>
+            <br />
+            <Text>
+              <b>Status:</b> {selectedOrder.status}
+            </Text>
+            <br />
+            <Text>
+              <b>Total Amount:</b> {selectedOrder.total_amount.toLocaleString()}{" "}
+              VND
+            </Text>
           </div>
         </Modal>
       )}

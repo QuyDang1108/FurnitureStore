@@ -1,66 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { MdCurrencyYen, MdOutlineShoppingCart } from "react-icons/md";
-import { RiShoppingCartFill } from "react-icons/ri";
 import { FaUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-hot-toast";
 import {
-  clearMessage
+  clearMessage,
+  get_revennue_stats,
 } from "../../store/Reducers/statReducer";
-import { get_products } from "../../store/Reducers/productReducer";
-import { get_users } from "../../store/Reducers/userReducer";
-import { get_orders_by_status } from "../../store/Reducers/orderReducer";
 import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
 const AdminDashboard = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const perPage = 10;
-
   const [unit, setUnit] = useState("VND");
   const [s, setSales] = useState(0);
   const [p, setProducts] = useState(0);
   const [u, setUsers] = useState(0);
-  const [recentOrd, setRecentOrd] = useState([]);
-
   const { recentOrders } = useSelector((state) => state.orders);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const { products, success, errorMessage } = useSelector((state) => state.products);
-  const totalProducts = products?.length;
-  const { users } = useSelector((state) => state.users);
-  const totalUsers = users?.length;
-  const { orders } = useSelector((state) => state.orders);
-  const totalSales = orders?.reduce((acc, order) => acc + order.total_amount, 0);
-
-  useEffect(() => {
-    dispatch(get_products({ currentPage, perPage }));
-    dispatch(get_users({ page: currentPage, perPage }));
-  }, [dispatch, currentPage]);
-
-  useEffect(() => {
-    dispatch(get_orders_by_status('PENDING'));
-  }, [dispatch]);
+  const { totalSales, totalProducts, totalUsers, errorMessage } = useSelector(
+    (state) => state.stat
+  );
 
   useEffect(() => {
     dispatch(get_recent_orders());
+    dispatch(get_revennue_stats({ year: new Date().getFullYear() }));
   }, [dispatch]);
 
   useEffect(() => {
     setProducts(totalProducts);
-  }, [totalProducts]);
-
-  useEffect(() => {
     setUsers(totalUsers);
-  }, [totalUsers]);
 
-  useEffect(() => {
-    setRecentOrd(recentOrders);
-  }, [recentOrders]);
-
-  useEffect(() => {
     if (totalSales > 1000000000) {
       setUnit("B");
       setSales(totalSales / 1000000000);
@@ -70,18 +41,17 @@ const AdminDashboard = () => {
     } else if (totalSales > 1000) {
       setUnit("K");
       setSales(totalSales / 1000);
-    }
-    else {
+    } else {
       setSales(totalSales);
     }
-  }, [totalSales]);
+  }, [totalSales, totalProducts, totalUsers]);
 
   useEffect(() => {
     if (errorMessage) {
       toast.error(errorMessage);
     }
     dispatch(clearMessage());
-  }, [success, errorMessage]);
+  }, [errorMessage]);
 
   return (
     // Main dashboard
@@ -167,7 +137,6 @@ const AdminDashboard = () => {
           </Link>
         </div>
 
-        {/* // Table  */}
         {/* // Table */}
         <div className="relative overflow-x-auto">
           <table className="w-full text-sm text-center text-black">
@@ -192,7 +161,7 @@ const AdminDashboard = () => {
             </thead>
 
             <tbody>
-              {recentOrd.map((order, i) => (
+              {recentOrders.map((order, i) => (
                 <tr>
                   <td className="py-3 px-4 font-medium whitespace-nowrap">
                     {order.id}

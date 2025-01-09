@@ -12,7 +12,7 @@ import { get_categories } from "./../../store/Reducers/categoryReducer";
 import { get_materials } from "./../../store/Reducers/materialReducer";
 
 const AddProduct = () => {
-  const [product, setProduct] = useState({
+  const [m_product, setProduct] = useState({
     name: "",
     price: "",
     category_id: "",
@@ -46,14 +46,14 @@ const AddProduct = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loader, success, errorMessage } = useSelector(
+  const { loader, success, errorMessage, product } = useSelector(
     (state) => state.products
   );
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct({
-      ...product,
+      ...m_product,
       [name]: value,
     });
 
@@ -72,6 +72,17 @@ const AddProduct = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(images);
+    if (product) {
+      const formData = new FormData();
+      images.forEach((image) => {
+        formData.append("files", image);
+      });
+      dispatch(add_product_image({ formData, product_id: product.id }));
+    }
+  }, [product]);
+
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
     setImages((prevImages) => [...prevImages, ...files]);
@@ -83,7 +94,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(add_product(product));
+    dispatch(add_product(m_product));
   };
 
   useEffect(() => {
@@ -123,7 +134,7 @@ const AddProduct = () => {
                     type="text"
                     id="name"
                     name="name"
-                    value={product.name}
+                    value={m_product.name}
                     onChange={handleInputChange}
                     placeholder="Product Name"
                   />
@@ -144,7 +155,7 @@ const AddProduct = () => {
                     className="hidden"
                     type="file"
                     id="images"
-                    name="images"
+                    name="files"
                     multiple
                     onChange={handleImageChange}
                   />
@@ -185,7 +196,7 @@ const AddProduct = () => {
                     type="text"
                     id="price"
                     name="price"
-                    value={product.price}
+                    value={m_product.price}
                     onChange={handleInputChange}
                     placeholder="Price"
                   />
@@ -233,7 +244,7 @@ const AddProduct = () => {
                           key={category.id}
                           onClick={() => {
                             setProduct({
-                              ...product,
+                              ...m_product,
                               category_id: category.id,
                             });
                             setCategoryName(category.category_name);
@@ -289,7 +300,7 @@ const AddProduct = () => {
                           key={material.id}
                           onClick={() => {
                             setProduct({
-                              ...product,
+                              ...m_product,
                               material_id: material.id,
                             });
                             setMaterialName(material.material_name);
@@ -316,7 +327,7 @@ const AddProduct = () => {
                     type="text"
                     id="origin"
                     name="origin"
-                    value={product.origin}
+                    value={m_product.origin}
                     onChange={handleInputChange}
                     placeholder="Origin"
                   />
@@ -335,7 +346,7 @@ const AddProduct = () => {
                     type="text"
                     id="size"
                     name="size"
-                    value={product.size}
+                    value={m_product.size}
                     onChange={handleInputChange}
                     placeholder="Size"
                   />
@@ -353,7 +364,7 @@ const AddProduct = () => {
                     className="px-4 py-2 outline-none bg-white text-black border border-slate-700 rounded-md w-full"
                     id="description"
                     name="description"
-                    value={product.description}
+                    value={m_product.description}
                     onChange={handleInputChange}
                     placeholder="Description"
                   />
@@ -371,7 +382,7 @@ const AddProduct = () => {
                     className="px-4 py-2 outline-none bg-white text-black border border-slate-700 rounded-md w-full"
                     id="status"
                     name="status"
-                    value={product.status}
+                    value={m_product.status}
                     onChange={handleInputChange}
                   >
                     <option value="ACTIVE">Active</option>
