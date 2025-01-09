@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
 const Footer = () => {
+  
+  const { userInfo, loader } = useSelector((state) => state.auth);
+
   return (
     <footer className="bg-neutral-100 text-center text-neutral-600 dark:bg-neutral-600 dark:text-neutral-200 lg:text-left">
       <div className="flex items-center justify-center border-b-2 border-neutral-200 p-6 dark:border-neutral-500 lg:justify-between">
@@ -88,16 +92,16 @@ const Footer = () => {
               Products
             </h6>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Angular</a>
+              <a className="text-neutral-600 dark:text-neutral-200">Bed</a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">React</a>
+              <a className="text-neutral-600 dark:text-neutral-200">Table</a>
             </p>
             <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Vue</a>
+              <a className="text-neutral-600 dark:text-neutral-200">Sofa</a>
             </p>
             <p>
-              <a className="text-neutral-600 dark:text-neutral-200">Laravel</a>
+              <a className="text-neutral-600 dark:text-neutral-200">And more...</a>
             </p>
           </div>
           {/* <!-- Useful links section --> */}
@@ -105,18 +109,29 @@ const Footer = () => {
             <h6 className="mb-4 flex justify-center font-semibold uppercase md:justify-start">
               Useful links
             </h6>
-            <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Pricing</a>
-            </p>
-            <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Settings</a>
-            </p>
-            <p className="mb-4">
-              <a className="text-neutral-600 dark:text-neutral-200">Orders</a>
-            </p>
-            <p>
-              <a className="text-neutral-600 dark:text-neutral-200">Help</a>
-            </p>
+            {(userInfo.role === 'ADMIN' || userInfo.role === 'SUPER_ADMIN') && (
+              <>
+                <p className="mb-4">
+                  <a className="text-neutral-600 dark:text-neutral-200" href="/admin/dashboard">Dashboard</a>
+                </p>
+                <p className="mb-4">
+                  <a className="text-neutral-600 dark:text-neutral-200" href="/admin/user-list">Manage Users</a>
+                </p>
+              </>
+            )}
+            {userInfo.role === 'USER' && (
+              <>
+                <p className="mb-4">
+                  <a className="text-neutral-600 dark:text-neutral-200" href="/customer/homepage">Home</a>
+                </p>
+                <p className="mb-4">
+                  <a className="text-neutral-600 dark:text-neutral-200" href="/customer/product-list">Product List</a>
+                </p>
+                <p className="mb-4">
+                  <a className="text-neutral-600 dark:text-neutral-200" href="/customer/cart">Shopping Cart</a>
+                </p>
+              </>
+            )}
           </div>
           {/* <!-- Contact section --> */}
           <div>
