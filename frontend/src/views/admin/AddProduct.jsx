@@ -87,8 +87,7 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(product);
-    // dispatch(add_product(product));
+    dispatch(add_product(product));
   };
 
   useEffect(() => {

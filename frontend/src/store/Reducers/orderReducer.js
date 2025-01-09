@@ -76,8 +76,8 @@ export const get_recent_orders = createAsyncThunk(
   "orders/get_recent_orders",
   async (_, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get("/recentOrders");
-      return fulfillWithValue(data);
+      const { data } = await api.get("/order/getAllOrders");
+      return fulfillWithValue(data.slice(0, 5));
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -100,7 +100,9 @@ export const get_orders_by_status = createAsyncThunk(
   "order/get_orders_by_status",
   async (status, { fulfillWithValue, rejectWithValue }) => {
     try {
-      const { data } = await api.get(`/order/getOrdersByStatus?status=${ status }`);
+      const { data } = await api.get(
+        `/order/getOrdersByStatus?status=${status}`
+      );
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);
