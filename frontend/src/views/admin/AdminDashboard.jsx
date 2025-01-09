@@ -8,9 +8,6 @@ import {
   clearMessage,
   get_revennue_stats,
 } from "../../store/Reducers/statReducer";
-import { get_products } from "../../store/Reducers/productReducer";
-import { get_users } from "../../store/Reducers/userReducer";
-import { get_orders } from "../../store/Reducers/orderReducer";
 import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
 const AdminDashboard = () => {
@@ -22,26 +19,9 @@ const AdminDashboard = () => {
 
   const dispatch = useDispatch();
 
-  const { products, success, errorMessage } = useSelector(
-    (state) => state.products
+  const { totalSales, totalProducts, totalUsers, errorMessage } = useSelector(
+    (state) => state.stat
   );
-  const totalProducts = products?.length;
-  const { users } = useSelector((state) => state.users);
-  const totalUsers = users?.length;
-  const { orders } = useSelector((state) => state.orders);
-  const totalSales = orders?.reduce(
-    (acc, order) => acc + order.total_amount,
-    0
-  );
-
-  useEffect(() => {
-    dispatch(get_products({ currentPage, perPage }));
-    dispatch(get_users({ page: currentPage, perPage }));
-  }, [dispatch, currentPage]);
-
-  useEffect(() => {
-    dispatch(get_orders());
-  }, [dispatch]);
 
   useEffect(() => {
     dispatch(get_recent_orders());
