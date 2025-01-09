@@ -10,7 +10,7 @@ import {
 } from "../../store/Reducers/statReducer";
 import { get_products } from "../../store/Reducers/productReducer";
 import { get_users } from "../../store/Reducers/userReducer";
-import { get_orders_by_status } from "../../store/Reducers/orderReducer";
+import { get_orders } from "../../store/Reducers/orderReducer";
 import { get_recent_orders } from "../../store/Reducers/orderReducer";
 
 const AdminDashboard = () => {
@@ -41,7 +41,7 @@ const AdminDashboard = () => {
   }, [dispatch, currentPage]);
 
   useEffect(() => {
-    dispatch(get_orders_by_status('PENDING'));
+    dispatch(get_orders());
   }, [dispatch]);
 
   useEffect(() => {

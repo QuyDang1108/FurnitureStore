@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   clearMessage,
-  get_category,
   get_products,
 } from "../../store/Reducers/productReducer";
 import { toast } from "react-hot-toast";
