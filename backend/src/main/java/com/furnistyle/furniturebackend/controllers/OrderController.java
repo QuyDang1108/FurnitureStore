@@ -66,7 +66,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasAnyRole('ADMIN', 'SUPER_ADMIN')")
-        @PostMapping("/updateStatus")
+    @PostMapping("/updateStatus")
     ResponseEntity<String> updateStatus(@RequestBody Map<String, Object> request) {
         if (orderService.updateStatus(((Integer) request.get("order_id")).longValue(),
             EOrderStatus.valueOf((String) request.get("status")))) {
