@@ -104,7 +104,6 @@ export const get_orders_by_status = createAsyncThunk(
       const { data } = await api.get(
         `/order/getOrdersByStatus?status=${status}`
       );
-      console.log(data);
       return fulfillWithValue(data);
     } catch (error) {
       return rejectWithValue(error.response.data);

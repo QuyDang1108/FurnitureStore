@@ -111,10 +111,10 @@ const Cart = () => {
 
     const remainingItems = filteredCart.filter((item) => !item.selected);
     dispatch(add_order(orderData));
-    selectedItems.forEach((item) =>
-      dispatch(delete_from_cart(item.product_id))
-    );
-    setFilteredCart(remainingItems);
+    selectedItems.forEach((item) => {
+      dispatch(delete_from_cart(item.product_id));
+    });
+    setFilteredCart([...remainingItems]);
     setIsModalVisible(false);
     toast.success("Order placed successfully!");
   };
