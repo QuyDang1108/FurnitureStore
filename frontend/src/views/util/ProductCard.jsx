@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 const LazyProductCard = ({ product }) => {
   const navigate = useNavigate();
 
-  console.log(product);
-
   return (
     <Card
       hoverable

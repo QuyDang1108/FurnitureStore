@@ -1,6 +1,7 @@
 package com.furnistyle.furniturebackend.models;
 
 import com.furnistyle.furniturebackend.enums.EProductStatus;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,12 +13,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Data
@@ -51,15 +56,25 @@ public class Product {
     @Column(nullable = false, length = 50)
     private String size;
 
+    @Column(nullable = false)
+    private int quantity;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)
     private EProductStatus status;
 
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<CartDetail> cartDetails;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<Media> productImages;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
 }

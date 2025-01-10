@@ -26,13 +26,15 @@ const ProductDetails = () => {
     dispatch(get_related_products(id));
   }, [dispatch, id]);
 
+  console.log(product);
+
   const handleAddToCart = () => {
     const cartItem = {
       id: product.id,
       quantity,
       name: product.name,
       price: product.price,
-      image: product?.product_images[0]?.image_link,
+      image: product.product_images[0]?.image_link,
     };
 
     if (!userInfo.role) {
