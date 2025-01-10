@@ -212,6 +212,17 @@ const orderSlice = createSlice({
       .addCase(get_orders_by_status.rejected, (state, { payload }) => {
         state.errorMessage = payload;
         state.loader = false;
+      })
+      .addCase(get_order_history.pending, (state) => {
+        state.loader = true;
+      })
+      .addCase(get_order_history.fulfilled, (state, { payload }) => {
+        state.orderHistory = payload;
+        state.loader = false;
+      })
+      .addCase(get_order_history.rejected, (state, { payload }) => {
+        state.errorMessage = payload;
+        state.loader = false;
       });
   },
 });

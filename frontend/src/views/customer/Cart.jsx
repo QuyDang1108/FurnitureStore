@@ -30,18 +30,18 @@ const Cart = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (cart.length > 0) {
-      setFilteredCart([...cart, ...filteredCart]);
-    }
-  }, [cart]);
-
-  useEffect(() => {
     const tempCart = JSON.parse(localStorage.getItem("cart")) || [];
     setFilteredCart(tempCart);
     if (userInfo.role) {
       dispatch(get_cart());
     }
   }, [dispatch, userInfo.role]);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      setFilteredCart([...cart, ...filteredCart]);
+    }
+  }, [cart]);
 
   useEffect(() => {
     if (!userInfo.role) {
@@ -92,24 +92,26 @@ const Cart = () => {
   };
 
   const handleShippingSubmit = () => {
-    if (!shippingInfo.address || !shippingInfo.phone) {
+    if (!shippingInfo.address) {
       toast.error("Please fill in all fields!");
       return;
     }
 
     const selectedItems = filteredCart.filter((item) => item.selected);
+    console.log(selectedItems);
     const orderData = {
-      userId: userInfo.id,
-      items: selectedItems,
-      shippingInfo,
-      totalAmount: selectedItems.reduce(
-        (total, item) => total + item.price * item.amount,
-        0
-      ),
+      created_customer_id: userInfo.id,
+      address: shippingInfo.address,
+      orderDetailDTOs: selectedItems.map((item) => ({
+        product_id: item.product_id,
+        amount: item.amount,
+        price: item.price,
+      })),
     };
 
     const remainingItems = filteredCart.filter((item) => !item.selected);
     dispatch(add_order(orderData));
+    selectedItems.forEach((item) => dispatch(delete_from_cart(item.product_id)));
     setFilteredCart(remainingItems);
     setIsModalVisible(false);
     toast.success("Order placed successfully!");
@@ -258,6 +260,7 @@ const Cart = () => {
         ]}
       >
         <Space direction="vertical" style={{ width: "100%" }}>
+          <label>Address</label>
           <Input
             placeholder="Enter your address"
             value={shippingInfo.address}
@@ -265,12 +268,11 @@ const Cart = () => {
               setShippingInfo({ ...shippingInfo, address: e.target.value })
             }
           />
+          <label>Customer ID</label>
           <Input
-            placeholder="Enter your phone number"
-            value={shippingInfo.phone}
-            onChange={(e) =>
-              setShippingInfo({ ...shippingInfo, phone: e.target.value })
-            }
+            placeholder="Customer ID"
+            value={userInfo.id}
+            disabled
           />
         </Space>
       </Modal>
